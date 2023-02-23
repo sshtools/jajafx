@@ -23,7 +23,7 @@ public abstract class JajaApp<FXA extends JajaFXApp> implements Callable<Integer
 		private Optional<String> launcherId = Optional.empty();
 		
 		@SuppressWarnings("unchecked")
-		public BB withAllUrl(Class<? extends JajaFXApp> appClazz) {
+		public BB withApp(Class<? extends JajaFXApp> appClazz) {
 			this.appClazz = Optional.of(appClazz);
 			return (BB)this;
 		}
