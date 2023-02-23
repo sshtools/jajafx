@@ -1,0 +1,136 @@
+.borderless-root {
+    -fx-background-color: tab_pane_background_color;
+}
+
+Button .ikonli-font-icon {
+	-fx-icon-color: grey;
+}
+
+Button:default .ikonli-font-icon {
+	-fx-icon-color: white;
+}
+
+.tree-cell {
+    -fx-font-weight: normal ;
+}
+.tree-cell:group, .strong {
+    -fx-font-weight: bold ;
+}
+
+.muted {
+	-fx-opacity: 0.5;
+}
+
+.spaced {
+	-fx-spacing: 8px;
+}
+
+.padded {
+	-fx-padding: 8px;
+}
+
+.vpadded {
+	-fx-padding: 8px 0 8px 0;
+}
+
+.hpadded {
+	-fx-padding: 0 8px 0 8px;
+}
+
+.bpad {
+	-fx-padding: 0 0 8px 0;
+}
+
+.tpad {
+	-fx-padding: 8px 0 0 0;
+}
+
+.lpad {
+	-fx-padding: 0 0 0 8px;
+}
+
+.rpad {
+	-fx-padding: 0 8px 0 0;
+}
+
+.h1, .h2, .h3 {
+    -fx-text-fill: accent_color;
+}
+
+.h1 {
+	-fx-font-size: 3em;
+    -fx-font-weight: bold ;
+}
+
+.h2 {
+	-fx-font-size: 2.5em;
+}
+
+.h3 {
+	-fx-font-size: 1.5em;
+}
+
+.icon-accent {
+	-fx-icon-color: accent_color;
+}
+
+.icon-success {
+	-fx-icon-color: #28a745;
+}
+
+.icon-warning {
+	-fx-icon-color: #ffc107;
+}
+
+.icon-danger {
+	-fx-icon-color: #dc3545;
+}
+
+.icon-info {
+	-fx-icon-color: #007bff;
+}
+
+.text-accent {
+	-fx-text-fill: accent_color;
+}
+
+.text-success {
+	-fx-text-fill: #28a745;
+}
+
+.text-warning {
+	-fx-text-fill: #ffc107;
+}
+
+.text-danger {
+	-fx-text-fill: #dc3545;
+}
+
+.text-info {
+	-fx-text-fill: #007bff;
+}
+
+.btn-accent {
+	-fx-background-color: accent_color;
+	-fx-text-fill: white;
+}
+
+.btn-success {
+	-fx-background-color: #28a745;
+	-fx-text-fill: white;
+}
+
+.btn-warning {
+	-fx-background-color: #ffc107;
+	-fx-text-fill: black;
+}
+
+.btn-danger {
+	-fx-background-color: #dc3545;
+	-fx-text-fill: white;
+}
+
+.btn-info {
+	-fx-background-color: #007bff;
+	-fx-text-fill: white;
+}

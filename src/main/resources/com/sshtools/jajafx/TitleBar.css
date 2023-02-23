@@ -1,0 +1,7 @@
+.title-bar {
+	-fx-background-color: accent_color;	
+}
+
+.title-bar .ikonli-font-icon  {
+	-fx-icon-color: white;
+}
