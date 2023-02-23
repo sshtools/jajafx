@@ -1,5 +1,5 @@
 module com.sshtools.jajafx {
-	requires info.picocli;
+	requires transitive info.picocli;
 	requires java.prefs;
 	requires java.net.http;
 	requires org.jfxtras.styles.jmetro;
@@ -8,11 +8,13 @@ module com.sshtools.jajafx {
 	requires transitive javafx.controls;
 	requires transitive javafx.graphics;
 	requires transitive javafx.fxml;
+	requires static transitive com.install4j.runtime;
 	requires org.kordamp.ikonli.javafx;
 	requires org.kordamp.ikonli.fontawesome5;
 	requires org.controlsfx.controls;
 	requires com.miglayout.javafx;
 	requires com.goxr3plus.fxborderlessscene;
+	requires org.slf4j;
 	opens com.sshtools.jajafx;
 	exports com.sshtools.jajafx;
 

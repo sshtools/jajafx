@@ -9,7 +9,7 @@
 		<gluonfx.maven.plugin.version>1.0.16</gluonfx.maven.plugin.version>
 		<maven.compiler.target>17</maven.compiler.target>
 		<maven.compiler.source>17</maven.compiler.source>
-		<javafx.version>17.0.2</javafx.version>
+		<javafx.version>19.0.2.1</javafx.version>
 	</properties>
 	<developers>
 		<developer>
@@ -47,6 +47,14 @@
 		<connection>scm:git:https://github.com/sshtools/jajafx.git</connection>
 	</scm>
 	<dependencies>
+		<dependency>
+			<groupId>com.install4j</groupId>
+			<artifactId>install4j-runtime</artifactId>
+			<version>9.0.7</version>
+			
+			<!-- MUST be provided, the runtime is added by I4J itself -->
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.sshtools</groupId>
 			<artifactId>sequins</artifactId>
@@ -101,7 +109,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.36</version>
+			<version>2.0.6</version>
 		</dependency>
 		<dependency>
 			<groupId>info.picocli</groupId>
@@ -157,26 +165,6 @@
 	</dependencies>
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<finalName>jajafx-shaded-noruntime</finalName>
-							<artifactSet>
-								<excludes>
-									<exclude>org.openjfx:*</exclude>
-								</excludes>
-							</artifactSet>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -385,4 +373,10 @@
 			</properties>
 		</profile>
 	</profiles>
+	<repositories>
+		<repository>
+			<id>ej-technologies</id>
+			<url>https://maven.ej-technologies.com/repository</url>
+		</repository>
+	</repositories>
 </project>
