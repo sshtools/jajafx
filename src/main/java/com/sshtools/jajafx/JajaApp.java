@@ -1,6 +1,7 @@
 package com.sshtools.jajafx;
 
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 import java.util.prefs.Preferences;
 
@@ -21,13 +22,21 @@ public abstract class JajaApp<FXA extends JajaFXApp> implements Callable<Integer
 		private Optional<String> defaultPhase = Optional.empty();
 		private Optional<Class<? extends JajaFXApp>> appClazz = Optional.empty();
 		private Optional<String> launcherId = Optional.empty();
-		
+		private Optional<Integer> inceptionYear;
+		private Optional<ResourceBundle> appResources = Optional.empty();
+
+		@SuppressWarnings("unchecked")
+		public BB withAppResources(ResourceBundle appResources) {
+			this.appResources = Optional.of(appResources);
+			return (BB) this;
+		}
+
 		@SuppressWarnings("unchecked")
 		public BB withApp(Class<? extends JajaFXApp> appClazz) {
 			this.appClazz = Optional.of(appClazz);
-			return (BB)this;
+			return (BB) this;
 		}
-		
+
 		public BB withUpdatesUrl(String updatesUrl) {
 			return withUpdatesUrl(Optional.of(updatesUrl));
 		}
@@ -52,12 +61,22 @@ public abstract class JajaApp<FXA extends JajaFXApp> implements Callable<Integer
 			return withLauncherId(Optional.of(launcherId));
 		}
 
+		public BB withInceptionYear(int inceptionYear) {
+			return withInceptionYear(Optional.of(inceptionYear));
+		}
+
+		@SuppressWarnings("unchecked")
+		public BB withInceptionYear(Optional<Integer> inceptionYear) {
+			this.inceptionYear = inceptionYear;
+			return (BB)this;
+		}
+
 		@SuppressWarnings("unchecked")
 		public BB withLauncherId(Optional<String> launcherId) {
 			this.launcherId = launcherId;
 			return (BB) this;
 		}
-		
+
 		public abstract BA build();
 	}
 
@@ -76,13 +95,17 @@ public abstract class JajaApp<FXA extends JajaFXApp> implements Callable<Integer
 	private final Optional<String> updatesUrl;
 	private final Optional<String> defaultPhase;
 	private final Optional<String> launcherId;
+	private final Optional<Integer> inceptionYear;
+	private final ResourceBundle appResources;
 
 	private UpdateService updateService;
 
 	private static JajaApp<?> instance;
 
-	protected JajaApp(JajaAppBuilder<?, ?,?> builder) {
+	protected JajaApp(JajaAppBuilder<?, ?, ?> builder) {
 		instance = this;
+		this.appResources = builder.appResources.orElseThrow(() -> new IllegalStateException("App resources must be provided."));
+		this.inceptionYear = builder.inceptionYear;
 		this.appClazz = builder.appClazz.orElseThrow(() -> new IllegalStateException("App class must be provided"));
 		this.updatesUrl = builder.updatesUrl;
 		this.defaultPhase = builder.defaultPhase;
@@ -96,7 +119,7 @@ public abstract class JajaApp<FXA extends JajaFXApp> implements Callable<Integer
 	public void exit() {
 		exit(0);
 	}
-	
+
 	public void exit(int code) {
 		System.exit(code);
 	}
@@ -171,5 +194,13 @@ public abstract class JajaApp<FXA extends JajaFXApp> implements Callable<Integer
 				log.info("Failed to create Install4J update service, using dummy service. {}", t.getMessage());
 			return new NoUpdateService(this);
 		}
+	}
+
+	public int getInceptionYear() {
+		return inceptionYear.orElse(1900);
+	}
+
+	public ResourceBundle getAppResources() {
+		return appResources;
 	}
 }
