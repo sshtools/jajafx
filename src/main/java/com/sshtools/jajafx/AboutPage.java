@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class AboutPage<A extends JajaFXApp> extends AbstractWizardPage<A> {
+public class AboutPage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
 
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(AboutPage.class.getName());
 
@@ -26,18 +26,22 @@ public class AboutPage<A extends JajaFXApp> extends AbstractWizardPage<A> {
 
 	@Override
 	protected void onConfigure() {
+		var thisYear = Calendar.getInstance().get(Calendar.YEAR); 
+		var inceptionYear = JajaApp.getInstance().getInceptionYear();
 		version.setText(String.join("\n", JajaApp.getInstance().getCommandSpec().version()));
-		copyright.setText(MessageFormat.format(RESOURCES.getString("copyright"), JajaApp.getInstance().getInceptionYear(), Calendar.getInstance().get(Calendar.YEAR)));
+		copyright.setText(MessageFormat.format(RESOURCES.getString("copyright"), inceptionYear==thisYear ? String.valueOf(inceptionYear) : inceptionYear + "-" + thisYear));
 		name.setText(JajaApp.getInstance().getAppResources().getString("about.name"));
 		description.setText(JajaApp.getInstance().getAppResources().getString("about.description"));
 	}
 	
 	@Override
 	public void shown() {
+		getWizard().nextVisibleProperty().set(false);
 	}
 
 	@Override
 	public void hidden() {
+		getWizard().nextVisibleProperty().set(true);
 	}
 
 	@FXML

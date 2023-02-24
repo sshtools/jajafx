@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class PromptPage extends AbstractWizardPage<JajaFXApp> {
+public class PromptPage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
 
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(PromptPage.class.getName());
 

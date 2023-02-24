@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class YesNoPage extends AbstractWizardPage<JajaFXApp> {
+public class YesNoPage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
 
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(YesNoPage.class.getName());
 

@@ -1,6 +1,6 @@
 module com.sshtools.jajafx {
 	requires transitive info.picocli;
-	requires java.prefs;
+	requires transitive java.prefs;
 	requires java.net.http;
 	requires org.jfxtras.styles.jmetro;
 	requires javafx.base;

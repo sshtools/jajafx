@@ -14,11 +14,11 @@ import java.util.function.BiConsumer;
 
 import com.sshtools.sequins.Progress;
 import com.sshtools.sequins.Progress.Level;
+import com.sshtools.sequins.RateLimitedProgress;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -64,7 +64,7 @@ public class SequinsProgress extends VBox implements Initializable {
 	}
 
 	@FXML
-	private void cancel(ActionEvent evt) {
+	void cancel() {
 		cancelled = true;
 		synchronized (active) {
 			for (var c : active) {
@@ -82,7 +82,7 @@ public class SequinsProgress extends VBox implements Initializable {
 		var p = new ProgressImpl(message, args);
 		p.postConstruct();
 		active.add(p);
-		return p;
+		return RateLimitedProgress.of(p, 100);
 	}
 
 	public void setLogWriter(BiConsumer<String, Formattable> logWriter) {

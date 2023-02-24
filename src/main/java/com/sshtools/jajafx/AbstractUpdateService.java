@@ -25,10 +25,10 @@ public abstract class AbstractUpdateService implements UpdateService {
 	private ScheduledFuture<?> checkTask;
 	private long deferUntil;
 
-	protected JajaApp<? extends JajaFXApp> context;
+	protected JajaApp<? extends JajaFXApp<?>> context;
 	protected ScheduledExecutorService scheduler;
 
-	protected AbstractUpdateService(JajaApp<? extends JajaFXApp> context) {
+	protected AbstractUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
 		this.context = context;
 		scheduler = Executors.newScheduledThreadPool(1);
 		checkIfBusAvailable();

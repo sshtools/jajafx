@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class DummyUpdateService extends AbstractUpdateService {
 
-	public DummyUpdateService(JajaApp<? extends JajaFXApp> context) {
+	public DummyUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
 		super(context);
 	}
 

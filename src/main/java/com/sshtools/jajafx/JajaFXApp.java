@@ -17,14 +17,20 @@ import javafx.stage.StageStyle;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 
-public abstract class JajaFXApp extends Application {
+public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> extends Application {
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(JajaApp.class.getName());
 
 	private Node content;
-	private URL icon;
+	private final URL icon;
+	private final A container;
 	
-	protected JajaFXApp(URL icon) {
+	protected JajaFXApp(URL icon, A container) {
 		this.icon = icon;
+		this.container = container;
+	}
+	
+	public A getContainer() {
+		return container;
 	}
 
 	public static void main(String[] args) {

@@ -4,9 +4,9 @@ import java.io.IOException;
 
 public class NoUpdateService implements UpdateService {
 
-	private JajaApp<? extends JajaFXApp> context;
+	private JajaApp<? extends JajaFXApp<?>> context;
 
-	public NoUpdateService(JajaApp<? extends JajaFXApp> context) {
+	public NoUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
 		this.context = context;
 	}
 

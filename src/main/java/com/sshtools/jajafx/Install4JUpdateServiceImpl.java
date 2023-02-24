@@ -16,7 +16,7 @@ public class Install4JUpdateServiceImpl extends AbstractUpdateService {
 
 	static Logger log = LoggerFactory.getLogger(Install4JUpdateServiceImpl.class);
 
-	public Install4JUpdateServiceImpl(JajaApp<? extends JajaFXApp> context) {
+	public Install4JUpdateServiceImpl(JajaApp<? extends JajaFXApp<?>> context) {
 		super(context);
 	}
 
