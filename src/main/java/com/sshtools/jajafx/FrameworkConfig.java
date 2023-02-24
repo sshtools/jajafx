@@ -2,9 +2,9 @@ package com.sshtools.jajafx;
 
 public interface FrameworkConfig {
 	
-	String getPhase();
+	Phase getPhase();
 	
-	void setPhase(String phase);
+	void setPhase(Phase phase);
 
 	long getUpdatesDeferredUntil();
 

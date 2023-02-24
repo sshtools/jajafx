@@ -12,6 +12,7 @@ import java.util.prefs.Preferences;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.Toggle;
@@ -34,6 +35,7 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 	private final Preferences preferences;
 	private final Map<String, Object> binds = new HashMap<>();
 
+	private Map<Control, ChangeListener<?>> enumChangeListeners = new HashMap<>();
 	private Map<Control, ChangeListener<? super String>> stringChangeListeners = new HashMap<>();
 	private Map<Control, ChangeListener<? super Boolean>> booleanChangeListeners = new HashMap<>();
 	private Map<ToggleGroup, ChangeListener<? super Toggle>> toggleChangeListeners = new HashMap<>();
@@ -74,6 +76,29 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 		text.textProperty().addListener(listener);
 	}
 
+	public <T extends Enum<T>> void bind(Class<T> type, @SuppressWarnings("unchecked") ComboBox<T>... fields) {
+		for (var k : fields)
+			bind(type, k, k.getId());
+	}
+
+	public <T extends Enum<T>> void bind(Class<T> type, ComboBox<T> field, String key) {
+		checkKey(key);
+		binds.put(key, field);
+		var defItem = field.getSelectionModel().getSelectedItem();
+		if (defItem == null && field.getItems().size() > 0) {
+			defItem = field.getItems().get(field.getItems().size() - 1);
+		}
+		var prefVal =preferences.get(key, defItem == null ? null : defItem.name());
+		var ev = prefVal == null ? null : Enum.valueOf(type, prefVal);
+		field.getSelectionModel().select(ev);
+		ChangeListener<T> listener = (c, o, n) -> {
+			EXEC.execute(() -> preferences.put(key, n.name()));
+		};
+		field.getProperties().put("type", type);
+		enumChangeListeners.put(field, listener);
+		field.getSelectionModel().selectedItemProperty().addListener(listener);
+	}
+
 	public void bind(CheckBox... fields) {
 		for (var k : fields)
 			bind(k, k.getId());
@@ -109,21 +134,22 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 			} else
 				throw new IllegalArgumentException("Can only bind toggles that are controls.");
 		}
-		if(selId == null) {
+		if (selId == null) {
 			selId = map.keySet().iterator().next();
 		}
 		selId = preferences.get(key, selId);
 		var item = map.get(selId);
-		if(item != null)
+		if (item != null)
 			cb.selectToggle(item);
 
 		ChangeListener<? super Toggle> listener = (c, o, n) -> {
-			EXEC.execute(() -> preferences.put(key, ((Control)n).getId()));
+			EXEC.execute(() -> preferences.put(key, ((Control) n).getId()));
 		};
 		toggleChangeListeners.put(cb, listener);
 		cb.selectedToggleProperty().addListener(listener);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void preferenceChange(PreferenceChangeEvent evt) {
 		EXEC.execute(() -> {
@@ -140,6 +166,12 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 					if (cb.isSelected() != n) {
 						Platform.runLater(() -> cb.setSelected(n));
 					}
+				} else if (c instanceof ComboBox) {
+					@SuppressWarnings("rawtypes")
+					var cb = (ComboBox<? extends Enum>) c;
+					@SuppressWarnings("rawtypes")
+					var et = (Class) cb.getProperties().get("type");
+					setComboBox(cb, et, evt.getNewValue());
 				} else
 					throw new UnsupportedOperationException();
 			}
@@ -150,6 +182,13 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 	public void close() {
 		binds.forEach((k, v) -> unbindImpl(v));
 		binds.clear();
+	}
+
+	private <E extends Enum<E>> void setComboBox(ComboBox<E> cb, Class<E> et, String newVal) {
+		var val = Enum.valueOf(et, newVal);
+		if (val != cb.getSelectionModel().getSelectedItem()) {
+			Platform.runLater(() -> cb.getSelectionModel().select(val));
+		}
 	}
 
 	private void checkKey(String key) {

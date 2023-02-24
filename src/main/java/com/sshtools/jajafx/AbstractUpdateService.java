@@ -3,55 +3,64 @@ package com.sshtools.jajafx;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public abstract class AbstractUpdateService implements UpdateService {
 
 	static Logger log = LoggerFactory.getLogger(AbstractUpdateService.class);
 
-	private List<Listener> listeners = new ArrayList<>();
 	private List<DownloadListener> downloadListeners = new ArrayList<>();
-	private boolean updating;
-	private String availableVersion;
+	private BooleanProperty updating = new SimpleBooleanProperty();
+	private StringProperty availableVersion = new SimpleStringProperty();;
+	private BooleanProperty needsUpdating = new SimpleBooleanProperty();
 	private ScheduledFuture<?> checkTask;
 	private long deferUntil;
 
 	protected JajaApp<? extends JajaFXApp<?>> context;
-	protected ScheduledExecutorService scheduler;
 
 	protected AbstractUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
 		this.context = context;
-		scheduler = Executors.newScheduledThreadPool(1);
-		checkIfBusAvailable();
+		needsUpdating.bind(Bindings.isNotNull(availableVersion));
 	}
 
 	@Override
-	public void checkIfBusAvailable() {
+	public final void rescheduleCheck() {
 		cancelTask();
 		deferUntil = context.getFrameworkConfiguration().getUpdatesDeferredUntil();
-		if(deferUntil > 0) {
+		if (deferUntil > 0) {
 			rescheduleCheck(TimeUnit.SECONDS.toMillis(12));
 		} else
 			deferUntil = 0;
 	}
 
 	@Override
-	public void shutdown() {
-		scheduler.shutdown();
+	public ReadOnlyStringProperty availableVersionProperty() {
+		return availableVersion;
 	}
 
 	@Override
-	public final void addListener(Listener listener) {
-		listeners.add(listener);
+	public ReadOnlyBooleanProperty needsUpdatingProperty() {
+		return needsUpdating;
+	}
+
+	@Override
+	public void shutdown() {
 	}
 
 	@Override
@@ -65,18 +74,13 @@ public abstract class AbstractUpdateService implements UpdateService {
 	}
 
 	@Override
-	public final boolean isUpdating() {
+	public final ReadOnlyBooleanProperty updatingProperty() {
 		return updating;
 	}
 
 	@Override
 	public final String getAvailableVersion() {
-		return availableVersion == null ? context.getCommandSpec().version()[0] : availableVersion;
-	}
-
-	@Override
-	public final void removeListener(Listener listener) {
-		listeners.remove(listener);
+		return availableVersion.get();
 	}
 
 	@Override
@@ -99,7 +103,7 @@ public abstract class AbstractUpdateService implements UpdateService {
 
 	@Override
 	public final void deferUpdate() {
-		setAvailableVersion(null);
+		availableVersion.set(null);
 		configDeferUpdate();
 		context.getFrameworkConfiguration().setUpdatesDeferredUntil(deferUntil);
 	}
@@ -128,12 +132,13 @@ public abstract class AbstractUpdateService implements UpdateService {
 		if (when > 0) {
 			log.info(String.format("Scheduling next check for %s",
 					DateFormat.getDateTimeInstance().format(new Date(defer))));
-			checkTask = scheduler.schedule(() -> timedCheck(), when, TimeUnit.MILLISECONDS);
+			checkTask = context.getScheduler().schedule(() -> timedCheck(), when, TimeUnit.MILLISECONDS);
 		} else {
 			if (nonDeferredDelay == 0) {
 				configDeferUpdate();
 			} else
-				checkTask = scheduler.schedule(() -> timedCheck(), nonDeferredDelay, TimeUnit.MILLISECONDS);
+				checkTask = context.getScheduler().schedule(() -> timedCheck(), nonDeferredDelay,
+						TimeUnit.MILLISECONDS);
 		}
 	}
 
@@ -164,16 +169,16 @@ public abstract class AbstractUpdateService implements UpdateService {
 	protected final void update(boolean check) throws IOException {
 		if (!isUpdatesEnabled()) {
 			log.info("Updates disabled.");
-			setAvailableVersion(null);
+			availableVersion.set(null);
 		} else {
 			long defer = getDeferUntil();
 			if (!check || defer == 0 || System.currentTimeMillis() >= defer) {
 				setDeferUntil(0);
-				updating = true;
+				updating.set(true);
 				try {
-					setAvailableVersion(doUpdate(check));
+					availableVersion.set(doUpdate(check));
 				} finally {
-					updating = false;
+					updating.set(false);
 					if (check) {
 						rescheduleCheck(0);
 					}
@@ -185,19 +190,6 @@ public abstract class AbstractUpdateService implements UpdateService {
 		}
 	}
 
-	protected void setAvailableVersion(String version) {
-		if (!Objects.equals(availableVersion, version)) {
-			this.availableVersion = version;
-			fireStateChange();
-		}
-	}
-
-	protected void fireStateChange() {
-		for (int i = listeners.size() - 1; i >= 0; i--) {
-			listeners.get(i).stateChanged();
-		}
-	}
-
 	protected void fireDownload(DownloadEvent event) {
 		for (int i = downloadListeners.size() - 1; i >= 0; i--) {
 			downloadListeners.get(i).downloadEvent(event);
@@ -206,20 +198,12 @@ public abstract class AbstractUpdateService implements UpdateService {
 
 	protected abstract String doUpdate(boolean check) throws IOException;
 
-	private boolean isNightly(String phase) {
-		return phase.startsWith("nightly");
-	}
-
 	@Override
-	public final String[] getPhases() {
-		List<String> l = new ArrayList<>();
-		for (String p : new String[] { "nightly", "ea", "stable" }) {
-			if (!isNightly(p) || (Boolean.getBoolean("logonbox.vpn.updates.nightly")
-					|| Boolean.getBoolean("hypersocket.development"))) {
-				l.add(p);
-			}
-		}
-		return l.toArray(new String[0]);
+	public final Phase[] getPhases() {
+		return Arrays.asList(Phase.values()).stream()
+				.filter(p -> p.equals(Phase.NIGHTLY) || Boolean.getBoolean("jajafx.nightly")
+						|| Boolean.getBoolean("jadaptive.development"))
+				.collect(Collectors.toList()).toArray(new Phase[0]);
 	}
 
 }

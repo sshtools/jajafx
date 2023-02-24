@@ -2,11 +2,10 @@ package com.sshtools.jajafx;
 
 import java.io.IOException;
 
-public interface UpdateService {
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
 
-	public interface Listener {
-		void stateChanged();
-	}
+public interface UpdateService {
 
 	public static class DownloadEvent {
 		public enum Type {
@@ -35,22 +34,30 @@ public interface UpdateService {
 	public interface DownloadListener {
 		void downloadEvent(DownloadEvent event);
 	}
+	
+	ReadOnlyBooleanProperty updatingProperty();
 
 	void addDownloadListener(DownloadListener listener);
 
 	void removeDownloadListener(DownloadListener listener);
 
-	void addListener(Listener listener);
+	ReadOnlyBooleanProperty needsUpdatingProperty();
 
-	void removeListener(Listener listener);
+	default boolean isNeedsUpdating() {
+		return needsUpdatingProperty().get();
+	}
 
-	boolean isNeedsUpdating();
+	default boolean isUpdating() {
+		return updatingProperty().get();
+	}
 
-	boolean isUpdating();
+	Phase[] getPhases();
 
-	String[] getPhases();
+	default String getAvailableVersion() {
+		return availableVersionProperty().get();
+	}
 
-	String getAvailableVersion();
+	ReadOnlyStringProperty availableVersionProperty();
 
 	void deferUpdate();
 
@@ -61,6 +68,7 @@ public interface UpdateService {
 	void update() throws IOException;
 
 	void shutdown();
-
-	void checkIfBusAvailable();
+	
+	default void rescheduleCheck() {
+	}
 }

@@ -2,12 +2,18 @@ package com.sshtools.jajafx;
 
 import java.io.IOException;
 
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 public class NoUpdateService implements UpdateService {
 
-	private JajaApp<? extends JajaFXApp<?>> context;
+	private ReadOnlyBooleanProperty updating = new SimpleBooleanProperty();
+	private ReadOnlyBooleanProperty needsUpdating = new SimpleBooleanProperty();
+	private ReadOnlyStringProperty availableVersionProperty = new SimpleStringProperty();
 
 	public NoUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
-		this.context = context;
 	}
 
 	@Override
@@ -19,40 +25,22 @@ public class NoUpdateService implements UpdateService {
 	}
 
 	@Override
-	public void addListener(Listener listener) {
+	public ReadOnlyBooleanProperty updatingProperty() {
+		return updating;
 	}
 
 	@Override
-	public void removeListener(Listener listener) {
+	public ReadOnlyStringProperty availableVersionProperty() {
+		return availableVersionProperty;
 	}
 
 	@Override
-	public boolean isNeedsUpdating() {
-		return false;
-	}
-
-	@Override
-	public boolean isUpdating() {
-		return false;
-	}
-
-	@Override
-	public String[] getPhases() {
-		return new String[0];
-	}
-
-	@Override
-	public String getAvailableVersion() {
-		return context.getCommandSpec().version()[0];
+	public Phase[] getPhases() {
+		return new Phase[0];
 	}
 
 	@Override
 	public void deferUpdate() {
-	}
-
-	@Override
-	public boolean isUpdatesEnabled() {
-		return false;
 	}
 
 	@Override
@@ -69,7 +57,13 @@ public class NoUpdateService implements UpdateService {
 	}
 
 	@Override
-	public void checkIfBusAvailable() {
+	public ReadOnlyBooleanProperty needsUpdatingProperty() {
+		return needsUpdating;
+	}
+
+	@Override
+	public boolean isUpdatesEnabled() {
+		return false;
 	}
 
 }

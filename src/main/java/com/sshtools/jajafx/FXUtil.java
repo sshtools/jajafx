@@ -2,6 +2,7 @@ package com.sshtools.jajafx;
 
 import java.util.List;
 
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -10,29 +11,45 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyEvent;
+import javafx.util.Duration;
 
 public class FXUtil {
-	
+
 	public static void maybeQueue(Runnable r) {
-		if(Platform.isFxApplicationThread())
+		if (Platform.isFxApplicationThread())
 			r.run();
 		else
 			Platform.runLater(r);
 	}
-	
+
+	public static void spin(Node node, boolean animate) {
+		var rotate = (RotateTransition)node.getProperties().get(RotateTransition.class.getName());
+		if (animate && rotate == null) {
+			rotate = new RotateTransition(Duration.seconds(1));
+			rotate.setByAngle(360);
+			rotate.setCycleCount(RotateTransition.INDEFINITE);
+			rotate.setNode(node);
+			rotate.play();
+		} else if (!animate && rotate != null) {
+			rotate.stop();
+			rotate = null;
+		}
+	}
+
 	public static <O> ObservableList<O> compoundList(ObservableList<O> l1, ObservableList<O> l2) {
 		ObservableList<O> l = FXCollections.observableArrayList();
 		l.addAll(l1);
 		l1.addListener(new ListChangeListener<O>() {
 			@Override
 			public void onChanged(Change<? extends O> c) {
-				while(c.next()) {
-					for(var o : c.getAddedSubList()) {
+				while (c.next()) {
+					for (var o : c.getAddedSubList()) {
 						l.add(o);
 					}
-					for(var o : c.getRemoved()) {
+					for (var o : c.getRemoved()) {
 						l.remove(o);
 					}
 				}
@@ -42,11 +59,11 @@ public class FXUtil {
 		l2.addListener(new ListChangeListener<O>() {
 			@Override
 			public void onChanged(Change<? extends O> c) {
-				while(c.next()) {
-					for(var o : c.getAddedSubList()) {
+				while (c.next()) {
+					for (var o : c.getAddedSubList()) {
 						l.add(o);
 					}
-					for(var o : c.getRemoved()) {
+					for (var o : c.getRemoved()) {
 						l.remove(o);
 					}
 				}
@@ -59,13 +76,12 @@ public class FXUtil {
 
 		var val = minValue;
 		var prompt = tc.getPromptText();
-		if(tc.getText().equals("")) {
+		if (tc.getText().equals("")) {
 			try {
 				val = Integer.parseInt(prompt);
 			} catch (Exception e) {
 			}
-		}
-		else {
+		} else {
 			try {
 				val = Integer.parseInt(tc.getText());
 			} catch (Exception e) {
@@ -138,18 +154,16 @@ public class FXUtil {
 			}
 		});
 	}
-	
+
 	public static int intTextfieldValue(TextInputControl text) {
 		try {
 			return Integer.parseInt(text.getText());
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			try {
 				return Integer.parseInt(text.getPromptText());
-			}
-			catch(Exception e2) {
+			} catch (Exception e2) {
 				return 0;
-			}	
+			}
 		}
 	}
 

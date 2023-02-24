@@ -1,8 +1,12 @@
 package com.sshtools.jajafx;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.function.Consumer;
 import java.util.prefs.Preferences;
 
 import org.slf4j.Logger;
@@ -19,7 +23,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	public static abstract class JajaAppBuilder<BA extends JajaApp<BFXA>, BB extends JajaAppBuilder<BA, BB, BFXA>, BFXA extends JajaFXApp<?>> {
 
 		private Optional<String> updatesUrl = Optional.empty();
-		private Optional<String> defaultPhase = Optional.empty();
+		private Optional<Phase> defaultPhase = Optional.empty();
 		private Optional<Class<? extends JajaFXApp<?>>> appClazz = Optional.empty();
 		private Optional<String> launcherId = Optional.empty();
 		private Optional<Integer> inceptionYear;
@@ -47,12 +51,12 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			return (BB) this;
 		}
 
-		public BB withDefaultPhase(String defaultPhase) {
+		public BB withDefaultPhase(Phase defaultPhase) {
 			return withDefaultPhase(Optional.of(defaultPhase));
 		}
 
 		@SuppressWarnings("unchecked")
-		public BB withDefaultPhase(Optional<String> defaultPhase) {
+		public BB withDefaultPhase(Optional<Phase> defaultPhase) {
 			this.defaultPhase = defaultPhase;
 			return (BB) this;
 		}
@@ -93,13 +97,16 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 
 	private final Class<? extends JajaFXApp<?>> appClazz;
 	private final Optional<String> updatesUrl;
-	private final Optional<String> defaultPhase;
+	private final Optional<Phase> defaultPhase;
 	private final Optional<String> launcherId;
 	private final Optional<Integer> inceptionYear;
 	private final ResourceBundle appResources;
 
 	private UpdateService updateService;
 
+	private boolean checking;
+
+	protected ScheduledExecutorService scheduler;
 	private static JajaApp<?> instance;
 
 	protected JajaApp(JajaAppBuilder<?, ?, ?> builder) {
@@ -110,6 +117,12 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		this.updatesUrl = builder.updatesUrl;
 		this.defaultPhase = builder.defaultPhase;
 		this.launcherId = builder.launcherId;
+
+		scheduler = Executors.newScheduledThreadPool(1);
+	}
+
+	public final ScheduledExecutorService getScheduler() {
+		return scheduler;
 	}
 
 	public static JajaApp<?> getInstance() {
@@ -138,14 +151,14 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			}
 
 			@Override
-			public String getPhase() {
-				return Preferences.userNodeForPackage(JajaApp.this.getClass()).get("phase",
-						defaultPhase.orElse("default"));
+			public Phase getPhase() {
+				return Phase.valueOf(Preferences.userNodeForPackage(JajaApp.this.getClass()).get("phase",
+						defaultPhase.orElse(Phase.STABLE).name()));
 			}
 
 			@Override
-			public void setPhase(String phase) {
-				Preferences.userNodeForPackage(JajaApp.this.getClass()).put("phase", phase);
+			public void setPhase(Phase phase) {
+				Preferences.userNodeForPackage(JajaApp.this.getClass()).put("phase", phase.name());
 
 			}
 		};
@@ -153,7 +166,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 
 	public String getUpdatesUrl() {
 		if (updatesUrl.isPresent()) {
-			return updatesUrl.get().replace("${phase}", getFrameworkConfiguration().getPhase());
+			return updatesUrl.get().replace("${phase}", getFrameworkConfiguration().getPhase().name());
 		} else
 			throw new IllegalArgumentException("App has been configured without ");
 	}
@@ -202,5 +215,41 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 
 	public ResourceBundle getAppResources() {
 		return appResources;
+	}
+
+	public void update(Consumer<IOException> onError) {
+		new Thread() {
+			public void run() {
+				try {
+					updateService.update();
+				} catch (IOException ioe) {
+					log.error("Failed to update.", ioe);
+					onError.accept(ioe);
+				}
+			}
+		}.start();
+	}
+	
+	public void updateCheck(Consumer<Boolean> onResult, Consumer<IOException> onError) {
+		if(checking)
+			throw new IllegalArgumentException("Already updating.");
+		checking = true;
+		new Thread() {
+			public void run() {
+				checkForUpdate(onResult, onError);
+			}
+		}.start();
+	}
+	
+	private void checkForUpdate(Consumer<Boolean> onResult, Consumer<IOException> onError) {
+		try {
+			getUpdateService().checkForUpdate();
+			onResult.accept(updateService.isNeedsUpdating());
+		} catch (IOException ioe) {
+			log.error("Failed to check for updates.", ioe);
+			onError.accept(ioe);
+		} finally {
+			checking = false;
+		}
 	}
 }

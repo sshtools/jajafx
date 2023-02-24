@@ -50,6 +50,8 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		primaryStage.setOnCloseRequest((evt) -> {
 			System.exit(0);
 		});
+		
+		getContainer().getUpdateService().rescheduleCheck();
 	}
 	
 	protected abstract Node createContent();

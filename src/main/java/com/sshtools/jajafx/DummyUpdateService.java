@@ -11,7 +11,20 @@ public class DummyUpdateService extends AbstractUpdateService {
 
 	@Override
 	protected String doUpdate(boolean check) throws IOException {
-		return null;
+		if(check) {
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+			}
+			return "999.999.999";
+		}
+		else {
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+			}
+			throw new IOException("Failed to update.");
+		}
 	}
 
 }
