@@ -136,6 +136,16 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	public void exit(int code) {
 		System.exit(code);
 	}
+	
+	public Phase getDefaultPhaseForVersion() {
+		var version = spec.version();
+		if(version.length == 0)
+			return Phase.STABLE;
+		else {
+			var appVersion = version[0];
+			return appVersion.startsWith("0.") || appVersion.contains("SNAPSHOT") ? Phase.CONTINUOUS : Phase.STABLE;
+		}
+	}
 
 	public FrameworkConfig getFrameworkConfiguration() {
 		return new FrameworkConfig() {
@@ -153,7 +163,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			@Override
 			public Phase getPhase() {
 				return Phase.valueOf(Preferences.userNodeForPackage(JajaApp.this.getClass()).get("phase",
-						defaultPhase.orElse(Phase.STABLE).name()));
+						defaultPhase.orElse(getDefaultPhaseForVersion()).name()));
 			}
 
 			@Override
