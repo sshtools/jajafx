@@ -125,6 +125,10 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		return scheduler;
 	}
 
+	public final Preferences getAppPreferences() {
+		return Preferences.userNodeForPackage(JajaApp.this.getClass());
+	}
+
 	public static JajaApp<?> getInstance() {
 		return instance;
 	}
@@ -134,10 +138,11 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	}
 
 	public void exit(int code) {
+		scheduler.shutdown();
 		System.exit(code);
 	}
 	
-	public Phase getDefaultPhaseForVersion() {
+	public final Phase getDefaultPhaseForVersion() {
 		var version = spec.version();
 		if(version.length == 0)
 			return Phase.STABLE;
@@ -152,24 +157,34 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 
 			@Override
 			public void setUpdatesDeferredUntil(long timeMs) {
-				Preferences.userNodeForPackage(JajaApp.this.getClass()).putLong("updatesDeferredUntil", timeMs);
+				getAppPreferences().putLong("updatesDeferredUntil", timeMs);
 			}
 
 			@Override
 			public long getUpdatesDeferredUntil() {
-				return Preferences.userNodeForPackage(JajaApp.this.getClass()).getLong("updatesDeferredUntil", 0);
+				return getAppPreferences().getLong("updatesDeferredUntil", 0);
 			}
 
 			@Override
 			public Phase getPhase() {
-				return Phase.valueOf(Preferences.userNodeForPackage(JajaApp.this.getClass()).get("phase",
+				return Phase.valueOf(getAppPreferences().get("phase",
 						defaultPhase.orElse(getDefaultPhaseForVersion()).name()));
 			}
 
 			@Override
 			public void setPhase(Phase phase) {
-				Preferences.userNodeForPackage(JajaApp.this.getClass()).put("phase", phase.name());
+				getAppPreferences().put("phase", phase.name());
 
+			}
+
+			@Override
+			public boolean isAutomaticUpdates() {
+				return getAppPreferences().getBoolean("automaticUpdates", true);
+			}
+
+			@Override
+			public void setAutomaticUpdates(boolean automaticUpdates) {
+				getAppPreferences().putBoolean("automaticUpdates", automaticUpdates);
 			}
 		};
 	}

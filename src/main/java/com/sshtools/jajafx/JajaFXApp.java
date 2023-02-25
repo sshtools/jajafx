@@ -23,12 +23,12 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 	private Node content;
 	private final URL icon;
 	private final A container;
-	
+
 	protected JajaFXApp(URL icon, A container) {
 		this.icon = icon;
 		this.container = container;
 	}
-	
+
 	public A getContainer() {
 		return container;
 	}
@@ -50,17 +50,23 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		primaryStage.setOnCloseRequest((evt) -> {
 			System.exit(0);
 		});
-		
-		getContainer().getUpdateService().rescheduleCheck();
+
+		var updateService = getContainer().getUpdateService();
+		updateService.needsUpdatingProperty().addListener((c, o, n) -> needUpdate());
+		updateService.rescheduleCheck();
 	}
-	
+
+	protected void needUpdate() {
+		//
+	}
+
 	protected abstract Node createContent();
 
 	private Scene createScene(final Stage primaryStage) {
 		content = createContent();
-		
+
 		var ui = new BorderPane();
-		if(!JajaApp.getInstance().standardWindowDecorations) {
+		if (!JajaApp.getInstance().standardWindowDecorations) {
 			ui.setTop(new TitleBar());
 		}
 		ui.setCenter(content);
@@ -68,8 +74,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		Scene scene;
 		if (JajaApp.getInstance().standardWindowDecorations) {
 			scene = new Scene(ui);
-		}
-		else {
+		} else {
 			var primaryScene = new BorderlessScene(primaryStage, StageStyle.UNDECORATED, ui, 1, 1);
 
 			primaryScene.setMoveControl(ui);
@@ -77,7 +82,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 			primaryScene.setSnapEnabled(false);
 			primaryScene.removeDefaultCSS();
 			primaryScene.setResizable(true);
-			
+
 			primaryScene.getRoot().setStyle("-fx-background-color: tab_pane_background_color;");
 			primaryScene.getRoot().getStyleClass().add("borderless-root");
 
