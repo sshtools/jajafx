@@ -189,9 +189,13 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		return spec;
 	}
 
-	public Integer call() throws Exception {
+	public final Integer call() throws Exception {
+		beforeCall();
 		JajaFXApp.launch(appClazz, new String[0]);
 		return 0;
+	}
+
+	protected void beforeCall() throws Exception {
 	}
 
 	protected UpdateService createUpdateService() {
