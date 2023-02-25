@@ -166,7 +166,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 
 	public String getUpdatesUrl() {
 		if (updatesUrl.isPresent()) {
-			return updatesUrl.get().replace("${phase}", getFrameworkConfiguration().getPhase().name());
+			return updatesUrl.get().replace("${phase}", getFrameworkConfiguration().getPhase().name().toLowerCase());
 		} else
 			throw new IllegalArgumentException("App has been configured without ");
 	}
