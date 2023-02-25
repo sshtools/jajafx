@@ -201,7 +201,7 @@ public abstract class AbstractUpdateService implements UpdateService {
 	@Override
 	public final Phase[] getPhases() {
 		return Arrays.asList(Phase.values()).stream()
-				.filter(p -> p.equals(Phase.NIGHTLY) || Boolean.getBoolean("jajafx.nightly")
+				.filter(p -> p.equals(Phase.CONTINUOUS) || Boolean.getBoolean("jajafx.continuous")
 						|| Boolean.getBoolean("jadaptive.development"))
 				.collect(Collectors.toList()).toArray(new Phase[0]);
 	}
