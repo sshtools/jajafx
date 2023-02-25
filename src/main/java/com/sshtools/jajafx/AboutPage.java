@@ -33,7 +33,7 @@ public class AboutPage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
 	@FXML
 	FontIcon spinner;
 
-	private UpdateService updateService;
+	private AppUpdateService updateService;
 
 	@Override
 	protected void onConfigure() {

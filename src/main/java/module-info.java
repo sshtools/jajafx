@@ -5,10 +5,11 @@ module com.sshtools.jajafx {
 	requires org.jfxtras.styles.jmetro;
 	requires javafx.base;
 	requires transitive com.sshtools.sequins;
+	requires transitive com.sshtools.jaul;
 	requires transitive javafx.controls;
 	requires transitive javafx.graphics;
 	requires transitive javafx.fxml;
-	requires static transitive com.install4j.runtime;
+	requires transitive com.install4j.runtime;
 	requires org.kordamp.ikonli.javafx;
 	requires org.kordamp.ikonli.fontawesome5;
 	requires org.controlsfx.controls;

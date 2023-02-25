@@ -12,6 +12,9 @@ import java.util.prefs.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sshtools.jaul.UpdateableAppContext;
+import com.sshtools.jaul.Phase;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
@@ -102,7 +105,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	private final Optional<Integer> inceptionYear;
 	private final ResourceBundle appResources;
 
-	private UpdateService updateService;
+	private AppUpdateService updateService;
 
 	private boolean checking;
 
@@ -152,8 +155,8 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		}
 	}
 
-	public FrameworkConfig getFrameworkConfiguration() {
-		return new FrameworkConfig() {
+	public UpdateableAppContext getUpdateContext() {
+		return new UpdateableAppContext() {
 
 			@Override
 			public void setUpdatesDeferredUntil(long timeMs) {
@@ -186,12 +189,17 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			public void setAutomaticUpdates(boolean automaticUpdates) {
 				getAppPreferences().putBoolean("automaticUpdates", automaticUpdates);
 			}
+
+			@Override
+			public ScheduledExecutorService getScheduler() {
+				return scheduler;
+			}
 		};
 	}
 
 	public String getUpdatesUrl() {
 		if (updatesUrl.isPresent()) {
-			return updatesUrl.get().replace("${phase}", getFrameworkConfiguration().getPhase().name().toLowerCase());
+			return updatesUrl.get().replace("${phase}", getUpdateContext().getPhase().name().toLowerCase());
 		} else
 			throw new IllegalArgumentException("App has been configured without ");
 	}
@@ -204,7 +212,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		return launcherId.orElseThrow(() -> new IllegalStateException("No launcher ID provided."));
 	}
 
-	public UpdateService getUpdateService() {
+	public AppUpdateService getUpdateService() {
 		if (updateService == null)
 			updateService = createUpdateService();
 		return updateService;
@@ -223,10 +231,10 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	protected void beforeCall() throws Exception {
 	}
 
-	protected UpdateService createUpdateService() {
+	protected AppUpdateService createUpdateService() {
 		try {
 			if ("true".equals(System.getProperty("jajafx.dummyUpdates"))) {
-				return new DummyUpdateService(this);
+				return new AppDummyUpdateService(this);
 			}
 			return new Install4JUpdateServiceImpl(this);
 		} catch (Throwable t) {
@@ -234,7 +242,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 				log.info("Failed to create Install4J update service, using dummy service.", t);
 			else
 				log.info("Failed to create Install4J update service, using dummy service. {}", t.getMessage());
-			return new NoUpdateService(this);
+			return new AppNoUpdateService(this);
 		}
 	}
 

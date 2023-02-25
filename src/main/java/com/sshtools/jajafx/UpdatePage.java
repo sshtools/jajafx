@@ -30,7 +30,7 @@ public class UpdatePage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
 	@FXML
 	FontIcon spinner;
 
-	private UpdateService updateService;
+	private AppUpdateService updateService;
 	private AtomicInteger seconds = new AtomicInteger();
 
 	private ScheduledFuture<?> task;

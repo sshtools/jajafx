@@ -1,27 +1,19 @@
 package com.sshtools.jajafx;
 
-import java.io.IOException;
+import com.sshtools.jaul.NoUpdateService;
 
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class NoUpdateService implements UpdateService {
+public class AppNoUpdateService extends NoUpdateService implements AppUpdateService {
 
 	private ReadOnlyBooleanProperty updating = new SimpleBooleanProperty();
 	private ReadOnlyBooleanProperty needsUpdating = new SimpleBooleanProperty();
 	private ReadOnlyStringProperty availableVersionProperty = new SimpleStringProperty();
 
-	public NoUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
-	}
-
-	@Override
-	public void addDownloadListener(DownloadListener listener) {
-	}
-
-	@Override
-	public void removeDownloadListener(DownloadListener listener) {
+	public AppNoUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
 	}
 
 	@Override
@@ -35,35 +27,8 @@ public class NoUpdateService implements UpdateService {
 	}
 
 	@Override
-	public Phase[] getPhases() {
-		return new Phase[0];
-	}
-
-	@Override
-	public void deferUpdate() {
-	}
-
-	@Override
-	public void checkForUpdate() throws IOException {
-	}
-
-	@Override
-	public void update() throws IOException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void shutdown() {
-	}
-
-	@Override
 	public ReadOnlyBooleanProperty needsUpdatingProperty() {
 		return needsUpdating;
-	}
-
-	@Override
-	public boolean isUpdatesEnabled() {
-		return false;
 	}
 
 }
