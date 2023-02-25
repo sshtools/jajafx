@@ -16,7 +16,8 @@ public class DummyUpdateService extends AbstractUpdateService {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
 			}
-			return "999.999.999";
+			var fakeVersion = System.getProperty("jajafx.fakeUpdateVersion", "999.999.999");
+			return fakeVersion.equals("") ? null : fakeVersion;
 		}
 		else {
 			try {

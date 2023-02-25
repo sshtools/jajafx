@@ -70,7 +70,7 @@ public abstract class AbstractUpdateService implements UpdateService {
 
 	@Override
 	public final boolean isNeedsUpdating() {
-		return availableVersion != null;
+		return getAvailableVersion() != null;
 	}
 
 	@Override
