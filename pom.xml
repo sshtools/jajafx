@@ -380,6 +380,14 @@
 	</profiles>
 	<repositories>
 		<repository>
+			<id>oss-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots />
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+		<repository>
 			<id>ej-technologies</id>
 			<url>https://maven.ej-technologies.com/repository</url>
 		</repository>
