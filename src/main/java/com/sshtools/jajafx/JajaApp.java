@@ -87,7 +87,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		public abstract BA build();
 	}
 
-	static Logger log = LoggerFactory.getLogger(Install4JUpdateServiceImpl.class);
+	static Logger log = LoggerFactory.getLogger(Install4JUpdateService.class);
 
 	@Option(names = { "-W", "--standard-window-decorations" }, description = "Use standard window decorations.")
 	boolean standardWindowDecorations;
@@ -146,13 +146,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	}
 	
 	public final Phase getDefaultPhaseForVersion() {
-		var version = spec.version();
-		if(version.length == 0)
-			return Phase.STABLE;
-		else {
-			var appVersion = version[0];
-			return appVersion.startsWith("0.") || appVersion.contains("SNAPSHOT") ? Phase.CONTINUOUS : Phase.STABLE;
-		}
+		return Phase.getDefaultPhaseForVersion(spec.version());
 	}
 
 	public UpdateableAppContext getUpdateContext() {
@@ -236,7 +230,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			if ("true".equals(System.getProperty("jajafx.dummyUpdates"))) {
 				return new AppDummyUpdateService(this);
 			}
-			return new Install4JUpdateServiceImpl(this);
+			return new Install4JUpdateService(this);
 		} catch (Throwable t) {
 			if (log.isDebugEnabled())
 				log.info("Failed to create Install4J update service, using dummy service.", t);
