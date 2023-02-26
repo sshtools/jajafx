@@ -259,16 +259,14 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	}
 
 	public void updateCheck(Consumer<Boolean> onResult, Consumer<IOException> onError) {
-		new Thread(() -> checkForUpdate(onResult, onError)).start();
-	}
-
-	private void checkForUpdate(Consumer<Boolean> onResult, Consumer<IOException> onError) {
-		try {
-			getUpdateService().checkForUpdate();
-			onResult.accept(updateService.isNeedsUpdating());
-		} catch (IOException ioe) {
-			log.error("Failed to check for updates.", ioe);
-			onError.accept(ioe);
-		}
+		new Thread(() -> {
+			try {
+				getUpdateService().checkForUpdate();
+				onResult.accept(updateService.isNeedsUpdating());
+			} catch (IOException ioe) {
+				log.error("Failed to check for updates.", ioe);
+				onError.accept(ioe);
+			}
+		}).start();
 	}
 }
