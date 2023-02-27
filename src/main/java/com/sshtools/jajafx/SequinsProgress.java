@@ -25,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 
 public class SequinsProgress extends VBox implements Initializable {
@@ -310,6 +311,7 @@ public class SequinsProgress extends VBox implements Initializable {
 					}
 				}
 				summary.setText(b);
+				summary.setTooltip(new Tooltip(b));
 			});
 
 			logMessage(b, m);

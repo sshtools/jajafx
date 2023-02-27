@@ -63,6 +63,8 @@ public class Tiles<C> extends BorderPane {
 		AnchorPane.setLeftAnchor(stack, 0d);
 		AnchorPane.setRightAnchor(stack, 0d);
 		
+//		setClip(anchor);
+		
 		setCenter(anchor);
 		FXUtil.addIfNotAdded(getStylesheets(), Tiles.class.getResource("Common.css").toExternalForm(),
 				Tiles.class.getResource("Wizard.css").toExternalForm());
@@ -96,7 +98,11 @@ public class Tiles<C> extends BorderPane {
 
 	@SuppressWarnings("unchecked")
 	public <P extends Tile<C>> P popup(Class<P> clazz) {
-		var w = new PageWrapper<P>(clazz, PageTransition.FROM_BOTTOM);
+		return popup(clazz, PageTransition.FROM_BOTTOM);
+	}
+
+	public <P extends Tile<C>> P popup(Class<P> clazz, PageTransition transition) {
+		var w = new PageWrapper<P>(clazz, transition);
 
 		var idx = index.get();
 		if (idx == -1) {
