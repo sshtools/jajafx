@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class YesNoPage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
+public class YesNoPage<A extends JajaFXApp<?>> extends AbstractTile<A> {
 
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(YesNoPage.class.getName());
 
@@ -19,15 +19,5 @@ public class YesNoPage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
 
 	@Override
 	protected void onConfigure() {
-	}
-
-	@Override
-	public void shown() {
-		getWizard().toolsVisibleProperty().set(false);
-	}
-
-	@Override
-	public void hidden() {
-		getWizard().toolsVisibleProperty().set(true);
 	}
 }

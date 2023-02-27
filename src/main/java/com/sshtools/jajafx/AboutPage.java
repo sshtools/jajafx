@@ -14,7 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class AboutPage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
+public class AboutPage<A extends JajaFXApp<?>> extends AbstractTile<A> {
 
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(AboutPage.class.getName());
 
@@ -61,22 +61,12 @@ public class AboutPage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
 		spin(spinner, updating.get());
 	}
 
-	@Override
-	public void shown() {
-		getWizard().nextVisibleProperty().set(false);
-	}
-
-	@Override
-	public void hidden() {
-		getWizard().nextVisibleProperty().set(true);
-	}
-
 	@FXML
 	private void checkForUpdates(ActionEvent evt) {
 		getContext().getContainer().updateCheck((res) -> {
 			maybeQueue(() -> {
 				if (res) {
-					getWizard().popup(UpdatePage.class);
+					getTiles().popup(UpdatePage.class);
 				} else {
 					result.setVisible(true);
 					result.setText(RESOURCES.getString("noUpdates"));
@@ -90,6 +80,11 @@ public class AboutPage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
 				result.getStyleClass().setAll("text-danger");
 			});
 		});
+	}
+
+	@FXML
+	private void back(ActionEvent evt) {
+		getTiles().remove(this);
 	}
 
 	@FXML

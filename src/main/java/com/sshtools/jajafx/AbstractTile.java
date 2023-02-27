@@ -2,14 +2,14 @@ package com.sshtools.jajafx;
 
 import javafx.scene.Scene;
 
-public abstract class AbstractWizardPage<C> implements WizardPage<C> {
+public abstract class AbstractTile<C> implements Tile<C> {
 
 	private Scene scene;
-	private Wizard<C> wizard;
+	private Tiles<C> wizard;
 	private C context;
 
 	@Override
-	public final void configure(Scene scene, Wizard<C> wizard, C context) {
+	public final void configure(Scene scene, Tiles<C> wizard, C context) {
 		this.scene = scene;
 		this.wizard = wizard;
 		this.context = context;
@@ -32,7 +32,7 @@ public abstract class AbstractWizardPage<C> implements WizardPage<C> {
 		return context;
 	}
 	
-	protected Wizard<C> getWizard() {
+	protected Tiles<C> getTiles() {
 		return wizard;
 	}
 

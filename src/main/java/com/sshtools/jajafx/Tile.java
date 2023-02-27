@@ -4,8 +4,8 @@ import java.io.Closeable;
 
 import javafx.scene.Scene;
 
-public interface WizardPage<C> extends Closeable {
-	void configure(Scene scene, Wizard<C> wizard, C context);
+public interface Tile<C> extends Closeable {
+	void configure(Scene scene, Tiles<C> wizard, C context);
 
 	void shown();
 	
@@ -14,7 +14,7 @@ public interface WizardPage<C> extends Closeable {
 	Scene getScene();
 	
 	void close();
-	
+
 	default boolean validate() {
 		return true;
 	}

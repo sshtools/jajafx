@@ -17,7 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class UpdatePage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
+public class UpdatePage<A extends JajaFXApp<?>> extends AbstractTile<A> {
 
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(UpdatePage.class.getName());
 
@@ -56,7 +56,6 @@ public class UpdatePage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
 	public void shown() {
 		seconds.set(10);
 		available.setText(MessageFormat.format(RESOURCES.getString("available"), updateService.getAvailableVersion()));
-		getWizard().nextVisibleProperty().set(false);
 
 		result.setVisible(true);
 		result.setText("");
@@ -75,7 +74,6 @@ public class UpdatePage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
 	@Override
 	public void hidden() {
 		task.cancel(false);
-		getWizard().nextVisibleProperty().set(true);
 	}
 
 	@FXML
@@ -92,7 +90,7 @@ public class UpdatePage<A extends JajaFXApp<?>> extends AbstractWizardPage<A> {
 	@FXML
 	private void remindMeTomorrow(ActionEvent evt) {
 		updateService.deferUpdate();
-		getWizard().remove(this);
+		getTiles().remove(this);
 	}
 
 	private void updateRemaining() {
