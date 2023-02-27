@@ -43,13 +43,23 @@ public class SequinsProgress extends VBox implements Initializable {
 	private volatile boolean cancelled;
 
 	public SequinsProgress() {
+		var classLoader = Thread.currentThread().getContextClassLoader();
+		if(classLoader == null) {
+			classLoader = SequinsProgress.class.getClassLoader();
+		}
+		
 		var loader = new FXMLLoader(getClass().getResource(SequinsProgress.class.getSimpleName() + ".fxml"));
+		loader.setClassLoader(classLoader);
 		loader.setController(this);
 		loader.setRoot(this);
 		try {
 			loader.load();
-		} catch (IOException ioe) {
+		}/* catch (IOException ioe) {
 			throw new UncheckedIOException(ioe);
+		} */
+		catch(Throwable t) {
+			// Sinking this exception because of apparent bug in SceneBuiklder
+			t.printStackTrace();
 		}
 	}
 

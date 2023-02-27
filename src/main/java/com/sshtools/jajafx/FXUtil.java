@@ -1,6 +1,10 @@
 package com.sshtools.jajafx;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
+import java.util.prefs.Preferences;
 
 import javafx.animation.RotateTransition;
 import javafx.application.Platform;
@@ -14,9 +18,26 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import javafx.util.Duration;
 
 public class FXUtil {
+
+	public static Optional<File> chooseFileAndRememeber(Preferences preferences, FileChooser chooser,
+			Path defaultDirectory, String key, Window ownerWindow) {
+		var initialDirKey = key + ".initialDirectory";
+		chooser.setInitialDirectory(new File(preferences.get(initialDirKey, defaultDirectory.toString())));
+		var initialFileKey = key + ".initialFile";
+		var initialFile = preferences.get(initialFileKey, "");
+		chooser.setInitialFileName(initialFile);
+		var file = chooser.showOpenDialog(ownerWindow);
+		if (file != null) {
+			preferences.put(initialDirKey, file.getParentFile().getAbsolutePath());
+			preferences.put(initialFileKey, file.getName());
+		}
+		return Optional.ofNullable(file);
+	}
 
 	public static void maybeQueue(Runnable r) {
 		if (Platform.isFxApplicationThread())
@@ -26,7 +47,7 @@ public class FXUtil {
 	}
 
 	public static void spin(Node node, boolean animate) {
-		var rotate = (RotateTransition)node.getProperties().get(RotateTransition.class.getName());
+		var rotate = (RotateTransition) node.getProperties().get(RotateTransition.class.getName());
 		if (animate && rotate == null) {
 			rotate = new RotateTransition(Duration.seconds(1));
 			rotate.setByAngle(360);

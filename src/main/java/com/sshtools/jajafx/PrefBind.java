@@ -172,7 +172,8 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 					@SuppressWarnings("rawtypes")
 					var et = (Class) cb.getProperties().get("type");
 					setComboBox(cb, et, evt.getNewValue());
-				} else
+				}
+				else
 					throw new UnsupportedOperationException();
 			}
 		});
@@ -203,7 +204,8 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 			((CheckBox) v).selectedProperty().removeListener(booleanChangeListeners.remove(v));
 		} else if (v instanceof ToggleGroup) {
 			((ToggleGroup) v).selectedToggleProperty().removeListener(toggleChangeListeners.remove(v));
-		} else
+		}else {
 			throw new UnsupportedOperationException();
+		}
 	}
 }

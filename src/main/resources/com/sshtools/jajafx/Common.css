@@ -110,7 +110,7 @@ Button:default .ikonli-font-icon {
 	-fx-text-fill: #007bff;
 }
 
-.btn-accent {
+.btn-accent, .pill-accent {
 	-fx-background-color: accent_color;
 	-fx-text-fill: white;
 }
@@ -128,6 +128,14 @@ Button:default .ikonli-font-icon {
 .btn-danger {
 	-fx-background-color: #dc3545;
 	-fx-text-fill: white;
+}
+
+.pill-accent {
+	-fx-padding: 8px;
+    -fx-border-radius: 20 20 20 20; 
+    -fx-background-radius: 20 20 20 20; 
+/* top-left, top-right, bottom-right, and bottom-left corners, in that order. */
+	
 }
 
 .btn-info {

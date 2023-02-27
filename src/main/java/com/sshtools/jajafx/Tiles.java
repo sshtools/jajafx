@@ -53,6 +53,11 @@ public class Tiles<C> extends BorderPane {
 	private IntegerProperty index = new SimpleIntegerProperty(-1);
 	private final C context;
 
+	public Tiles() {
+		// For scenebuilder
+		this(null);
+	}
+
 	public Tiles(C context) {
 		this.context = context;
 

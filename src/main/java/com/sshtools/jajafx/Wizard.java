@@ -26,6 +26,11 @@ public class Wizard<C> extends Tiles<C> {
 
 	private BorderPane tools;
 
+	public Wizard() {
+		// For scenebuilder
+		this(null);
+	}
+
 	public Wizard(C context) {
 		super(context);
 		
