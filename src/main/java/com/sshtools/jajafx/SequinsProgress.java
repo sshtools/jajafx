@@ -1,9 +1,9 @@
 package com.sshtools.jajafx;
 
+import static com.sshtools.jajafx.FXUtil.load;
 import static com.sshtools.jajafx.FXUtil.maybeQueue;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -20,7 +20,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -43,24 +42,7 @@ public class SequinsProgress extends VBox implements Initializable {
 	private volatile boolean cancelled;
 
 	public SequinsProgress() {
-		var classLoader = Thread.currentThread().getContextClassLoader();
-		if(classLoader == null) {
-			classLoader = SequinsProgress.class.getClassLoader();
-		}
-		
-		var loader = new FXMLLoader(getClass().getResource(SequinsProgress.class.getSimpleName() + ".fxml"));
-		loader.setClassLoader(classLoader);
-		loader.setController(this);
-		loader.setRoot(this);
-		try {
-			loader.load();
-		}/* catch (IOException ioe) {
-			throw new UncheckedIOException(ioe);
-		} */
-		catch(Throwable t) {
-			// Sinking this exception because of apparent bug in SceneBuiklder
-			t.printStackTrace();
-		}
+		load(this);
 	}
 
 	@Override

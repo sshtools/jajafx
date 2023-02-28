@@ -110,7 +110,7 @@ Button:default .ikonli-font-icon {
 	-fx-text-fill: #007bff;
 }
 
-.btn-accent, .pill-accent {
+.btn-accent, .pill-accent, .circle-button-accent {
 	-fx-background-color: accent_color;
 	-fx-text-fill: white;
 }
@@ -138,7 +138,30 @@ Button:default .ikonli-font-icon {
 	
 }
 
+.circle-button-accent {
+	-fx-padding: 8px;
+    -fx-border-radius: 32; 
+    -fx-background-radius: 32; 
+}
+
+.circle-button-accent .ikonli-font-icon {
+	-fx-icon-color: #eee;
+	-fx-icon-size: 48px;
+}
+
+.circle-button-accent:hover .ikonli-font-icon { 
+	-fx-icon-color: white;
+}
+
 .btn-info {
 	-fx-background-color: #007bff;
 	-fx-text-fill: white;
+}
+
+.large-icon {
+	-fx-icon-size: 48px;
+}
+
+.small-icon {
+	-fx-icon-size: 24px;
 }

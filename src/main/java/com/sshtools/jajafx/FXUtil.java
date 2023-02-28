@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 import javafx.animation.RotateTransition;
@@ -15,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyEvent;
@@ -23,6 +25,27 @@ import javafx.stage.Window;
 import javafx.util.Duration;
 
 public class FXUtil {
+	
+	public static void load(Object controller) {
+		var clazz = controller.getClass();
+		var loader = new FXMLLoader(clazz.getResource(clazz.getSimpleName() + ".fxml"));
+		loader.setController(controller);
+		loader.setRoot(controller);
+		try {
+			loader.setResources(ResourceBundle.getBundle(clazz.getName()));
+		}
+		catch(Exception e) {
+		}
+		try {
+			loader.load();
+		}/* catch (IOException ioe) {
+			throw new UncheckedIOException(ioe);
+		} */
+		catch(Throwable t) {
+			// Sinking this exception because of apparent bug in SceneBuiklder
+			t.printStackTrace();
+		}
+	}
 
 	public static Optional<File> chooseFileAndRememeber(Preferences preferences, FileChooser chooser,
 			Path defaultDirectory, String key, Window ownerWindow) {
@@ -202,6 +225,11 @@ public class FXUtil {
 				target.add(s);
 		}
 		return target;
+	}
+
+	public static Optional<String> optionalText(TextInputControl text) {
+		var txt = text.getText();
+		return txt.equals("") ? Optional.empty() : Optional.of(txt);
 	}
 
 }
