@@ -11,10 +11,10 @@ import javafx.application.Platform;
 
 public class AppPrompter<C extends JajaFXApp<?>> implements Prompter {
 	
-	private final Wizard<C> wiz;
+	private final Tiles<C> wiz;
 	private final ResourceBundle resources;
 
-	public AppPrompter(Wizard<C> wizard, ResourceBundle resources) {
+	public AppPrompter(Tiles<C> wizard, ResourceBundle resources) {
 		this.wiz = wizard;
 		this.resources = resources;
 	}

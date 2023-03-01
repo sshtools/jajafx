@@ -14,6 +14,7 @@ public class AppNoUpdateService extends NoUpdateService implements AppUpdateServ
 	private ReadOnlyStringProperty availableVersionProperty = new SimpleStringProperty();
 
 	public AppNoUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
+		super(context.getUpdateContext());
 	}
 
 	@Override
