@@ -23,10 +23,12 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 	private Node content;
 	private final URL icon;
 	private final A container;
+	private final String title;
 
-	protected JajaFXApp(URL icon, A container) {
+	protected JajaFXApp(URL icon,String title, A container) {
 		this.icon = icon;
 		this.container = container;
+		this.title = title;
 	}
 
 	public A getContainer() {
@@ -39,7 +41,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 
 	@Override
 	public void start(final Stage primaryStage) {
-		primaryStage.setTitle(RESOURCES.getString("title"));
+		primaryStage.setTitle(title);
 		var scene = createScene(primaryStage);
 		primaryStage.setScene(scene);
 		primaryStage.getIcons().add(new Image(icon.toExternalForm()));
