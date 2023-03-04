@@ -127,6 +127,10 @@ Button:default .ikonli-font-icon {
 	-fx-text-fill: white;
 }
 
+.darkMode .pill-accent .ikonli-font-icon, .lightMode .pill-accent .ikonli-font-icon {
+	-fx-icon-color: white;	
+}  
+
 .btn-success {
 	-fx-background-color: #28a745;
 	-fx-text-fill: white;

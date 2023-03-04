@@ -232,4 +232,8 @@ public class FXUtil {
 		return txt.equals("") ? Optional.empty() : Optional.of(txt);
 	}
 
+	public static Optional<Path> emptyPathIfBlankString(String pathText) {
+		return pathText == null || pathText.equals("") ? Optional.empty() : Optional.of(Path.of(pathText));
+	}
+
 }
