@@ -1,5 +1,13 @@
+.darkMode .ikonli-font-icon {
+	-fx-icon-color: #eee;
+}
+
+.lightMode .ikonli-font-icon {
+	-fx-icon-color: text_color;
+}
+
 .borderless-root {
-    -fx-background-color: tab_pane_background_color;
+    -fx-background-color: background_color;
 }
 
 Button .ikonli-font-icon {
@@ -74,23 +82,23 @@ Button:default .ikonli-font-icon {
 	-fx-font-size: 1.5em;
 }
 
-.icon-accent {
+.darkMode .icon-accent, .lightMode .icon-accent {
 	-fx-icon-color: accent_color;
 }
 
-.icon-success {
+.darkMode .icon-success, .lightMode .icon-success {
 	-fx-icon-color: #28a745;
 }
 
-.icon-warning {
+.darkMode .icon-warning, .lightMode .icon-warning{
 	-fx-icon-color: #ffc107;
 }
 
-.icon-danger {
+.darkMode .icon-danger, .lightMode .icon-warning{
 	-fx-icon-color: #dc3545;
 }
 
-.icon-info {
+.darkMode .icon-info, .lightMode .icon-info {
 	-fx-icon-color: #007bff;
 }
 

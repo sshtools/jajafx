@@ -46,6 +46,7 @@ public class Flinger extends StackPane {
 	private BooleanProperty rightOrDownDisabledProperty = new SimpleBooleanProperty();
 	private DoubleProperty gapProperty = new SimpleDoubleProperty();
 	private boolean dragged;
+	private boolean wasDragged;
 
 	public Flinger() {
 
@@ -70,6 +71,7 @@ public class Flinger extends StackPane {
 			}
 		});
 		setOnMousePressed(eh -> {
+			wasDragged = false;
 			dragged = false;
 			deltaEvent.set(eh);
 		});
@@ -80,8 +82,12 @@ public class Flinger extends StackPane {
 				int depth = 0;
 				do {
 					if(n instanceof Node && container.equals(((Node)n).getParent())) {
-						if(depth > 0)
-							getOnAction().handle(new ActionEvent(this, n));
+						if(depth > 0) {
+							if(!onAction.isNull().get()) {
+								eh.consume();
+								onAction.get().handle(new ActionEvent(this, n));
+							}
+						}
 						break;
 					}
 					else if(n instanceof Node) {
@@ -93,18 +99,22 @@ public class Flinger extends StackPane {
 				}
 				while(n != null);
 			}
+			else {
+				eh.consume();
+			}
 			dragged = false;
 		});
 
 		// Handle drag events, will only allow drag until the first or last item
 		// is revealed
 		setOnMouseDragged(event -> {
+			wasDragged = true;
 			var mouseEvent = deltaEvent.get();
 			if (mouseEvent != null && directionProperty.getValue().equals(Direction.HORIZONTAL)) {
 				var delta = event.getX() - mouseEvent.getX();
 				var newX = container.getTranslateX() + delta;
 				var containerWidth = container.prefWidth(getHeight());
-				if (newX + containerWidth < getWidth()) {
+				if (newX + containerWidth < getWidth() - 1) {
 					newX = container.getTranslateX();
 				} else if (newX > 0) {
 					newX = 0;
@@ -135,6 +145,10 @@ public class Flinger extends StackPane {
 			deltaEvent.set(event);
 		});
 
+	}
+
+	public final boolean isWasDragged() {
+		return wasDragged;
 	}
 
 	public final ObjectProperty<EventHandler<ActionEvent>> onActionProperty() {

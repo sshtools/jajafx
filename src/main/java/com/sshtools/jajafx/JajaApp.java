@@ -92,9 +92,6 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	@Option(names = { "-W", "--standard-window-decorations" }, description = "Use standard window decorations.")
 	boolean standardWindowDecorations;
 
-	@Option(names = { "-d", "--dark" }, paramLabel = "PATH", description = "Use a dark theme.")
-	boolean darkMode;
-
 	@Spec
 	CommandSpec spec;
 

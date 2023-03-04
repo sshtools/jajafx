@@ -1,11 +1,16 @@
 package com.sshtools.jajafx;
 
+import static com.sshtools.jajafx.FXUtil.maybeQueue;
+
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import org.scenicview.ScenicView;
 
 //import org.scenicview.ScenicView;
 
 import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
+import com.jthemedetecor.OsThemeDetector;
 
 import javafx.application.Application;
 import javafx.scene.Node;
@@ -20,12 +25,21 @@ import jfxtras.styles.jmetro.Style;
 public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> extends Application {
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(JajaApp.class.getName());
 
+	public enum DarkMode {
+		AUTO, ALWAYS, NEVER
+	}
+
 	private Node content;
 	private final URL icon;
 	private final A container;
 	private final String title;
 
-	protected JajaFXApp(URL icon,String title, A container) {
+	private Scene scene;
+	private OsThemeDetector detector;
+
+	private JMetro jMetro;
+
+	protected JajaFXApp(URL icon, String title, A container) {
 		this.icon = icon;
 		this.container = container;
 		this.title = title;
@@ -41,6 +55,16 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 
 	@Override
 	public void start(final Stage primaryStage) {
+		detector = OsThemeDetector.getDetector();
+		detector.registerListener(isDark -> {
+			updateDarkMode();
+		});
+		getContainer().getAppPreferences().addPreferenceChangeListener(pce -> {
+			if (pce.getKey().equals("darkMode")) {
+				updateDarkMode();
+			}
+		});
+
 		primaryStage.setTitle(title);
 		var scene = createScene(primaryStage);
 		primaryStage.setScene(scene);
@@ -58,6 +82,31 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		updateService.rescheduleCheck();
 	}
 
+	private void updateDarkMode() {
+		maybeQueue(() -> {
+			if(isDarkMode()) {
+				jMetro.setStyle(Style.DARK);
+				scene.getRoot().getStyleClass().remove("lightMode");
+				scene.getRoot().getStyleClass().add("darkMode");
+			}
+			else {
+				jMetro.setStyle(Style.LIGHT);
+				scene.getRoot().getStyleClass().remove("darkMode");
+				scene.getRoot().getStyleClass().add("lightMode");
+			}
+		});
+	}
+
+	public boolean isDarkMode() {
+		var mode = DarkMode.valueOf(getContainer().getAppPreferences().get("darkMode", DarkMode.AUTO.name()));
+		if (mode.equals(DarkMode.AUTO))
+			return detector.isDark();
+		else if (mode.equals(DarkMode.ALWAYS))
+			return true;
+		else
+			return false;
+	}
+
 	protected void needUpdate() {
 		//
 	}
@@ -73,27 +122,37 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		}
 		ui.setCenter(content);
 
-		Scene scene;
 		if (JajaApp.getInstance().standardWindowDecorations) {
 			scene = new Scene(ui);
 		} else {
 			var primaryScene = new BorderlessScene(primaryStage, StageStyle.UNDECORATED, ui, 1, 1);
 
-			primaryScene.setMoveControl(ui);
+			primaryScene.setMoveControl(ui.getTop());
 			primaryScene.setDoubleClickMaximizeEnabled(false);
 			primaryScene.setSnapEnabled(false);
 			primaryScene.removeDefaultCSS();
 			primaryScene.setResizable(true);
 
-			primaryScene.getRoot().setStyle("-fx-background-color: tab_pane_background_color;");
+			primaryScene.getRoot().setStyle("-fx-background-color: background_color;");
 			primaryScene.getRoot().getStyleClass().add("borderless-root");
 
 			scene = primaryScene;
 		}
-		new JMetro(JajaApp.getInstance().darkMode ? Style.DARK : Style.LIGHT).setScene(scene);
+		jMetro = new JMetro(isDarkMode() ? Style.DARK : Style.LIGHT);
+		updateDarkMode();
+		jMetro.setScene(scene);
 		scene.getStylesheets().add(JajaFXApp.class.getResource("Common.css").toExternalForm());
-//		ScenicView.show(scene);
+		
+		try {
+			ScenicView.show(scene);
+		}
+		catch(Throwable e) {
+		}
 
+		onScene(scene);
 		return scene;
+	}
+
+	protected void onScene(Scene scene) {
 	}
 }

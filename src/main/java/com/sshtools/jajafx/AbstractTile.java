@@ -10,6 +10,8 @@ public abstract class AbstractTile<C> implements Tile<C> {
 
 	@Override
 	public final void configure(Scene scene, Tiles<C> wizard, C context) {
+		
+		scene.getRoot().setStyle("-fx-background-color: background_color;");
 		this.scene = scene;
 		this.wizard = wizard;
 		this.context = context;

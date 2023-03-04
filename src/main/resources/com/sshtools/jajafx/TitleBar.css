@@ -2,6 +2,6 @@
 	-fx-background-color: accent_color;	
 }
 
-.title-bar .ikonli-font-icon  {
+.darkMode .title-bar .ikonli-font-icon, .lightMode .title-bar .ikonli-font-icon  {
 	-fx-icon-color: white;
 }

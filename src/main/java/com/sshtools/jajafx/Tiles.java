@@ -60,19 +60,21 @@ public class Tiles<C> extends BorderPane {
 
 	public Tiles(C context) {
 		this.context = context;
+		
+		ClippedStack clippedStack = new ClippedStack(stack);
 
-		var anchor = new AnchorPane(stack);
+		var anchor = new AnchorPane(clippedStack);
 		anchor.setPrefSize(600, 600);
-		AnchorPane.setBottomAnchor(stack, 0d);
-		AnchorPane.setTopAnchor(stack, 0d);
-		AnchorPane.setLeftAnchor(stack, 0d);
-		AnchorPane.setRightAnchor(stack, 0d);
+		AnchorPane.setBottomAnchor(clippedStack, 0d);
+		AnchorPane.setTopAnchor(clippedStack, 0d);
+		AnchorPane.setLeftAnchor(clippedStack, 0d);
+		AnchorPane.setRightAnchor(clippedStack, 0d);
 		
 //		setClip(anchor);
 		
 		setCenter(anchor);
 		FXUtil.addIfNotAdded(getStylesheets(), Tiles.class.getResource("Common.css").toExternalForm(),
-				Tiles.class.getResource("Wizard.css").toExternalForm());
+				Tiles.class.getResource("Tiles.css").toExternalForm());
 	}
 
 	public final int getIndex() {

@@ -48,11 +48,22 @@
 	</scm>
 	<dependencies>
 		<dependency>
+			<groupId>io.github.palexdev</groupId>
+			<artifactId>scenicview</artifactId>
+			<version>17.0.2</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.install4j</groupId>
 			<artifactId>install4j-runtime</artifactId>
 			<version>10.0.4</version>
 			<!-- MUST be provided, the runtime is added by I4J itself -->
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.Dansoftowner</groupId>
+			<artifactId>jSystemThemeDetector</artifactId>
+			<version>master-292ec4c0bd-1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sshtools</groupId>
@@ -332,7 +343,8 @@
 										<excludes>
 											<exclude>org.openjfx:*</exclude>
 											<exclude>org.kordamp.ikonli:*</exclude>
-											<exclude>org.controlsfx:*</exclude>>
+											<exclude>org.controlsfx:*</exclude>
+											>
 											<exclude>com.miglayout:*</exclude>
 											<exclude>org.jfxtras:*</exclude>
 										</excludes>
@@ -416,6 +428,10 @@
 			<releases>
 				<enabled>false</enabled>
 			</releases>
+		</repository>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
 		</repository>
 		<repository>
 			<id>ej-technologies</id>
