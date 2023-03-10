@@ -127,7 +127,13 @@ Button:default .ikonli-font-icon {
 	-fx-text-fill: white;
 }
 
-.darkMode .pill-accent .ikonli-font-icon, .lightMode .pill-accent .ikonli-font-icon {
+.pill-success {
+	-fx-background-color:  #28a745;
+	-fx-text-fill: white;
+}
+
+.darkMode .pill-accent .ikonli-font-icon, .lightMode .pill-accent .ikonli-font-icon,
+.darkMode .pill-success.ikonli-font-icon, .lightMode .pill-success .ikonli-font-icon {
 	-fx-icon-color: white;	
 }  
 
@@ -146,7 +152,7 @@ Button:default .ikonli-font-icon {
 	-fx-text-fill: white;
 }
 
-.pill-accent {
+.pill-accent, .pill-success {
 	-fx-padding: 8px;
     -fx-border-radius: 20 20 20 20; 
     -fx-background-radius: 20 20 20 20; 

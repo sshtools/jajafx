@@ -25,7 +25,7 @@ import javafx.stage.Window;
 import javafx.util.Duration;
 
 public class FXUtil {
-	
+
 	public static void load(Object controller) {
 		var clazz = controller.getClass();
 		var loader = new FXMLLoader(clazz.getResource(clazz.getSimpleName() + ".fxml"));
@@ -33,15 +33,14 @@ public class FXUtil {
 		loader.setRoot(controller);
 		try {
 			loader.setResources(ResourceBundle.getBundle(clazz.getName()));
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 		}
 		try {
 			loader.load();
-		}/* catch (IOException ioe) {
-			throw new UncheckedIOException(ioe);
-		} */
-		catch(Throwable t) {
+		} /*
+			 * catch (IOException ioe) { throw new UncheckedIOException(ioe); }
+			 */
+		catch (Throwable t) {
 			// Sinking this exception because of apparent bug in SceneBuiklder
 			t.printStackTrace();
 		}
@@ -228,7 +227,10 @@ public class FXUtil {
 	}
 
 	public static Optional<String> optionalText(TextInputControl text) {
-		var txt = text.getText();
+		return optionalText(text.getText());
+	}
+
+	public static Optional<String> optionalText(String txt) {
 		return txt.equals("") ? Optional.empty() : Optional.of(txt);
 	}
 

@@ -50,6 +50,7 @@ public abstract class AbstractAppUpdateService extends AbstractUpdateService imp
 
 	@Override
 	protected void setAvailableVersion(String availableVersion) {
+		super.setAvailableVersion(availableVersion);
 		this.availableVersion.set(availableVersion);
 	}
 

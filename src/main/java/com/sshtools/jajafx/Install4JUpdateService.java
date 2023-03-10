@@ -5,28 +5,32 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sshtools.jaul.AppRegistry.App;
 import com.sshtools.jaul.Install4JUpdater.Install4JUpdaterBuilder;
 
 public class Install4JUpdateService extends AbstractAppUpdateService {
 
 	static Logger log = LoggerFactory.getLogger(Install4JUpdateService.class);
 
-	public Install4JUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
+	private final App app;
+
+	public Install4JUpdateService(JajaApp<? extends JajaFXApp<?>> context, App app) {
 		super(context);
+		this.app = app;
 	}
 
 	protected String buildUpdateUrl() {
-		return context.getUpdatesUrl();
+		return app.getUpdatesUrl().orElseThrow(() -> new IllegalStateException("No updates URL set."))
+				.replace("${phase}", getContext().getPhase().name().toLowerCase());
 	}
 
 	@Override
 	protected String doUpdate(boolean checkOnly) throws IOException {
 		return Install4JUpdaterBuilder.builder().
 				withCheckOnly(checkOnly).
-				withCurrentVersion(context.getCommandSpec().version()[0]).
-				withLauncherId(context.getLauncherId()).
-				withUpdateUrl(context.getUpdatesUrl()).
-				onExit((e) -> context.exit(e)).build().call();
+				withCurrentVersion(context.getCommandSpec().version()[0]).withLauncherId(app.getLauncherId()).
+				withUpdateUrl(buildUpdateUrl()).onExit((e) -> context.exit(e)).
+				build().call();
 
 	}
 

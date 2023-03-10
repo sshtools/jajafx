@@ -1,6 +1,7 @@
 package com.sshtools.jajafx;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
@@ -12,8 +13,10 @@ import java.util.prefs.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sshtools.jaul.UpdateableAppContext;
+import com.sshtools.jaul.AppRegistry;
+import com.sshtools.jaul.AppRegistry.App;
 import com.sshtools.jaul.Phase;
+import com.sshtools.jaul.UpdateableAppContext;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -25,10 +28,8 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 
 	public static abstract class JajaAppBuilder<BA extends JajaApp<BFXA>, BB extends JajaAppBuilder<BA, BB, BFXA>, BFXA extends JajaFXApp<?>> {
 
-		private Optional<String> updatesUrl = Optional.empty();
 		private Optional<Phase> defaultPhase = Optional.empty();
 		private Optional<Class<? extends JajaFXApp<?>>> appClazz = Optional.empty();
-		private Optional<String> launcherId = Optional.empty();
 		private Optional<Integer> inceptionYear;
 		private Optional<ResourceBundle> appResources = Optional.empty();
 
@@ -44,16 +45,6 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			return (BB) this;
 		}
 
-		public BB withUpdatesUrl(String updatesUrl) {
-			return withUpdatesUrl(Optional.of(updatesUrl));
-		}
-
-		@SuppressWarnings("unchecked")
-		public BB withUpdatesUrl(Optional<String> updatesUrl) {
-			this.updatesUrl = updatesUrl;
-			return (BB) this;
-		}
-
 		public BB withDefaultPhase(Phase defaultPhase) {
 			return withDefaultPhase(Optional.of(defaultPhase));
 		}
@@ -62,10 +53,6 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		public BB withDefaultPhase(Optional<Phase> defaultPhase) {
 			this.defaultPhase = defaultPhase;
 			return (BB) this;
-		}
-
-		public BB withLauncherId(String launcherId) {
-			return withLauncherId(Optional.of(launcherId));
 		}
 
 		public BB withInceptionYear(int inceptionYear) {
@@ -78,12 +65,6 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			return (BB) this;
 		}
 
-		@SuppressWarnings("unchecked")
-		public BB withLauncherId(Optional<String> launcherId) {
-			this.launcherId = launcherId;
-			return (BB) this;
-		}
-
 		public abstract BA build();
 	}
 
@@ -92,19 +73,26 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	@Option(names = { "-W", "--standard-window-decorations" }, description = "Use standard window decorations.")
 	boolean standardWindowDecorations;
 
+	@Option(names = { "--jaul-register" }, hidden = true, description = "Register this application with the JADAPTIVE update system and exit. Usually only called on installation.")
+	boolean jaulRegister;
+
+	@Option(names = { "--jaul-deregister" }, hidden = true, description = "De-register this application from the JADAPTIVE update system and exit. Usually only called on uninstallation.")
+	boolean jaulDeregister;
+
 	@Spec
 	CommandSpec spec;
 
 	private final Class<? extends JajaFXApp<?>> appClazz;
-	private final Optional<String> updatesUrl;
 	private final Optional<Phase> defaultPhase;
-	private final Optional<String> launcherId;
 	private final Optional<Integer> inceptionYear;
 	private final ResourceBundle appResources;
-
+	private final Preferences preferences;
 	private AppUpdateService updateService;
 
 	protected ScheduledExecutorService scheduler;
+
+	private Optional<App> app;
+
 	private static JajaApp<?> instance;
 
 	protected JajaApp(JajaAppBuilder<?, ?, ?> builder) {
@@ -113,10 +101,10 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 				.orElseThrow(() -> new IllegalStateException("App resources must be provided."));
 		this.inceptionYear = builder.inceptionYear;
 		this.appClazz = builder.appClazz.orElseThrow(() -> new IllegalStateException("App class must be provided"));
-		this.updatesUrl = builder.updatesUrl;
 		this.defaultPhase = builder.defaultPhase;
-		this.launcherId = builder.launcherId;
 
+		app = locateApp();
+		preferences = app.isPresent() ? app.get().getAppPreferences() : Preferences.userNodeForPackage(getClass());
 		scheduler = Executors.newScheduledThreadPool(1);
 	}
 
@@ -125,7 +113,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	}
 
 	public final Preferences getAppPreferences() {
-		return Preferences.userNodeForPackage(JajaApp.this.getClass());
+		return preferences;
 	}
 
 	public static JajaApp<?> getInstance() {
@@ -186,65 +174,76 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			}
 		};
 	}
-
-	public String getUpdatesUrl() {
-		if (updatesUrl.isPresent()) {
-			return updatesUrl.get().replace("${phase}", getUpdateContext().getPhase().name().toLowerCase());
-		} else
-			throw new IllegalArgumentException("App has been configured without ");
+	
+	public final App getRegisteredApp() {
+		return app.orElseThrow(() -> new IllegalStateException("No registered app."));
 	}
 
-	public boolean isConsoleMode() {
+	public final boolean isConsoleMode() {
 		return false;
 	}
 
-	public String getLauncherId() {
-		return launcherId.orElseThrow(() -> new IllegalStateException("No launcher ID provided."));
-	}
-
-	public AppUpdateService getUpdateService() {
+	public final AppUpdateService getUpdateService() {
 		if (updateService == null)
 			updateService = createUpdateService();
 		return updateService;
 	}
 
-	public CommandSpec getCommandSpec() {
+	public final CommandSpec getCommandSpec() {
 		return spec;
 	}
 
 	public final Integer call() throws Exception {
-		beforeCall();
-		JajaFXApp.launch(appClazz, new String[0]);
-		return 0;
+		if(jaulDeregister) {
+			AppRegistry.get().deregister(getClass());
+			return 0;
+		}
+		else if(jaulRegister) {
+			AppRegistry.get().register(getClass());
+			return 0;
+		}
+		else {
+			beforeCall();
+			JajaFXApp.launch(appClazz, new String[0]);
+			return 0;
+		}
 	}
 
 	protected void beforeCall() throws Exception {
 	}
 
-	protected AppUpdateService createUpdateService() {
+	protected final AppUpdateService createUpdateService() {
 		try {
 			if ("true".equals(System.getProperty("jajafx.dummyUpdates"))) {
 				return new AppDummyUpdateService(this);
 			}
-			return new Install4JUpdateService(this);
+			if(app.isPresent())
+				return new Install4JUpdateService(this, app.get());
+			else
+				return createDefaultUpdateService();
+						
 		} catch (Throwable t) {
 			if (log.isDebugEnabled())
 				log.info("Failed to create Install4J update service, using dummy service.", t);
 			else
 				log.info("Failed to create Install4J update service, using dummy service. {}", t.getMessage());
-			return new AppNoUpdateService(this);
+			return createDefaultUpdateService();
 		}
 	}
 
-	public int getInceptionYear() {
+	protected AppUpdateService createDefaultUpdateService() {
+		return new AppNoUpdateService(this);
+	}
+
+	public final int getInceptionYear() {
 		return inceptionYear.orElse(1900);
 	}
 
-	public ResourceBundle getAppResources() {
+	public final ResourceBundle getAppResources() {
 		return appResources;
 	}
 
-	public void update(Consumer<IOException> onError) {
+	public final void update(Consumer<IOException> onError) {
 		new Thread(() -> {
 			try {
 				updateService.update();
@@ -255,7 +254,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		}).start();
 	}
 
-	public void updateCheck(Consumer<Boolean> onResult, Consumer<IOException> onError) {
+	public final void updateCheck(Consumer<Boolean> onResult, Consumer<IOException> onError) {
 		new Thread(() -> {
 			try {
 				getUpdateService().checkForUpdate();
@@ -265,5 +264,15 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 				onError.accept(ioe);
 			}
 		}).start();
+	}
+
+	private Optional<App> locateApp() {
+		try {
+			return Optional.of(AppRegistry.get().get(this.getClass()));
+		}
+		catch(Exception e) {
+			System.err.println(MessageFormat.format("Failed to register app. No Jaul update features will be available, and application preferences root is now determined by the class name {0}. {1}", getClass().getName(), e.getMessage() == null ? "No message supplied." : e.getMessage()));
+			return Optional.empty();
+		}
 	}
 }
