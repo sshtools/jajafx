@@ -18,6 +18,7 @@ public abstract class AbstractAppUpdateService extends AbstractUpdateService imp
 	static Logger log = LoggerFactory.getLogger(AbstractAppUpdateService.class);
 
 	private BooleanProperty updating = new SimpleBooleanProperty();
+	private BooleanProperty checkOnly = new SimpleBooleanProperty();
 	private StringProperty availableVersion = new SimpleStringProperty();;
 	private BooleanProperty needsUpdating = new SimpleBooleanProperty();
 
@@ -55,13 +56,20 @@ public abstract class AbstractAppUpdateService extends AbstractUpdateService imp
 	}
 
 	@Override
-	protected void setUpdating(boolean updating) {
+	protected void setUpdating(boolean updating, boolean checkOnly) {
+		super.setUpdating(updating, checkOnly);
 		this.updating.set(updating);
+		this.checkOnly.set(checkOnly);
 	}
 
 	@Override
 	public final ReadOnlyBooleanProperty updatingProperty() {
 		return updating;
+	}
+
+	@Override
+	public final ReadOnlyBooleanProperty checkOnlyProperty() {
+		return checkOnly;
 	}
 
 	@Override

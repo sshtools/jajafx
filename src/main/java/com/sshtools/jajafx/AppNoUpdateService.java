@@ -11,6 +11,7 @@ public class AppNoUpdateService extends NoUpdateService implements AppUpdateServ
 
 	private ReadOnlyBooleanProperty updating = new SimpleBooleanProperty();
 	private ReadOnlyBooleanProperty needsUpdating = new SimpleBooleanProperty();
+	private ReadOnlyBooleanProperty checkOnly = new SimpleBooleanProperty();
 	private ReadOnlyStringProperty availableVersionProperty = new SimpleStringProperty();
 
 	public AppNoUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
@@ -30,6 +31,11 @@ public class AppNoUpdateService extends NoUpdateService implements AppUpdateServ
 	@Override
 	public ReadOnlyBooleanProperty needsUpdatingProperty() {
 		return needsUpdating;
+	}
+
+	@Override
+	public ReadOnlyBooleanProperty checkOnlyProperty() {
+		return checkOnly;
 	}
 
 }

@@ -80,4 +80,19 @@ public class DelegatingAppUpdateService implements AppUpdateService {
 	public void setOnAvailableVersion(Consumer<String> onAvailableVersion) {
 		delegate.setOnAvailableVersion(onAvailableVersion);
 	}
+
+	@Override
+	public boolean isCheckOnly() {
+		return delegate.isCheckOnly();
+	}
+
+	@Override
+	public void setOnBusy(Consumer<Boolean> busy) {
+		delegate.setOnBusy(busy);
+	}
+
+	@Override
+	public ReadOnlyBooleanProperty checkOnlyProperty() {
+		return delegate.checkOnlyProperty();
+	}
 }

@@ -25,4 +25,6 @@ public interface AppUpdateService extends UpdateService {
 
 	ReadOnlyStringProperty availableVersionProperty();
 
+	ReadOnlyBooleanProperty checkOnlyProperty();
+
 }
