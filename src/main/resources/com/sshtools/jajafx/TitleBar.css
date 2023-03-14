@@ -3,5 +3,9 @@
 }
 
 .darkMode .title-bar .ikonli-font-icon, .lightMode .title-bar .ikonli-font-icon  {
+	-fx-icon-color: #eee;
+}
+
+.darkMode .title-bar .ikonli-font-icon:hover , .lightMode .title-bar .ikonli-font-icon:hover   {
 	-fx-icon-color: white;
 }

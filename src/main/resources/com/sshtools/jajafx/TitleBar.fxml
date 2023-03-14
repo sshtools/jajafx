@@ -6,14 +6,22 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
-
 
 <fx:root type="AnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="title-bar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <center>
-            <HBox alignment="CENTER" styleClass="padded" BorderPane.alignment="CENTER">
+      <StackPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" styleClass="title-bar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <BorderPane styleClass="padded">
+               <left>
+                  <HBox fx:id="leftAccessories" alignment="CENTER_LEFT" BorderPane.alignment="CENTER" />
+               </left>
+               <right>
+                  <HBox fx:id="rightAccessories" alignment="CENTER_RIGHT" BorderPane.alignment="CENTER" />
+               </right>
+            </BorderPane>
+            <HBox alignment="CENTER" styleClass="padded">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -22,31 +30,33 @@
                   </ImageView>
                </children>
             </HBox>
-         </center>
-         <right>
-            <HBox fx:id="rightWindowIcons" alignment="CENTER" prefWidth="80.0" BorderPane.alignment="CENTER">
-               <children>
-                  <FontIcon iconLiteral="fas-window-minimize" iconSize="22" onMouseClicked="#minimize" />
-                  <FontIcon iconLiteral="fas-window-close" iconSize="22" onMouseClicked="#close" />
-               </children>
-               <styleClass>
-                  <String fx:value="spaced" />
-                  <String fx:value="padded" />
-               </styleClass>
-            </HBox>
-         </right>
-         <left>
-            <HBox fx:id="leftWindowIcons" alignment="CENTER" prefWidth="80.0" BorderPane.alignment="CENTER">
-               <children>
-                  <FontIcon iconLiteral="fas-window-close" iconSize="22" onMouseClicked="#close" />
-                  <FontIcon iconLiteral="fas-window-minimize" iconSize="22" onMouseClicked="#minimize" />
-               </children>
-               <styleClass>
-                  <String fx:value="spaced" />
-                  <String fx:value="padded" />
-               </styleClass>
-            </HBox>
-         </left>
-      </BorderPane>
+            <BorderPane>
+               <right>
+                  <HBox fx:id="rightWindowIcons" alignment="CENTER" prefWidth="80.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <FontIcon iconLiteral="fas-window-minimize" iconSize="22" onMouseClicked="#minimize" />
+                        <FontIcon iconLiteral="fas-window-close" iconSize="22" onMouseClicked="#close" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="spaced" />
+                        <String fx:value="padded" />
+                     </styleClass>
+                  </HBox>
+               </right>
+               <left>
+                  <HBox fx:id="leftWindowIcons" alignment="CENTER" prefWidth="80.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <FontIcon iconLiteral="fas-window-close" iconSize="22" onMouseClicked="#close" />
+                        <FontIcon iconLiteral="fas-window-minimize" iconSize="22" onMouseClicked="#minimize" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="spaced" />
+                        <String fx:value="padded" />
+                     </styleClass>
+                  </HBox>
+               </left>
+            </BorderPane>
+         </children>
+      </StackPane>
    </children>
 </fx:root>

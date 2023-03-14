@@ -38,6 +38,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 	private OsThemeDetector detector;
 
 	private JMetro jMetro;
+	private TitleBar titleBar;
 
 	protected JajaFXApp(URL icon, String title, A container) {
 		this.icon = icon;
@@ -80,6 +81,12 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		var updateService = getContainer().getUpdateService();
 		updateService.needsUpdatingProperty().addListener((c, o, n) -> needUpdate());
 		updateService.rescheduleCheck();
+		
+		onStarted();
+	}
+	
+	protected void onStarted() {
+		
 	}
 
 	private void updateDarkMode() {
@@ -106,6 +113,10 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		else
 			return false;
 	}
+	
+	public TitleBar getTitleBar() {
+		return titleBar;
+	}
 
 	protected void needUpdate() {
 		//
@@ -114,12 +125,12 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 	protected abstract Node createContent();
 
 	private Scene createScene(final Stage primaryStage) {
-		content = createContent();
 
 		var ui = new BorderPane();
 		if (!JajaApp.getInstance().standardWindowDecorations) {
-			ui.setTop(new TitleBar());
+			ui.setTop(titleBar = new TitleBar());
 		}
+		content = createContent();
 		ui.setCenter(content);
 
 		if (JajaApp.getInstance().standardWindowDecorations) {

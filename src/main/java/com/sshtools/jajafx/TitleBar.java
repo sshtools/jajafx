@@ -16,6 +16,13 @@ public class TitleBar extends AnchorPane {
 	@FXML
 	private HBox rightWindowIcons;
 	
+	@FXML
+	private HBox leftAccessories;
+	@FXML
+	private HBox rightAccessories;
+	
+	private HBox accessories;
+	
 	public TitleBar() {
 		var loader = new FXMLLoader(getClass().getResource("TitleBar.fxml"));
 		loader.setController(this);
@@ -32,13 +39,19 @@ public class TitleBar extends AnchorPane {
 		if(System.getProperty("os.name") != "mac" && System.getProperty("os.name") != "darwin") {
 			leftWindowIcons.setVisible(false);
 			rightWindowIcons.setVisible(true);
+			accessories =leftAccessories;
 		}
 		else {
 			leftWindowIcons.setVisible(true);
 			rightWindowIcons.setVisible(false);
+			accessories =rightAccessories;
 		}
 	}
 	
+	public final HBox getAccessories() {
+		return accessories;
+	}
+
 	@FXML
 	private void minimize() {
 		((Stage)getScene().getWindow()).setIconified(true);

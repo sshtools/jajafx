@@ -30,9 +30,10 @@ public class Screenshots extends BorderPane {
 
 		dots.setAlignment(Pos.TOP_CENTER);
 		dots.getStyleClass().add("spaced");
-		
+
 		dots.managedProperty().bind(dots.visibleProperty());
-		dots.visibleProperty().bind(Bindings.createBooleanBinding(() -> dots.getChildren().size() > 1, dots.getChildren()));
+		dots.visibleProperty()
+				.bind(Bindings.createBooleanBinding(() -> dots.getChildren().size() > 1, dots.getChildren()));
 
 		getStack().addListener((ListChangeListener.Change<? extends Node> c) -> {
 			var resetSelected = false;
@@ -46,7 +47,7 @@ public class Screenshots extends BorderPane {
 					lnk.setOnAction(e -> {
 						visible.set(dots.getChildren().indexOf(lnk));
 					});
-					
+
 					dots.getChildren().add(lnk);
 					if (!sel) {
 						addedNode.setOpacity(0);
@@ -70,26 +71,38 @@ public class Screenshots extends BorderPane {
 		});
 
 		visible.addListener((c, o, n) -> {
-			
-			var onode = getStack().get(o.intValue());
-			var nnode = getStack().get(n.intValue());
 
-			var odot = dots.getChildren().get(o.intValue());
-			((Hyperlink) odot).setGraphic(createGraphic(false));
-			var ndot = dots.getChildren().get(n.intValue());
-			((Hyperlink) ndot).setGraphic(createGraphic(true));
+			var stck = getStack();
 
-			var fade = new FadeTransition(Duration.millis(750), onode);
-			fade.setFromValue(1);
-			fade.setToValue(0);
-			fade.setOnFinished((e) -> onode.setVisible(false));
-			fade.play();
+			var oidx = o.intValue();
+			var onode = oidx < 0 || oidx >= stck.size() ? null : stck.get(oidx);
+			var nidx = n.intValue();
+			var nnode = nidx < 0 || nidx >= stck.size() ? null : stck.get(nidx);
 
-			nnode.setVisible(true);
-			fade = new FadeTransition(Duration.millis(750), nnode);
-			fade.setFromValue(0);
-			fade.setToValue(1);
-			fade.play();
+			var cdots = dots.getChildren();
+			var odot = oidx < 0 || oidx >= cdots.size() ? null : cdots.get(oidx);
+			if (odot != null)
+				((Hyperlink) odot).setGraphic(createGraphic(false));
+
+			var ndot = nidx < 0 || nidx >= cdots.size() ? null : cdots.get(nidx);
+			if (ndot != null)
+				((Hyperlink) ndot).setGraphic(createGraphic(true));
+
+			if (onode != null) {
+				var fade = new FadeTransition(Duration.millis(750), onode);
+				fade.setFromValue(1);
+				fade.setToValue(0);
+				fade.setOnFinished((e) -> onode.setVisible(false));
+				fade.play();
+			}
+
+			if (nnode != null) {
+				nnode.setVisible(true);
+				var fade = new FadeTransition(Duration.millis(750), nnode);
+				fade.setFromValue(0);
+				fade.setToValue(1);
+				fade.play();
+			}
 
 		});
 	}

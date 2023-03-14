@@ -86,11 +86,9 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	private final Optional<Phase> defaultPhase;
 	private final Optional<Integer> inceptionYear;
 	private final ResourceBundle appResources;
-	private final Preferences preferences;
+	
 	private AppUpdateService updateService;
-
 	protected ScheduledExecutorService scheduler;
-
 	private Optional<App> app;
 
 	private static JajaApp<?> instance;
@@ -102,9 +100,6 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		this.inceptionYear = builder.inceptionYear;
 		this.appClazz = builder.appClazz.orElseThrow(() -> new IllegalStateException("App class must be provided"));
 		this.defaultPhase = builder.defaultPhase;
-
-		app = locateApp();
-		preferences = app.isPresent() ? app.get().getAppPreferences() : Preferences.userNodeForPackage(getClass());
 		scheduler = Executors.newScheduledThreadPool(1);
 	}
 
@@ -113,7 +108,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	}
 
 	public final Preferences getAppPreferences() {
-		return preferences;
+		return AppRegistry.getBestAppPreferences(app, this);
 	}
 
 	public static JajaApp<?> getInstance() {
@@ -203,6 +198,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			return 0;
 		}
 		else {
+			app = locateApp();
 			beforeCall();
 			JajaFXApp.launch(appClazz, new String[0]);
 			return 0;
@@ -244,18 +240,18 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	}
 
 	public final void update(Consumer<IOException> onError) {
-		new Thread(() -> {
+		getScheduler().execute(() -> {
 			try {
 				updateService.update();
 			} catch (IOException ioe) {
 				log.error("Failed to update.", ioe);
 				onError.accept(ioe);
 			}
-		}).start();
+		});
 	}
 
 	public final void updateCheck(Consumer<Boolean> onResult, Consumer<IOException> onError) {
-		new Thread(() -> {
+		getScheduler().execute(() -> {
 			try {
 				getUpdateService().checkForUpdate();
 				onResult.accept(updateService.isNeedsUpdating());
@@ -263,7 +259,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 				log.error("Failed to check for updates.", ioe);
 				onError.accept(ioe);
 			}
-		}).start();
+		});
 	}
 
 	private Optional<App> locateApp() {
@@ -271,7 +267,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			return Optional.of(AppRegistry.get().get(this.getClass()));
 		}
 		catch(Exception e) {
-			System.err.println(MessageFormat.format("Failed to register app. No Jaul update features will be available, and application preferences root is now determined by the class name {0}. {1}", getClass().getName(), e.getMessage() == null ? "No message supplied." : e.getMessage()));
+			log.warn(MessageFormat.format("Failed to register app. No Jaul update features will be available, and application preferences root is now determined by the class name {0}. {1}", getClass().getName(), e.getMessage() == null ? "No message supplied." : e.getMessage()));
 			return Optional.empty();
 		}
 	}

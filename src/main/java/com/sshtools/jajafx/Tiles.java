@@ -103,11 +103,11 @@ public class Tiles<C> extends BorderPane {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public <P extends Tile<C>> P popup(Class<P> clazz) {
 		return popup(clazz, PageTransition.FROM_BOTTOM);
 	}
 
+	@SuppressWarnings("unchecked")
 	public <P extends Tile<C>> P popup(Class<P> clazz, PageTransition transition) {
 		var w = new PageWrapper<P>(clazz, transition);
 

@@ -34,7 +34,7 @@ public abstract class AbstractTile<C> implements Tile<C> {
 		return context;
 	}
 	
-	protected Tiles<C> getTiles() {
+	protected Tiles<C> getTiles() { 
 		return wizard;
 	}
 
