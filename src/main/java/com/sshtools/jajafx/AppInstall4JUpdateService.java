@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import com.sshtools.jaul.AppRegistry.App;
 import com.sshtools.jaul.Install4JUpdater.Install4JUpdaterBuilder;
 
-public class Install4JUpdateService extends AbstractAppUpdateService {
+public class AppInstall4JUpdateService extends AbstractAppUpdateService {
 
-	static Logger log = LoggerFactory.getLogger(Install4JUpdateService.class);
+	static Logger log = LoggerFactory.getLogger(AppInstall4JUpdateService.class);
 
 	private final App app;
 
-	public Install4JUpdateService(JajaApp<? extends JajaFXApp<?>> context, App app) {
+	public AppInstall4JUpdateService(JajaApp<? extends JajaFXApp<?>> context, App app) {
 		super(context);
 		this.app = app;
 	}

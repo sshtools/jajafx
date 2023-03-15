@@ -68,7 +68,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		public abstract BA build();
 	}
 
-	static Logger log = LoggerFactory.getLogger(Install4JUpdateService.class);
+	static Logger log = LoggerFactory.getLogger(AppInstall4JUpdateService.class);
 
 	@Option(names = { "-W", "--standard-window-decorations" }, description = "Use standard window decorations.")
 	boolean standardWindowDecorations;
@@ -214,7 +214,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 				return new AppDummyUpdateService(this);
 			}
 			if(app.isPresent())
-				return new Install4JUpdateService(this, app.get());
+				return new AppInstall4JUpdateService(this, app.get());
 			else
 				return createDefaultUpdateService();
 						
