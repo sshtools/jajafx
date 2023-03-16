@@ -1,6 +1,7 @@
 package com.sshtools.jajafx;
 
 import java.io.Closeable;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -197,6 +198,7 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 			throw new IllegalArgumentException("Key must not be blank.");
 	}
 
+	@SuppressWarnings("unchecked")
 	private void unbindImpl(Object v) {
 		if (v instanceof TextInputControl) {
 			((TextInputControl) v).textProperty().removeListener(stringChangeListeners.remove(v));
@@ -204,8 +206,10 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 			((CheckBox) v).selectedProperty().removeListener(booleanChangeListeners.remove(v));
 		} else if (v instanceof ToggleGroup) {
 			((ToggleGroup) v).selectedToggleProperty().removeListener(toggleChangeListeners.remove(v));
-		}else {
-			throw new UnsupportedOperationException();
+		} else if (v instanceof ComboBox) {
+			((ComboBox) v).getSelectionModel().selectedItemProperty().removeListener(enumChangeListeners.remove(v));
+		} else {
+			throw new UnsupportedOperationException( MessageFormat.format("Binding of type {0}", v.getClass().getName()));
 		}
 	}
 }

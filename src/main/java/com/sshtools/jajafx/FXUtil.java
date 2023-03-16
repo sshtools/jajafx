@@ -9,6 +9,8 @@ import java.util.prefs.Preferences;
 
 import javafx.animation.RotateTransition;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -68,17 +70,28 @@ public class FXUtil {
 			Platform.runLater(r);
 	}
 
+	public static BooleanProperty boundSpin(Node node) {
+		var p = new SimpleBooleanProperty() {
+			@Override
+			protected void invalidated() {
+				spin(node, get());
+			}
+		};
+		return p;
+	}
+
 	public static void spin(Node node, boolean animate) {
 		var rotate = (RotateTransition) node.getProperties().get(RotateTransition.class.getName());
 		if (animate && rotate == null) {
 			rotate = new RotateTransition(Duration.seconds(1));
+			node.getProperties().put(RotateTransition.class.getName(), rotate);
 			rotate.setByAngle(360);
 			rotate.setCycleCount(RotateTransition.INDEFINITE);
 			rotate.setNode(node);
 			rotate.play();
 		} else if (!animate && rotate != null) {
 			rotate.stop();
-			rotate = null;
+			node.getProperties().remove(RotateTransition.class.getName());
 		}
 	}
 

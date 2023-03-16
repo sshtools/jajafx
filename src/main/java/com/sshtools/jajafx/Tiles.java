@@ -141,6 +141,7 @@ public class Tiles<C> extends BorderPane {
 			}
 		}
 		controllers.remove(wrapper);
+		wrapper.instance.close();
 	}
 
 	public void startAgain() {
