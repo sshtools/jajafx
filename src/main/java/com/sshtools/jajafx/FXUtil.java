@@ -223,6 +223,42 @@ public class FXUtil {
 		}
 	}
 
+	public static long longTextfieldValue(TextInputControl text) {
+		try {
+			return Long.parseLong(text.getText());
+		} catch (Exception e) {
+			try {
+				return Long.parseLong(text.getPromptText());
+			} catch (Exception e2) {
+				return 0;
+			}
+		}
+	}
+
+	public static double doubleTextfieldValue(TextInputControl text) {
+		try {
+			return Double.parseDouble(text.getText());
+		} catch (Exception e) {
+			try {
+				return Double.parseDouble(text.getPromptText());
+			} catch (Exception e2) {
+				return 0;
+			}
+		}
+	}
+
+	public static float floatTextfieldValue(TextInputControl text) {
+		try {
+			return Float.parseFloat(text.getText());
+		} catch (Exception e) {
+			try {
+				return Float.parseFloat(text.getPromptText());
+			} catch (Exception e2) {
+				return 0;
+			}
+		}
+	}
+
 	public static String textOrPrompt(TextInputControl text) {
 		var txt = text.getText();
 		if (txt.equals(""))
