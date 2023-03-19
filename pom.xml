@@ -61,11 +61,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.Dansoftowner</groupId>
-			<artifactId>jSystemThemeDetector</artifactId>
-			<version>master-292ec4c0bd-1</version>
-		</dependency>
-		<dependency>
 			<groupId>com.sshtools</groupId>
 			<artifactId>jaul</artifactId>
 			<version>0.0.2-SNAPSHOT</version>
@@ -430,12 +425,12 @@
 			</releases>
 		</repository>
 		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
-		</repository>
-		<repository>
 			<id>ej-technologies</id>
 			<url>https://maven.ej-technologies.com/repository</url>
+			<releases />
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
 </project>

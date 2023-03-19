@@ -10,7 +10,7 @@ import org.scenicview.ScenicView;
 //import org.scenicview.ScenicView;
 
 import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
-import com.jthemedetecor.OsThemeDetector;
+import com.install4j.api.UiUtil;
 
 import javafx.application.Application;
 import javafx.scene.Node;
@@ -35,7 +35,6 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 	private final String title;
 
 	private Scene scene;
-	private OsThemeDetector detector;
 
 	private JMetro jMetro;
 	private TitleBar titleBar;
@@ -56,10 +55,6 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 
 	@Override
 	public void start(final Stage primaryStage) {
-		detector = OsThemeDetector.getDetector();
-		detector.registerListener(isDark -> {
-			updateDarkMode();
-		});
 		getContainer().getAppPreferences().addPreferenceChangeListener(pce -> {
 			if (pce.getKey().equals("darkMode")) {
 				updateDarkMode();
@@ -107,7 +102,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 	public boolean isDarkMode() {
 		var mode = DarkMode.valueOf(getContainer().getAppPreferences().get("darkMode", DarkMode.AUTO.name()));
 		if (mode.equals(DarkMode.AUTO))
-			return detector.isDark();
+			return UiUtil.isDarkDesktop();
 		else if (mode.equals(DarkMode.ALWAYS))
 			return true;
 		else
