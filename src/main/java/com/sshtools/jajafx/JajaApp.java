@@ -13,6 +13,8 @@ import java.util.prefs.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.install4j.api.launcher.StartupNotification;
+import com.install4j.api.launcher.StartupNotification.Listener;
 import com.sshtools.jaul.AppRegistry;
 import com.sshtools.jaul.AppRegistry.App;
 import com.sshtools.jaul.Phase;
@@ -90,6 +92,8 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	private AppUpdateService updateService;
 	protected ScheduledExecutorService scheduler;
 	private Optional<App> app;
+	private Optional<Listener> onOpenRequest = Optional.empty();
+	private FXA fxApp;
 
 	private static JajaApp<?> instance;
 
@@ -101,6 +105,19 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		this.appClazz = builder.appClazz.orElseThrow(() -> new IllegalStateException("App class must be provided"));
 		this.defaultPhase = builder.defaultPhase;
 		scheduler = Executors.newScheduledThreadPool(1);
+	}
+
+	@SuppressWarnings("unchecked")
+	void init(JajaFXApp<?> fxApp) {
+		this.fxApp = (FXA) fxApp;
+	}
+	
+	public final FXA getFXApp() {
+		return fxApp;
+	}
+
+	public final void setOnOpenRequest(Listener onOpenRequest) {
+		this.onOpenRequest = Optional.ofNullable(onOpenRequest);
 	}
 
 	public final ScheduledExecutorService getScheduler() {
@@ -199,10 +216,17 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		}
 		else {
 			app = locateApp();
+			
+			app.ifPresent(a -> onOpenRequest.ifPresent(o -> StartupNotification.registerStartupListener(o)));
+			
 			beforeCall();
 			JajaFXApp.launch(appClazz, new String[0]);
 			return 0;
 		}
+	}
+	
+	protected void setHandleQuit(boolean handleQuit) {
+		StartupNotification.setHandleQuit(handleQuit);
 	}
 
 	protected void beforeCall() throws Exception {
@@ -213,8 +237,9 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			if ("true".equals(System.getProperty("jajafx.dummyUpdates"))) {
 				return new AppDummyUpdateService(this);
 			}
-			if(app.isPresent())
+			if(app.isPresent()) {
 				return new AppInstall4JUpdateService(this, app.get());
+			}
 			else
 				return createDefaultUpdateService();
 						

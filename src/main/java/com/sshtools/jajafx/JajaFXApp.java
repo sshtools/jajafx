@@ -43,6 +43,8 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		this.icon = icon;
 		this.container = container;
 		this.title = title;
+		
+		container.init(this);
 	}
 
 	public A getContainer() {
