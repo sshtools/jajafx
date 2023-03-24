@@ -38,6 +38,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 
 	private JMetro jMetro;
 	private TitleBar titleBar;
+	private Stage primaryStage;
 
 	protected JajaFXApp(URL icon, String title, A container) {
 		this.icon = icon;
@@ -45,6 +46,10 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		this.title = title;
 		
 		container.init(this);
+	}
+
+	public final Stage getPrimaryStage() {
+		return primaryStage;
 	}
 
 	public A getContainer() {
@@ -57,6 +62,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 
 	@Override
 	public void start(final Stage primaryStage) {
+		this.primaryStage = primaryStage;
 		getContainer().getAppPreferences().addPreferenceChangeListener(pce -> {
 			if (pce.getKey().equals("darkMode")) {
 				updateDarkMode();

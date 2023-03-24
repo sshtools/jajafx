@@ -175,6 +175,10 @@ Button:default .ikonli-font-icon {
 	-fx-icon-color: white;
 }
 
+.text-strong {
+	-fx-font-weight: bold;
+}
+
 .btn-info {
 	-fx-background-color: #007bff;
 	-fx-text-fill: white;
