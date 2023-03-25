@@ -5,6 +5,7 @@ import java.io.UncheckedIOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -20,6 +21,8 @@ public class TitleBar extends AnchorPane {
 	private HBox leftAccessories;
 	@FXML
 	private HBox rightAccessories;
+	@FXML
+	private ImageView logo;
 	
 	private HBox accessories;
 	
@@ -48,6 +51,10 @@ public class TitleBar extends AnchorPane {
 		}
 	}
 	
+	public final ImageView getLogo() {
+		return logo;
+	}
+
 	public final HBox getAccessories() {
 		return accessories;
 	}

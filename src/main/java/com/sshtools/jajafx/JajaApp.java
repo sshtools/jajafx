@@ -150,34 +150,34 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 
 			@Override
 			public void setUpdatesDeferredUntil(long timeMs) {
-				getAppPreferences().putLong("updatesDeferredUntil", timeMs);
+				getAppPreferences().putLong(AppRegistry.KEY_DEFER, timeMs);
 			}
 
 			@Override
 			public long getUpdatesDeferredUntil() {
-				return getAppPreferences().getLong("updatesDeferredUntil", 0);
+				return getAppPreferences().getLong(AppRegistry.KEY_DEFER, 0);
 			}
 
 			@Override
 			public Phase getPhase() {
 				return Phase.valueOf(
-						getAppPreferences().get("phase", defaultPhase.orElse(getDefaultPhaseForVersion()).name()));
+						getAppPreferences().get(AppRegistry.KEY_PHASE, defaultPhase.orElse(getDefaultPhaseForVersion()).name()));
 			}
 
 			@Override
 			public void setPhase(Phase phase) {
-				getAppPreferences().put("phase", phase.name());
+				getAppPreferences().put(AppRegistry.KEY_PHASE, phase.name());
 
 			}
 
 			@Override
 			public boolean isAutomaticUpdates() {
-				return getAppPreferences().getBoolean("automaticUpdates", true);
+				return getAppPreferences().getBoolean(AppRegistry.KEY_AUTOMATIC_UPDATES, true);
 			}
 
 			@Override
 			public void setAutomaticUpdates(boolean automaticUpdates) {
-				getAppPreferences().putBoolean("automaticUpdates", automaticUpdates);
+				getAppPreferences().putBoolean(AppRegistry.KEY_AUTOMATIC_UPDATES, automaticUpdates);
 			}
 
 			@Override
@@ -292,7 +292,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			return Optional.of(AppRegistry.get().get(this.getClass()));
 		}
 		catch(Exception e) {
-			log.warn(MessageFormat.format("Failed to register app. No Jaul update features will be available, and application preferences root is now determined by the class name {0}. {1}", getClass().getName(), e.getMessage() == null ? "No message supplied." : e.getMessage()));
+			log.warn(MessageFormat.format("Failed to determine app installation. No update features will be available, and application preferences root is now determined by the class name {0}. {1}", getClass().getName(), e.getMessage() == null ? "No message supplied." : e.getMessage()));
 			return Optional.empty();
 		}
 	}

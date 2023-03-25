@@ -23,7 +23,7 @@
             </BorderPane>
             <HBox alignment="CENTER" styleClass="padded">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="logo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@jadaptive-logo.png" />
                      </image>

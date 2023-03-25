@@ -131,7 +131,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 
 		var ui = new BorderPane();
 		if (!JajaApp.getInstance().standardWindowDecorations) {
-			ui.setTop(titleBar = new TitleBar());
+			ui.setTop(titleBar = createTitleBar());
 		}
 		content = createContent();
 		ui.setCenter(content);
@@ -165,6 +165,10 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 
 		onScene(scene);
 		return scene;
+	}
+
+	protected TitleBar createTitleBar() {
+		return new TitleBar();
 	}
 
 	protected void onScene(Scene scene) {
