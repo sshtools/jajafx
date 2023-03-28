@@ -9,7 +9,7 @@
 		<gluonfx.maven.plugin.version>1.0.16</gluonfx.maven.plugin.version>
 		<maven.compiler.target>17</maven.compiler.target>
 		<maven.compiler.source>17</maven.compiler.source>
-		<javafx.version>19.0.2.1</javafx.version>
+		<javafx.version>17.0.7-ea+1</javafx.version>
 	</properties>
 	<developers>
 		<developer>

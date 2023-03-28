@@ -133,6 +133,7 @@ public class SequinsProgress extends VBox implements Initializable {
 		private Formattable name;
 		private boolean newlineNeeded;
 		private List<Progress> jobs = new ArrayList<>();
+		private boolean newlineNeededBecauseOfProgress;
 
 		public ProgressImpl(String name, Object... args) {
 			this(1, name, args);
@@ -184,6 +185,7 @@ public class SequinsProgress extends VBox implements Initializable {
 						printNewline();
 						printJob(indent);
 					} finally {
+						newlineNeeded = true;
 						this.current = null;
 					}
 				}
@@ -215,6 +217,10 @@ public class SequinsProgress extends VBox implements Initializable {
 				} else {
 					stopSpinner();
 				}
+				
+				if(newlineNeeded) {
+					printNewline();
+				}
 
 				if (message.isPresent()) {
 					this.current = new Formattable(
@@ -224,6 +230,7 @@ public class SequinsProgress extends VBox implements Initializable {
 						return;
 					} else {
 						printJob(indent);
+						newlineNeededBecauseOfProgress = true;
 					}
 				}
 			});
@@ -238,6 +245,7 @@ public class SequinsProgress extends VBox implements Initializable {
 			maybeQueue(() -> {
 				if (name != null) {
 					printJob(indent - 1);
+					newlineNeeded = true;
 				}
 				startSpinner();
 			});
@@ -273,7 +281,6 @@ public class SequinsProgress extends VBox implements Initializable {
 
 		void printJob(int indent) {
 			var summary = (Label) history.getChildren().get(history.getChildren().size() - 1);
-			newlineNeeded = true;
 			var b = formatMessage(current, indent);
 			var m = current;
 			maybeQueue(() -> {
@@ -310,7 +317,7 @@ public class SequinsProgress extends VBox implements Initializable {
 		}
 
 		void printNewline() {
-			if (newlineNeeded) {
+			if (newlineNeeded || newlineNeededBecauseOfProgress) {
 				stopSpinner();
 				var lbl = new Label();
 				lbl.getStyleClass().clear();
@@ -324,7 +331,8 @@ public class SequinsProgress extends VBox implements Initializable {
 					children.get(i).setOpacity(o);
 					o -= 0.1d;
 				}
-				newlineNeeded = false;
+				newlineNeededBecauseOfProgress = newlineNeeded = false;
+				
 			}
 
 		}
