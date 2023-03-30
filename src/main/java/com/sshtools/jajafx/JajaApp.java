@@ -289,7 +289,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 
 	private Optional<App> locateApp() {
 		try {
-			return Optional.of(AppRegistry.get().get(this.getClass()));
+			return Optional.of(AppRegistry.get().launch(this.getClass()));
 		}
 		catch(Exception e) {
 			log.warn(MessageFormat.format("Failed to determine app installation. No update features will be available, and application preferences root is now determined by the class name {0}. {1}", getClass().getName(), e.getMessage() == null ? "No message supplied." : e.getMessage()));
