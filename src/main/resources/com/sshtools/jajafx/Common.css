@@ -33,6 +33,10 @@ Button:default .ikonli-font-icon {
 	-fx-spacing: 8px;
 }
 
+.large-spaced {
+	-fx-spacing: 16px;
+}
+
 .padded {
 	-fx-padding: 8px;
 }
@@ -57,12 +61,28 @@ Button:default .ikonli-font-icon {
 	-fx-padding: 0 0 0 8px;
 }
 
-.indented {
-	-fx-padding: 0 0 0 24px;
-}
-
 .rpad {
 	-fx-padding: 0 8px 0 0;
+}
+
+.large-bpad {
+	-fx-padding: 0 0 16px 0;
+}
+
+.large-tpad {
+	-fx-padding: 16px 0 0 0;
+}
+
+.large-lpad {
+	-fx-padding: 0 0 0 16px;
+}
+
+.large-rpad {
+	-fx-padding: 0 8px 0 0;
+}
+
+.indented {
+	-fx-padding: 0 0 0 24px;
 }
 
 .h1, .h2, .h3 {
@@ -94,7 +114,7 @@ Button:default .ikonli-font-icon {
 	-fx-icon-color: #ffc107;
 }
 
-.darkMode .icon-danger, .lightMode .icon-warning{
+.darkMode .icon-danger, .lightMode .icon-danger{
 	-fx-icon-color: #dc3545;
 }
 
@@ -186,6 +206,10 @@ Button:default .ikonli-font-icon {
 
 .large-icon {
 	-fx-icon-size: 48px;
+}
+
+.medium-icon {
+	-fx-icon-size: 32px;
 }
 
 .small-icon {

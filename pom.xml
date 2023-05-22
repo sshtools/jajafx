@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>jajafx</artifactId>
 	<groupId>com.sshtools</groupId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<name>JAdaptive Java FX App Framework</name>
 	<properties>
 		<javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
@@ -18,11 +18,11 @@
 		</developer>
 	</developers>
 	<organization>
-		<name>JAdapative</name>
+		<name>JAdaptive</name>
 		<url>https://jadaptive.com</url>
 	</organization>
 	<inceptionYear>2023</inceptionYear>
-	<url>https://github.com/sshtools/simjac</url>
+	<url>https://github.com/sshtools/jajafx</url>
 	<description>Small application framework for several JavaFX applications provided by JAdaptive. 
 	</description>
 	<licenses>
@@ -63,12 +63,12 @@
 		<dependency>
 			<groupId>com.sshtools</groupId>
 			<artifactId>jaul</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sshtools</groupId>
 			<artifactId>sequins</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>

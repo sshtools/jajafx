@@ -109,6 +109,11 @@ public class Tiles<C> extends BorderPane {
 
 	@SuppressWarnings("unchecked")
 	public <P extends Tile<C>> P popup(Class<P> clazz, PageTransition transition) {
+		var thisCurrentPage = getCurrentPage();
+		if (thisCurrentPage != null && clazz.equals(thisCurrentPage.getClass())) {
+			return (P) thisCurrentPage;
+		}
+		
 		var w = new PageWrapper<P>(clazz, transition);
 
 		var idx = index.get();
