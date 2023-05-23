@@ -73,8 +73,7 @@ public class Tiles<C> extends BorderPane {
 //		setClip(anchor);
 		
 		setCenter(anchor);
-		FXUtil.addIfNotAdded(getStylesheets(), Tiles.class.getResource("Common.css").toExternalForm(),
-				Tiles.class.getResource("Tiles.css").toExternalForm());
+		FXUtil.addIfNotAdded(getStylesheets(), Tiles.class.getResource("Tiles.css").toExternalForm());
 	}
 
 	public final int getIndex() {
@@ -244,7 +243,8 @@ public class Tiles<C> extends BorderPane {
 
 	private void addStylesheets(Class<?> controller, Parent root) {
 		var ss = root.getStylesheets();
-		FXUtil.addIfNotAdded(ss, JajaApp.class.getResource("Common.css").toExternalForm());
+		for(var s : getStylesheets())
+			FXUtil.addIfNotAdded(ss, s);
 		if (controller != null) {
 			var controllerCssUrl = controller.getResource(controller.getSimpleName() + ".css");
 			if (controllerCssUrl != null)

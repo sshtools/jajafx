@@ -13,7 +13,9 @@ import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
 import com.install4j.api.UiUtil;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -134,6 +136,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 			ui.setTop(titleBar = createTitleBar());
 		}
 		content = createContent();
+		addCommonStylesheets(content instanceof Parent ? ((Parent)content).getStylesheets() : content.getParent().getStylesheets());
 		ui.setCenter(content);
 
 		if (JajaApp.getInstance().standardWindowDecorations) {
@@ -155,7 +158,8 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		jMetro = new JMetro(isDarkMode() ? Style.DARK : Style.LIGHT);
 		updateDarkMode();
 		jMetro.setScene(scene);
-		scene.getStylesheets().add(JajaFXApp.class.getResource("Common.css").toExternalForm());
+		var stylesheets = scene.getStylesheets();
+		addCommonStylesheets(stylesheets);
 		
 		try {
 			ScenicView.show(scene);
@@ -165,6 +169,14 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 
 		onScene(scene);
 		return scene;
+	}
+
+	public void addCommonStylesheets(ObservableList<String> stylesheets) {
+		FXUtil.addIfNotAdded(stylesheets, JajaFXApp.class.getResource("Common.css").toExternalForm());
+		var appResource = getClass().getResource("App.css");
+		if(appResource != null) {
+			FXUtil.addIfNotAdded(stylesheets, appResource.toExternalForm());
+		}
 	}
 
 	protected TitleBar createTitleBar() {

@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>jajafx</artifactId>
 	<groupId>com.sshtools</groupId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<name>JAdaptive Java FX App Framework</name>
 	<properties>
 		<javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>

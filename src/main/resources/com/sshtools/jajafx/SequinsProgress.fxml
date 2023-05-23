@@ -18,7 +18,7 @@
 		</VBox>
 		<VBox>
 			<children>
-            <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+            <BorderPane>
                <right>
                   <HBox styleClass="lpad" BorderPane.alignment="CENTER">
                      <children>
@@ -31,7 +31,7 @@
                   </HBox>
                </right>
                <center>
-      				<ProgressBar fx:id="progress" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" progress="0.0" BorderPane.alignment="CENTER" />
+      				<ProgressBar fx:id="progress" minHeight="-Infinity" progress="0.0" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
 			</children>

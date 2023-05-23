@@ -320,6 +320,7 @@ public class SequinsProgress extends VBox implements Initializable {
 			if (newlineNeeded || newlineNeededBecauseOfProgress) {
 				stopSpinner();
 				var lbl = new Label();
+				lbl.setWrapText(false);
 				lbl.getStyleClass().clear();
 				lbl.getStyleClass().add("text-accent");
 				var children = history.getChildren();
