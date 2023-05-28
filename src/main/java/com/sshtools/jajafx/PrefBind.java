@@ -77,7 +77,8 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 		text.textProperty().addListener(listener);
 	}
 
-	public <T extends Enum<T>> void bind(Class<T> type, @SuppressWarnings("unchecked") ComboBox<T>... fields) {
+	@SafeVarargs
+	public final <T extends Enum<T>> void bind(Class<T> type, ComboBox<T>... fields) {
 		for (var k : fields)
 			bind(type, k, k.getId());
 	}
@@ -198,7 +199,7 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 			throw new IllegalArgumentException("Key must not be blank.");
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void unbindImpl(Object v) {
 		if (v instanceof TextInputControl) {
 			((TextInputControl) v).textProperty().removeListener(stringChangeListeners.remove(v));
