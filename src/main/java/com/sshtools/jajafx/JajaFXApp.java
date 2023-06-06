@@ -160,7 +160,8 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		addCommonStylesheets(stylesheets);
 		
 		try {
-			ScenicView.show(scene);
+			if(Boolean.getBoolean("jaja.debugScene"))
+				ScenicView.show(scene);
 		}
 		catch(Throwable e) {
 		}

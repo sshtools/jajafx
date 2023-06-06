@@ -18,14 +18,14 @@ public class Carousel extends Pane {
 	private MaskedView mask;
 	private Hyperlink scrollLeft;
 	private Hyperlink scrollRight;
-	private HBox hbox;
+//	private HBox hbox;
 
 	public Carousel() {
 
 		devices = new Flinger();
 		devices.setMaxWidth(Double.MAX_VALUE);
 		
-		hbox = new HBox();
+//		hbox = new HBox();
 
 		mask = new MaskedView(devices);
 //		mask = new MaskedView(hbox);

@@ -70,7 +70,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		public abstract BA build();
 	}
 
-	static Logger log = LoggerFactory.getLogger(AppInstall4JUpdateService.class);
+	static Logger LOG = LoggerFactory.getLogger(JajaApp.class);
 
 	@Option(names = { "-W", "--standard-window-decorations" }, description = "Use standard window decorations.")
 	boolean standardWindowDecorations;
@@ -244,10 +244,10 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 				return createDefaultUpdateService();
 						
 		} catch (Throwable t) {
-			if (log.isDebugEnabled())
-				log.info("Failed to create Install4J update service, using dummy service.", t);
+			if (LOG.isDebugEnabled())
+				LOG.info("Failed to create Install4J update service, using dummy service.", t);
 			else
-				log.info("Failed to create Install4J update service, using dummy service. {}", t.getMessage());
+				LOG.info("Failed to create Install4J update service, using dummy service. {}", t.getMessage());
 			return createDefaultUpdateService();
 		}
 	}
@@ -269,7 +269,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			try {
 				updateService.update();
 			} catch (IOException ioe) {
-				log.error("Failed to update.", ioe);
+				LOG.error("Failed to update.", ioe);
 				onError.accept(ioe);
 			}
 		});
@@ -281,7 +281,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 				getUpdateService().checkForUpdate();
 				onResult.accept(updateService.isNeedsUpdating());
 			} catch (IOException ioe) {
-				log.error("Failed to check for updates.", ioe);
+				LOG.error("Failed to check for updates.", ioe);
 				onError.accept(ioe);
 			}
 		});
@@ -292,7 +292,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			return Optional.of(AppRegistry.get().launch(this.getClass()));
 		}
 		catch(Exception e) {
-			log.warn(MessageFormat.format("Failed to determine app installation. No update features will be available, and application preferences root is now determined by the class name {0}. {1}", getClass().getName(), e.getMessage() == null ? "No message supplied." : e.getMessage()));
+			LOG.warn(MessageFormat.format("Failed to determine app installation. No update features will be available, and application preferences root is now determined by the class name {0}. {1}", getClass().getName(), e.getMessage() == null ? "No message supplied." : e.getMessage()));
 			return Optional.empty();
 		}
 	}

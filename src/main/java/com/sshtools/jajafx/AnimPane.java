@@ -36,26 +36,34 @@ public class AnimPane extends StackPane {
 		doAnim(dir, node);
 	}
 
-	protected Node doAnim(PageTransition dir, Node node) {
+	protected final Node doAnim(PageTransition dir, Node node) {
 		if(waiting != null) {
 			waiting.stop();
 			waiting.getOnFinished().handle(null);
 			waiting = null;
 		}
-		switch (dir) {
-		case FROM_LEFT:
-			return slideInFromLeft(node);
-		case FROM_RIGHT:
-			return slideInFromRight(node);
-		case FROM_TOP:
-			return slideInFromTop(node);
-		case FROM_BOTTOM:
-			return slideInFromBottom(node);
-		case FADE:
-			return fadeIn(node);
-		default:
-			return none(node);
+		try {
+			switch (dir) {
+			case FROM_LEFT:
+				return slideInFromLeft(node);
+			case FROM_RIGHT:
+				return slideInFromRight(node);
+			case FROM_TOP:
+				return slideInFromTop(node);
+			case FROM_BOTTOM:
+				return slideInFromBottom(node);
+			case FADE:
+				return fadeIn(node);
+			default:
+				return none(node);
+			}
 		}
+		finally {
+			onChange(node);
+		}
+	}
+
+	protected void onChange(Node node) {
 	}
 
 	Node none(Node paneToAdd) {
