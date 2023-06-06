@@ -102,23 +102,23 @@ Button:default .ikonli-font-icon {
 	-fx-font-size: 1.5em;
 }
 
-.darkMode .icon-accent, .lightMode .icon-accent {
+.darkMode .icon-accent, .lightMode .icon-accent, .icon-accent {
 	-fx-icon-color: accent_color;
 }
 
-.darkMode .icon-success, .lightMode .icon-success {
+.darkMode .icon-success, .lightMode .icon-success, .icon-success {
 	-fx-icon-color: #28a745;
 }
 
-.darkMode .icon-warning, .lightMode .icon-warning{
+.darkMode .icon-warning, .lightMode .icon-warning, .icon-warning{
 	-fx-icon-color: #ffc107;
 }
 
-.darkMode .icon-danger, .lightMode .icon-danger{
+.darkMode .icon-danger, .lightMode .icon-danger, .icon-danger{
 	-fx-icon-color: #dc3545;
 }
 
-.darkMode .icon-info, .lightMode .icon-info {
+.darkMode .icon-info, .lightMode .icon-info, .icon-info {
 	-fx-icon-color: #007bff;
 }
 

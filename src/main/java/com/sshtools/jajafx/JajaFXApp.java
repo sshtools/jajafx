@@ -3,7 +3,6 @@ package com.sshtools.jajafx;
 import static com.sshtools.jajafx.FXUtil.maybeQueue;
 
 import java.net.URL;
-import java.util.ResourceBundle;
 
 import org.scenicview.ScenicView;
 
@@ -25,7 +24,6 @@ import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 
 public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> extends Application {
-	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(JajaApp.class.getName());
 
 	public enum DarkMode {
 		AUTO, ALWAYS, NEVER
