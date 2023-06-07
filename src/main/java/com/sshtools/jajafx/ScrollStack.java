@@ -1,17 +1,16 @@
 package com.sshtools.jajafx;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 
 public class ScrollStack extends AnimPane {
 
-	private final List<Node> nodes = new ArrayList<>();
+	private final ObservableList<Node> nodes = FXCollections.observableArrayList();
 	private final BooleanProperty showingFirst = new SimpleBooleanProperty();
 	private final BooleanProperty showingLast = new SimpleBooleanProperty();
 
@@ -30,6 +29,10 @@ public class ScrollStack extends AnimPane {
 					doAnim(PageTransition.FADE, nodes.get(Math.min(nodes.size() - 1, idx)));
 			}
 		}
+	}
+	
+	public ObservableList<Node> getNodes() {
+		return nodes;
 	}
 
 	public BooleanProperty showingFirstProperty() {
