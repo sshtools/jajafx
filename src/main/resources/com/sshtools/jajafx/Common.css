@@ -217,8 +217,8 @@ Button:default .ikonli-font-icon {
 }
 
 .notification-success .notification-bar > .pane {
-	-fx-background-color: #ffc107 !important;
-	-fx-text-fill: black !important;
+	-fx-background-color: #28a745 !important;
+	-fx-text-fill: white !important;
 }
 
 .notification-info  .notification-bar > .pane {
