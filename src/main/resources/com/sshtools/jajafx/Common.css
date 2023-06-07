@@ -215,3 +215,23 @@ Button:default .ikonli-font-icon {
 .small-icon {
 	-fx-icon-size: 24px;
 }
+
+.notification-success .notification-bar > .pane {
+	-fx-background-color: #ffc107 !important;
+	-fx-text-fill: black !important;
+}
+
+.notification-info  .notification-bar > .pane {
+	-fx-background-color: #007bff !important;
+	-fx-text-fill: white !important;
+}
+
+.notification-danger  .notification-bar > .pane {
+	-fx-background-color: #dc3545 !important;
+	-fx-text-fill: white !important;
+}
+
+.notification-warning  .notification-bar > .pane {
+	-fx-background-color: #ffc107 !important;
+	-fx-text-fill: black !important;
+}

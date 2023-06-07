@@ -60,6 +60,13 @@ public class ScrollStack extends AnimPane {
 			if(idx < nodes.size() - 1) {
 				idx++;
 				doAnim(PageTransition.FROM_RIGHT, nodes.get(idx));
+
+				/*
+				 * NOTE: Without this new content is not fully properly initialize. E.g.
+				 * CheckListView won't turn items into real children. Took days to find this!
+				 */
+				layout();
+				applyCss();
 			}
 		}
 	}
@@ -71,6 +78,13 @@ public class ScrollStack extends AnimPane {
 			if(idx > 0) {
 				idx--;
 				doAnim(PageTransition.FROM_LEFT, nodes.get(idx));
+
+				/*
+				 * NOTE: Without this new content is not fully properly initialize. E.g.
+				 * CheckListView won't turn items into real children. Took days to find this!
+				 */
+				layout();
+				applyCss();
 			}
 		}
 	}
