@@ -12,13 +12,26 @@ public class PromptPage<A extends JajaFXApp<?>> extends AbstractTile<A> {
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(PromptPage.class.getName());
 
 	@FXML
-	Label text;
+	private Label text;
 	@FXML
-	TextField prompt;
+	private TextField prompt;
 	@FXML
-	Button submit;
+	private Button submit;
 
 	@Override
 	protected void onConfigure() {
 	}
+
+	public Label text() {
+		return text;
+	}
+
+	public TextField prompt() {
+		return prompt;
+	}
+
+	public Button submit() {
+		return submit;
+	}
+
 }

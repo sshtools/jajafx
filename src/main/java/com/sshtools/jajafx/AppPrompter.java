@@ -28,6 +28,7 @@ public class AppPrompter<C extends JajaFXApp<?>> implements Prompter {
 		return password(PromptContext.empty(), fmt, args);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public char[] password(PromptContext context, String fmt, Object... args) {
 		var sem = new Semaphore(1);
@@ -37,14 +38,14 @@ public class AppPrompter<C extends JajaFXApp<?>> implements Prompter {
 			Platform.runLater(() -> {
 				var passwordPage = wiz.popup(PasswordPage.class);
 				var txt = MessageFormat.format(fmt, args);
-				passwordPage.title.setText(txt);
-				passwordPage.text.setText(MessageFormat.format(resources.getString("passwordDialog.prompt"), context.use().orElse("")));
-				passwordPage.ok.setOnAction((e) -> {
-					buf.append(passwordPage.password.getText());
+				passwordPage.titleText().set(txt);
+				passwordPage.textText().set(MessageFormat.format(resources.getString("passwordDialog.prompt"), context.use().orElse("")));
+				passwordPage.onConfirm(e -> {
+					buf.append(passwordPage.password().get());
 					wiz.remove(passwordPage);
 					sem.release();
 				});
-				passwordPage.cancel.setOnAction((e) -> {
+				passwordPage.onCancel((e) -> {
 					wiz.remove(passwordPage);
 					sem.release();
 				});
@@ -76,16 +77,16 @@ public class AppPrompter<C extends JajaFXApp<?>> implements Prompter {
 			Platform.runLater(() -> {
 				var promptPage = wiz.popup(PromptPage.class);
 				var txt = MessageFormat.format(fmt, args);
-				promptPage.text.setText(txt);
-				promptPage.text.setOnKeyTyped(f -> {
+				promptPage.text().setText(txt);
+				promptPage.text().setOnKeyTyped(f -> {
 					if(f.getCharacter().equals("\r")) {
-						buf.append(promptPage.prompt.getText());
+						buf.append(promptPage.prompt().getText());
 						wiz.remove(promptPage);
 						sem.release();
 					}
 				});
-				promptPage.submit.setOnAction((e) -> {
-					buf.append(promptPage.prompt.getText());
+				promptPage.submit().setOnAction((e) -> {
+					buf.append(promptPage.prompt().getText());
 					wiz.remove(promptPage);
 					sem.release();
 				});
@@ -136,20 +137,16 @@ public class AppPrompter<C extends JajaFXApp<?>> implements Prompter {
 			sem.acquire();
 			Platform.runLater(() -> {
 				var yesNoPage = wiz.popup(YesNoPage.class);
-
-				yesNoPage.yes.setDefaultButton(preferYes);
-				yesNoPage.no.setDefaultButton(!preferYes);
-				yesNoPage.yes.setCancelButton(!preferYes);
-				yesNoPage.no.setCancelButton(preferYes);
+				yesNoPage.preferYes(preferYes);
 				
 				var txt = MessageFormat.format(fmt, args);
-				yesNoPage.text.setText(txt);
-				yesNoPage.yes.setOnAction((e) -> {
+				yesNoPage.textText().set(txt);
+				yesNoPage.onYes((e) -> {
 					answer.set(true);
 					wiz.remove(yesNoPage);
 					sem.release();
 				});
-				yesNoPage.no.setOnAction((e) -> {
+				yesNoPage.onNo((e) -> {
 					answer.set(false);
 					wiz.remove(yesNoPage);
 					sem.release();

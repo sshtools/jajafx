@@ -16,17 +16,17 @@ public class PasswordPage<A extends JajaFXApp<?>> extends AbstractTile<A> {
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(PasswordPage.class.getName());
 
 	@FXML
-	Label text;
+	private Label text;
 	@FXML
-	Label title;
+	private Label title;
 	@FXML
-	PasswordField password;
+	private PasswordField password;
 	@FXML
-	Button ok;
+	private Button ok;
 	@FXML
-	CheckBox save;
+	private CheckBox save;
 	@FXML
-	Button cancel;
+	private Button cancel;
 
 	@Override
 	protected void onConfigure() {
@@ -53,11 +53,11 @@ public class PasswordPage<A extends JajaFXApp<?>> extends AbstractTile<A> {
 		return text.textProperty();
 	}
 	
-	public void setConfirm(EventHandler<ActionEvent> handler) {
+	public void onConfirm(EventHandler<ActionEvent> handler) {
 		ok.setOnAction(handler);
 	}
 	
-	public void setCancel(EventHandler<ActionEvent> handler) {
+	public void onCancel(EventHandler<ActionEvent> handler) {
 		cancel.setOnAction(handler);
 	}
 
