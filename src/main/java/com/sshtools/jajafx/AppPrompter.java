@@ -137,7 +137,7 @@ public class AppPrompter<C extends JajaFXApp<?>> implements Prompter {
 			sem.acquire();
 			Platform.runLater(() -> {
 				var yesNoPage = wiz.popup(YesNoPage.class);
-				yesNoPage.preferYes(preferYes);
+				yesNoPage.preferYes();
 				
 				var txt = MessageFormat.format(fmt, args);
 				yesNoPage.textText().set(txt);
