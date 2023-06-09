@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 public class Carousel extends Pane {
@@ -18,7 +17,6 @@ public class Carousel extends Pane {
 	private MaskedView mask;
 	private Hyperlink scrollLeft;
 	private Hyperlink scrollRight;
-//	private HBox hbox;
 
 	public Carousel() {
 
@@ -28,7 +26,6 @@ public class Carousel extends Pane {
 //		hbox = new HBox();
 
 		mask = new MaskedView(devices);
-//		mask = new MaskedView(hbox);
 
 		scrollLeft = new Hyperlink();
 		var leftIcon = new FontIcon(FontAwesomeSolid.CARET_LEFT);
@@ -56,7 +53,6 @@ public class Carousel extends Pane {
 
 	public ObservableList<Node> getItems() {
 		return devices.getContent().getChildren();
-//		return hbox.getChildren();
 	}
 
 	public final ObjectProperty<EventHandler<ActionEvent>> onActionProperty() {

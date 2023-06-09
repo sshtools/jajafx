@@ -95,10 +95,10 @@ public class MaskedViewSkin extends SkinBase<MaskedView> {
     @Override
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
         final double fadingSize = Math.min(contentWidth / 2, getSkinnable().getFadingSize());
-        stackPane.resizeRelocate(snapPosition(contentX), snapPosition(contentY), snapSpace(contentWidth), snapSpace(contentHeight));
-        resizeRelocate(leftClip, snapPosition(contentX), snapPosition(contentY), snapSpace(fadingSize), snapSpace(contentHeight));
-        resizeRelocate(centerClip, snapPosition(contentX + fadingSize), snapPosition(contentY), snapSpace(contentWidth - 2 * fadingSize), snapSpace(contentHeight));
-        resizeRelocate(rightClip, snapPosition(contentX + contentWidth - fadingSize), snapPosition(contentY), snapSpace(fadingSize), snapSpace(contentHeight));
+        stackPane.resizeRelocate(snapPositionX(contentX), snapPositionY(contentY), snapSpaceX(contentWidth), snapSpaceY(contentHeight));
+        resizeRelocate(leftClip, snapPositionX(contentX), snapPositionY(contentY), snapSpaceX(fadingSize), snapSpaceY(contentHeight));
+        resizeRelocate(centerClip, snapPositionX(contentX + fadingSize), snapPositionY(contentY), snapSpaceX(contentWidth - 2 * fadingSize), snapSpaceY(contentHeight));
+        resizeRelocate(rightClip, snapPositionX(contentX + contentWidth - fadingSize), snapPositionY(contentY), snapSpaceX(fadingSize), snapSpaceY(contentHeight));
     }
 
     private void resizeRelocate(Rectangle rect, double x, double y, double w, double h) {

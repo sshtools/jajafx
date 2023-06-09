@@ -75,7 +75,7 @@ public class AppPrompter<C extends JajaFXApp<?>> implements Prompter {
 		try {
 			sem.acquire();
 			Platform.runLater(() -> {
-				var promptPage = wiz.popup(PromptPage.class);
+				var promptPage = (PromptPage<C>)wiz.popup(PromptPage.class);
 				var txt = MessageFormat.format(fmt, args);
 				promptPage.text().setText(txt);
 				promptPage.text().setOnKeyTyped(f -> {
@@ -136,7 +136,7 @@ public class AppPrompter<C extends JajaFXApp<?>> implements Prompter {
 		try {
 			sem.acquire();
 			Platform.runLater(() -> {
-				var yesNoPage = wiz.popup(YesNoPage.class);
+				var yesNoPage = (YesNoPage<C>)wiz.popup(YesNoPage.class);
 				yesNoPage.preferYes();
 				
 				var txt = MessageFormat.format(fmt, args);
