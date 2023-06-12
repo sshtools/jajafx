@@ -65,8 +65,7 @@ public class ScrollStack extends AnimPane {
 	public void set(int index, Node node) {
 		nodes.set(index, node);
 		if(index == indexProperty().get()) {
-			getChildren().clear();
-			getChildren().add(node);
+			getChildren().setAll(node);
 		}
 			
 	}
