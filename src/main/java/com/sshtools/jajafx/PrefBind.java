@@ -11,6 +11,7 @@ import java.util.prefs.PreferenceChangeListener;
 import java.util.prefs.Preferences;
 
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -36,10 +37,11 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 	private final Preferences preferences;
 	private final Map<String, Object> binds = new HashMap<>();
 
-	private Map<Control, ChangeListener<?>> enumChangeListeners = new HashMap<>();
-	private Map<Control, ChangeListener<? super String>> stringChangeListeners = new HashMap<>();
-	private Map<Control, ChangeListener<? super Boolean>> booleanChangeListeners = new HashMap<>();
-	private Map<ToggleGroup, ChangeListener<? super Toggle>> toggleChangeListeners = new HashMap<>();
+	private Map<Object, ChangeListener<?>> enumChangeListeners = new HashMap<>();
+	private Map<Object, ChangeListener<? super String>> stringChangeListeners = new HashMap<>();
+	private Map<Object, ChangeListener<? super Boolean>> booleanChangeListeners = new HashMap<>();
+	private Map<Object, ChangeListener<? super Number>> numberChangeListeners = new HashMap<>();
+	private Map<Object, ChangeListener<? super Toggle>> toggleChangeListeners = new HashMap<>();
 
 	public PrefBind(Preferences preferences) {
 		this.preferences = preferences;
@@ -64,6 +66,18 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 	public void bind(TextInputControl... fields) {
 		for (var k : fields)
 			bind(k, k.getId());
+	}
+
+	public void bind(IntegerProperty text, String key) {
+		var def = text.get();
+		checkKey(key);
+		binds.put(key, text);
+		text.set(preferences.getInt(key, def));
+		ChangeListener<? super Number> listener = (c, o, n) -> {
+			EXEC.execute(() -> preferences.putInt(key, n.intValue()));
+		};
+		numberChangeListeners.put(text, listener);
+		text.addListener(listener);
 	}
 
 	public void bind(TextInputControl text, String key) {
@@ -201,7 +215,10 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void unbindImpl(Object v) {
-		if (v instanceof TextInputControl) {
+		if (v instanceof IntegerProperty) {
+			((IntegerProperty) v).removeListener(numberChangeListeners.remove(v));
+		}
+		else if (v instanceof TextInputControl) {
 			((TextInputControl) v).textProperty().removeListener(stringChangeListeners.remove(v));
 		} else if (v instanceof CheckBox) {
 			((CheckBox) v).selectedProperty().removeListener(booleanChangeListeners.remove(v));
