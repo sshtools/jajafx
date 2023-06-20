@@ -235,3 +235,11 @@ Button:default .ikonli-font-icon {
 	-fx-background-color: #ffc107 !important;
 	-fx-text-fill: black !important;
 }
+
+.notification-warning  .notification-bar > .pane > Label {
+	-fx-text-fill: black !important;
+}
+
+.notification-warning  .notification-bar > .pane .ikonli-font-icon {
+	-fx-icon-color: black;
+}
