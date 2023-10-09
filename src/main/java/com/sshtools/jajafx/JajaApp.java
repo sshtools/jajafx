@@ -12,6 +12,7 @@ import java.util.prefs.Preferences;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import com.install4j.api.launcher.StartupNotification;
 import com.install4j.api.launcher.StartupNotification.Listener;
@@ -68,6 +69,11 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		}
 
 		public abstract BA build();
+	}
+	
+	static {
+        SLF4JBridgeHandler.removeHandlersForRootLogger();
+        SLF4JBridgeHandler.install();
 	}
 
 	static Logger LOG = LoggerFactory.getLogger(JajaApp.class);

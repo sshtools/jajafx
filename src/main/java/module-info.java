@@ -17,6 +17,7 @@ module com.sshtools.jajafx {
 	requires com.goxr3plus.fxborderlessscene;
 	requires org.slf4j;
 	requires static org.scenicview.scenicview;
+	requires jul.to.slf4j;
 	opens com.sshtools.jajafx;
 	exports com.sshtools.jajafx;
 
