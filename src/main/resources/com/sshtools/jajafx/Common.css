@@ -37,6 +37,29 @@ Button:default .ikonli-font-icon {
 	-fx-spacing: 16px;
 }
 
+.hyperlink {
+	-fx-text-fill: accent_color;
+	-fx-text-decoration: underline;
+}
+
+.small-spaced {
+	-fx-spacing: 2px;
+}
+
+.small-padded {
+	-fx-padding: 4px;
+}
+
+.emphasis {
+	-fx-font-style: italic;
+}
+
+.selectable-label, .selectable-label:hover, .selectable-label:focused, .selectable-label:focused:hover {
+    -fx-background-color: transparent;
+    -fx-text-fill: text_color;
+	-fx-padding: 0px;
+}
+
 .padded {
 	-fx-padding: 8px;
 }
@@ -242,4 +265,10 @@ Button:default .ikonli-font-icon {
 
 .notification-warning  .notification-bar > .pane .ikonli-font-icon {
 	-fx-icon-color: black;
+}
+
+/* Work around for text fields inside dialog panes in dark mode  */
+DialogPane.darkMode .text-input:focused, DialogPane.darkMode .text-input:focused > * {
+	-fx-text-fill: #111 ;
+	-fx-background-color: accent_color, background_focused_color;
 }

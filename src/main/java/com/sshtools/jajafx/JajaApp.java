@@ -212,6 +212,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	}
 
 	public final Integer call() throws Exception {
+		initCall();
 		if(jaulDeregister) {
 			AppRegistry.get().deregister(getClass());
 			return 0;
@@ -236,6 +237,9 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	}
 
 	protected void beforeCall() throws Exception {
+	}
+
+	protected void initCall() throws Exception {
 	}
 
 	protected final AppUpdateService createUpdateService() {

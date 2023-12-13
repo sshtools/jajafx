@@ -48,6 +48,10 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		container.init(this);
 	}
 
+	public URL getIcon() {
+		return icon;
+	}
+
 	public final Stage getPrimaryStage() {
 		return primaryStage;
 	}
@@ -70,16 +74,14 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		});
 
 		primaryStage.setTitle(title);
-		var scene = createScene(primaryStage);
-		primaryStage.setScene(scene);
-		primaryStage.getIcons().add(new Image(icon.toExternalForm()));
-		primaryStage.setWidth(760);
-		primaryStage.setHeight(680);
-		primaryStage.centerOnScreen();
-		primaryStage.show();
 		primaryStage.setOnCloseRequest((evt) -> {
 			System.exit(0);
 		});
+		var scene = createScene(primaryStage);
+		primaryStage.setScene(scene);
+		primaryStage.getIcons().add(new Image(icon.toExternalForm()));
+		onConfigureStage(primaryStage);
+		primaryStage.show();
 
 		var updateService = getContainer().getUpdateService();
 		updateService.needsUpdatingProperty().addListener((c, o, n) -> needUpdate());
@@ -88,21 +90,42 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		onStarted();
 	}
 	
+	protected void onConfigureStage(Stage stage) {
+		primaryStage.setWidth(760);
+		primaryStage.setHeight(680);
+		primaryStage.centerOnScreen();
+	}
+	
 	protected void onStarted() {
-		
+	}
+	
+	protected void updateDarkMode() {
+		updateDarkMode(jMetro, scene.getRoot());
 	}
 
-	private void updateDarkMode() {
+	protected void updateDarkMode(JMetro jMetro, Parent root) {
 		maybeQueue(() -> {
 			if(isDarkMode()) {
 				jMetro.setStyle(Style.DARK);
-				scene.getRoot().getStyleClass().remove("lightMode");
-				scene.getRoot().getStyleClass().add("darkMode");
 			}
 			else {
 				jMetro.setStyle(Style.LIGHT);
-				scene.getRoot().getStyleClass().remove("darkMode");
-				scene.getRoot().getStyleClass().add("lightMode");
+			}
+			applyStylesToRoot(root);
+		});
+	}
+	
+	public void applyStylesToRoot(Parent root) {
+		maybeQueue(() -> {
+			if(isDarkMode()) {
+				jMetro.setStyle(Style.DARK);
+				root.getStyleClass().remove("lightMode");
+				root.getStyleClass().add("darkMode");
+			}
+			else {
+				jMetro.setStyle(Style.LIGHT);
+				root.getStyleClass().remove("darkMode");
+				root.getStyleClass().add("lightMode");
 			}
 		});
 	}

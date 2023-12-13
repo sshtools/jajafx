@@ -1,5 +1,5 @@
 .title-bar {
-	-fx-background-color: accent_color;	
+	-fx-background-color: black;	
 }
 
 .darkMode .title-bar .ikonli-font-icon, .lightMode .title-bar .ikonli-font-icon  {

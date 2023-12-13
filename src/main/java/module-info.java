@@ -1,4 +1,4 @@
-module com.sshtools.jajafx {
+open module com.sshtools.jajafx {
 	requires transitive info.picocli;
 	requires transitive java.prefs;
 	requires java.net.http;
@@ -18,7 +18,6 @@ module com.sshtools.jajafx {
 	requires org.slf4j;
 	requires static org.scenicview.scenicview;
 	requires jul.to.slf4j;
-	opens com.sshtools.jajafx;
 	exports com.sshtools.jajafx;
 
 //    requires org.scenicview.scenicview;

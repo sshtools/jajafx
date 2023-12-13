@@ -16,6 +16,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory;
+import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
@@ -37,7 +40,7 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 	private final Preferences preferences;
 	private final Map<String, Object> binds = new HashMap<>();
 
-	private Map<Object, ChangeListener<?>> enumChangeListeners = new HashMap<>();
+	private Map<Object, ChangeListener<?>> comboChangeListeners = new HashMap<>();
 	private Map<Object, ChangeListener<? super String>> stringChangeListeners = new HashMap<>();
 	private Map<Object, ChangeListener<? super Boolean>> booleanChangeListeners = new HashMap<>();
 	private Map<Object, ChangeListener<? super Number>> numberChangeListeners = new HashMap<>();
@@ -111,8 +114,59 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 			EXEC.execute(() -> preferences.put(key, n.name()));
 		};
 		field.getProperties().put("type", type);
-		enumChangeListeners.put(field, listener);
+		comboChangeListeners.put(field, listener);
 		field.getSelectionModel().selectedItemProperty().addListener(listener);
+	}
+	
+	public <T> void bind(ComboBox<T> field) {
+		bind(field, field.getId());
+	}
+
+	public <T> void bind(ComboBox<T> field, String key) {
+		checkKey(key);
+		binds.put(key, field);
+		var defItem = field.getSelectionModel().getSelectedItem();
+		if (defItem == null && field.getItems().size() > 0) {
+			defItem = field.getItems().get(field.getItems().size() - 1);
+		}
+		var prefVal =preferences.get(key, defItem == null ? null : field.getConverter().toString(defItem));
+		var ev = prefVal == null ? null : field.getConverter().fromString(prefVal);
+		field.getSelectionModel().select(ev);
+		ChangeListener<T> listener = (c, o, n) -> {
+			EXEC.execute(() -> preferences.put(key, field.getConverter().toString(n)));
+		};
+		comboChangeListeners.put(field, listener);
+		field.getSelectionModel().selectedItemProperty().addListener(listener);
+	}
+
+	public <N extends Number> void bind(Spinner<N> field, Class<N> clazz) {
+		bind(field, field.getId(), clazz);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <N extends Number> void bind(Spinner<N> field, String key, Class<N> clazz) {
+		checkKey(key);
+		binds.put(key, field);
+		if(clazz.equals(Integer.class)) {
+			((IntegerSpinnerValueFactory)field.getValueFactory()).setValue(preferences.getInt(key, field.getValue().intValue()));	
+		}
+		else if(clazz.equals(Double.class)) {
+			((DoubleSpinnerValueFactory)field.getValueFactory()).setValue(preferences.getDouble(key, field.getValue().doubleValue()));	
+		}
+		else 
+			throw new IllegalArgumentException("Unsuported type.");
+		ChangeListener<N> listener = (c, o, n) -> {
+			if(clazz.equals(Integer.class)) {
+				EXEC.execute(() -> preferences.putInt(key, n.intValue()));	
+			}
+			else if(clazz.equals(Double.class)) {
+				EXEC.execute(() -> preferences.putDouble(key, n.doubleValue()));	
+			}
+			else 
+				throw new IllegalArgumentException("Unsuported type.");
+		};
+		numberChangeListeners.put(field, (ChangeListener<? super Number>) listener);
+		field.valueProperty().addListener(listener);
 	}
 
 	public void bind(CheckBox... fields) {
@@ -217,17 +271,19 @@ public class PrefBind implements PreferenceChangeListener, Closeable {
 	private void unbindImpl(Object v) {
 		if (v instanceof IntegerProperty) {
 			((IntegerProperty) v).removeListener(numberChangeListeners.remove(v));
-		}
-		else if (v instanceof TextInputControl) {
+		} else if (v instanceof Spinner) {
+			((Spinner) v).valueProperty().removeListener(numberChangeListeners.remove(v));
+		} else if (v instanceof TextInputControl) {
 			((TextInputControl) v).textProperty().removeListener(stringChangeListeners.remove(v));
 		} else if (v instanceof CheckBox) {
 			((CheckBox) v).selectedProperty().removeListener(booleanChangeListeners.remove(v));
 		} else if (v instanceof ToggleGroup) {
 			((ToggleGroup) v).selectedToggleProperty().removeListener(toggleChangeListeners.remove(v));
 		} else if (v instanceof ComboBox) {
-			((ComboBox) v).getSelectionModel().selectedItemProperty().removeListener(enumChangeListeners.remove(v));
+			((ComboBox) v).getSelectionModel().selectedItemProperty().removeListener(comboChangeListeners.remove(v));
 		} else {
-			throw new UnsupportedOperationException( MessageFormat.format("Binding of type {0}", v.getClass().getName()));
+			throw new UnsupportedOperationException(
+					MessageFormat.format("Binding of type {0}", v.getClass().getName()));
 		}
 	}
 }
