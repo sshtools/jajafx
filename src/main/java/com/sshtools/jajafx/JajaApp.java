@@ -78,8 +78,8 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 
 	static Logger LOG = LoggerFactory.getLogger(JajaApp.class);
 
-	@Option(names = { "-W", "--standard-window-decorations" }, description = "Use standard window decorations.")
-	boolean standardWindowDecorations;
+	@Option(names = { "-W", "--standard-window-decorations" }, negatable = true, description = "Either prevent or force the use standard window decorations.")
+	Optional<Boolean> standardWindowDecorations;
 
 	@Option(names = { "--jaul-register" }, hidden = true, description = "Register this application with the JADAPTIVE update system and exit. Usually only called on installation.")
 	boolean jaulRegister;
@@ -117,7 +117,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	void init(JajaFXApp<?> fxApp) {
 		this.fxApp = (FXA) fxApp;
 	}
-	
+
 	public final FXA getFXApp() {
 		return fxApp;
 	}

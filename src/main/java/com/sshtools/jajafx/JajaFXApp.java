@@ -39,6 +39,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 	private JMetro jMetro;
 	private TitleBar titleBar;
 	private Stage primaryStage;
+	private boolean defaultStandardWindowDecorations;
 
 	protected JajaFXApp(URL icon, String title, A container) {
 		this.icon = icon;
@@ -46,6 +47,14 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		this.title = title;
 		
 		container.init(this);
+	}
+	
+	public final boolean isDefaultStandardWindowDecorations() {
+		return defaultStandardWindowDecorations;
+	}
+
+	public final void setDefaultStandardWindowDecorations(boolean defaultStandardWindowDecorations) {
+		this.defaultStandardWindowDecorations = defaultStandardWindowDecorations;
 	}
 
 	public URL getIcon() {
@@ -149,18 +158,18 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 	}
 
 	protected abstract Node createContent();
-
+	
 	private Scene createScene(final Stage primaryStage) {
 
 		var ui = new BorderPane();
-		if (!JajaApp.getInstance().standardWindowDecorations) {
+		if (!JajaApp.getInstance().standardWindowDecorations.orElse(defaultStandardWindowDecorations)) {
 			ui.setTop(titleBar = createTitleBar());
 		}
 		content = createContent();
 		addCommonStylesheets(content instanceof Parent ? ((Parent)content).getStylesheets() : content.getParent().getStylesheets());
 		ui.setCenter(content);
 
-		if (JajaApp.getInstance().standardWindowDecorations) {
+		if (JajaApp.getInstance().standardWindowDecorations.orElse(defaultStandardWindowDecorations)) {
 			scene = new Scene(ui);
 		} else {
 			var primaryScene = new BorderlessScene(primaryStage, StageStyle.UNDECORATED, ui, 1, 1);
