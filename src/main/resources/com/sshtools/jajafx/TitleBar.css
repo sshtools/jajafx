@@ -2,6 +2,10 @@
 	-fx-background-color: black;	
 }
 
+.title-label {
+	-fx-font-weight: bold;
+}
+
 .darkMode .title-bar .ikonli-font-icon, .lightMode .title-bar .ikonli-font-icon  {
 	-fx-icon-color: #eee;
 }

@@ -16,7 +16,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -40,6 +42,9 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 	private TitleBar titleBar;
 	private Stage primaryStage;
 	private boolean defaultStandardWindowDecorations;
+	private boolean showFrameTitle = true;
+	private Label titleLabel;
+	private ImageView titleImage;
 
 	protected JajaFXApp(URL icon, String title, A container) {
 		this.icon = icon;
@@ -49,6 +54,15 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		container.init(this);
 	}
 	
+	public boolean isShowFrameTitle() {
+		return showFrameTitle;
+	}
+
+	public void setShowFrameTitle(boolean showFrameTitle) {
+		this.showFrameTitle = showFrameTitle;
+		checkFrameTitle();
+	}
+
 	public final boolean isDefaultStandardWindowDecorations() {
 		return defaultStandardWindowDecorations;
 	}
@@ -159,20 +173,54 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 
 	protected abstract Node createContent();
 	
+	private void checkFrameTitle() {
+		if(titleBar != null) {
+			if(showFrameTitle && titleLabel == null) {
+				if(titleImage != null) {
+					titleBar.getTitleStack().getChildren().remove(titleImage);
+				}
+				titleLabel = new Label();
+				titleLabel.getStyleClass().add("title-label");
+				titleLabel.textProperty().bind(getPrimaryStage().titleProperty());
+				titleBar.getTitleStack().getChildren().add(titleLabel);
+			}
+			else if(!showFrameTitle && titleImage == null) {
+				if(titleLabel != null) {
+					titleBar.getTitleStack().getChildren().remove(titleLabel);
+				}
+				titleImage = createTitleImage();
+				titleBar.getTitleStack().getChildren().add(titleImage);
+			}
+		}
+	}
+
+	protected ImageView createTitleImage() {
+		var titleImage = new ImageView(new Image(getTitleBarImage().toExternalForm()));
+		titleImage.setFitHeight(150);
+		titleImage.setFitWidth(200);
+		titleImage.setPreserveRatio(true);
+		return titleImage;
+	}
+
+	protected URL getTitleBarImage() {
+		return JajaFXApp.class.getResource("jadaptive-logo.png");
+	}
+	
 	private Scene createScene(final Stage primaryStage) {
 
 		var ui = new BorderPane();
-		if (!JajaApp.getInstance().standardWindowDecorations.orElse(defaultStandardWindowDecorations)) {
+		if (!isDecorated()) {
 			ui.setTop(titleBar = createTitleBar());
+			checkFrameTitle();
 		}
 		content = createContent();
 		addCommonStylesheets(content instanceof Parent ? ((Parent)content).getStylesheets() : content.getParent().getStylesheets());
 		ui.setCenter(content);
 
-		if (JajaApp.getInstance().standardWindowDecorations.orElse(defaultStandardWindowDecorations)) {
+		if (isDecorated()) {
 			scene = new Scene(ui);
 		} else {
-			var primaryScene = new BorderlessScene(primaryStage, StageStyle.UNDECORATED, ui, 1, 1);
+			var primaryScene = new BorderlessScene(primaryStage, borderlessStageStyle(), ui, 1, 1);
 
 			primaryScene.setMoveControl(ui.getTop());
 			primaryScene.setDoubleClickMaximizeEnabled(false);
@@ -180,7 +228,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 			primaryScene.removeDefaultCSS();
 			primaryScene.setResizable(true);
 
-			primaryScene.getRoot().setStyle("-fx-background-color: background_color;");
+			//primaryScene.getRoot().setStyle("-fx-background-color: background_color;");
 			primaryScene.getRoot().getStyleClass().add("borderless-root");
 
 			scene = primaryScene;
@@ -200,6 +248,14 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 
 		onScene(scene);
 		return scene;
+	}
+
+	public Boolean isDecorated() {
+		return JajaApp.getInstance().standardWindowDecorations.orElse(defaultStandardWindowDecorations);
+	}
+
+	protected StageStyle borderlessStageStyle() {
+		return StageStyle.UNDECORATED;
 	}
 
 	public void addCommonStylesheets(ObservableList<String> stylesheets) {

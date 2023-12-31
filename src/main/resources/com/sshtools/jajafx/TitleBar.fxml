@@ -21,15 +21,8 @@
                   <HBox fx:id="rightAccessories" alignment="CENTER_RIGHT" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
-            <HBox alignment="CENTER" styleClass="padded">
-               <children>
-                  <ImageView fx:id="logo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@jadaptive-logo.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
+      		<StackPane fx:id="titleStack" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" styleClass="title-stack,padded">
+            </StackPane>
             <BorderPane>
                <right>
                   <HBox fx:id="rightWindowIcons" alignment="CENTER" prefWidth="80.0" BorderPane.alignment="CENTER">

@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class TitleBar extends AnchorPane {
@@ -22,7 +23,9 @@ public class TitleBar extends AnchorPane {
 	@FXML
 	private HBox rightAccessories;
 	@FXML
-	private ImageView logo;
+	private ImageView lodgo;
+	@FXML
+	private StackPane titleStack;
 	
 	private HBox accessories;
 	
@@ -51,8 +54,8 @@ public class TitleBar extends AnchorPane {
 		}
 	}
 	
-	public final ImageView getLogo() {
-		return logo;
+	public final StackPane getTitleStack() {
+		return titleStack;
 	}
 
 	public final HBox getAccessories() {
