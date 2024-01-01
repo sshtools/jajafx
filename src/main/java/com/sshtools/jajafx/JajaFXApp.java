@@ -244,6 +244,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 				ScenicView.show(scene);
 		}
 		catch(Throwable e) {
+			e.printStackTrace();
 		}
 
 		onScene(scene);
