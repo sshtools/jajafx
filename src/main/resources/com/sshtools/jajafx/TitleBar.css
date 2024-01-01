@@ -1,16 +1,23 @@
-.title-bar {
-	-fx-background-color: black;	
+.stage-unfocused TitleBar Label, .stage-unfocused TitleBar .ikonli-font-icon {
+	-fx-opacity: 25%;
 }
 
 .title-label {
-	-fx-text-fill: white;	
 	-fx-font-weight: bold;
 }
 
-.darkMode .title-bar .ikonli-font-icon, .lightMode .title-bar .ikonli-font-icon  {
-	-fx-icon-color: #eee;
+.title-bar {
+	-fx-background-color: derive(background_color, -10%);
 }
 
-.darkMode .title-bar .ikonli-font-icon:hover , .lightMode .title-bar .ikonli-font-icon:hover   {
-	-fx-icon-color: white;
+.ikonli-font-icon {
+	-fx-opacity: 60%;	
+}
+
+.stage-focused .ikonli-font-icon {
+	-fx-opacity: 60%;	
+}
+
+.stage-focused .ikonli-font-icon:hover {
+	-fx-opacity: 100%;	
 }

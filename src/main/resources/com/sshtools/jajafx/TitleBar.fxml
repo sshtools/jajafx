@@ -27,8 +27,8 @@
                <right>
                   <HBox fx:id="rightWindowIcons" alignment="CENTER" prefWidth="80.0" BorderPane.alignment="CENTER">
                      <children>
-                        <FontIcon iconLiteral="fas-window-minimize" iconSize="22" onMouseClicked="#minimize" />
-                        <FontIcon iconLiteral="fas-window-close" iconSize="22" onMouseClicked="#close" />
+                        <FontIcon iconLiteral="fas-window-minimize" iconSize="18" onMouseClicked="#minimize" styleClass=""/>
+                        <FontIcon iconLiteral="fas-window-close" iconSize="18" onMouseClicked="#close" />
                      </children>
                      <styleClass>
                         <String fx:value="spaced" />
