@@ -1,29 +1,18 @@
 package com.sshtools.jajafx;
 
-import static com.sshtools.jajafx.FXUtil.maybeQueue;
-
 import java.net.URL;
+import java.util.List;
 
-import org.scenicview.ScenicView;
-
-//import org.scenicview.ScenicView;
-
-import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
 import com.install4j.api.UiUtil;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import jfxtras.styles.jmetro.JMetro;
-import jfxtras.styles.jmetro.Style;
 
 public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> extends Application {
 
@@ -34,21 +23,15 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 	public static void main(String[] args) {
 		launch(args);
 	}
-	private Node content;
+
 	private final URL icon;
 	private final A container;
 
 	private final String title;
-
-	private Scene scene;
-	private JMetro jMetro;
-	private TitleBar titleBar;
 	private Stage primaryStage;
 	private boolean defaultStandardWindowDecorations;
 	private boolean showFrameTitle = true;
-	private Label titleLabel;
-
-	private ImageView titleImage;
+	private final ObservableList<JajaFXAppWindow> windows = FXCollections.observableArrayList();
 	
 	protected JajaFXApp(URL icon, String title, A container) {
 		this.icon = icon;
@@ -66,35 +49,12 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		}
 	}
 
-	public void applyStylesToRoot(Parent root) {
-		maybeQueue(() -> {
-			if(isDarkMode()) {
-				jMetro.setStyle(Style.DARK);
-				root.getStyleClass().remove("lightMode");
-				root.getStyleClass().add("darkMode");
-			}
-			else {
-				jMetro.setStyle(Style.LIGHT);
-				root.getStyleClass().remove("darkMode");
-				root.getStyleClass().add("lightMode");
-			}
-		});
-	}
-
 	public final A getContainer() {
 		return container;
 	}
 
 	public URL getIcon() {
 		return icon;
-	}
-
-	public final Stage getPrimaryStage() {
-		return primaryStage;
-	}
-
-	public final  TitleBar getTitleBar() {
-		return titleBar;
 	}
 
 	public final boolean isDarkMode() {
@@ -123,9 +83,9 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		this.defaultStandardWindowDecorations = defaultStandardWindowDecorations;
 	}
 	
-	public final  void setShowFrameTitle(boolean showFrameTitle) {
+	public final void setShowFrameTitle(boolean showFrameTitle) {
 		this.showFrameTitle = showFrameTitle;
-		checkFrameTitle();
+		windows.forEach(JajaFXAppWindow::checkFrameTitle);
 	}
 
 	@Override
@@ -133,14 +93,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		this.primaryStage = primaryStage;
 		listenForDarkModeChanges();
 
-		primaryStage.setTitle(title);
-		primaryStage.setOnCloseRequest((evt) -> {
-			System.exit(0);
-		});
-		var scene = createScene(primaryStage);
-		primaryStage.setScene(scene);
-		primaryStage.getIcons().add(new Image(icon.toExternalForm()));
-		onConfigureStage(primaryStage);
+		newAppWindow(primaryStage);
 		primaryStage.show();
 
 		var updateService = getContainer().getUpdateService();
@@ -149,31 +102,39 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		
 		onStarted();
 	}
-	
-	protected StageStyle borderlessStageStyle() {
-		return StageStyle.UNDECORATED;
+
+	@SuppressWarnings("unchecked")
+	public <W extends JajaFXAppWindow> W newAppWindow(final Stage primaryStage) {
+		primaryStage.setTitle(title);
+		
+		var appWindow = createAppWindow(primaryStage);
+		primaryStage.getIcons().add(new Image(icon.toExternalForm()));
+		onConfigurePrimaryStage(primaryStage);
+		return (W)appWindow;
 	}
 
-	protected abstract Node createContent();
+	public final List<JajaFXAppWindow> getWindows() {
+		return windows;
+	}
 
-	protected TitleBar createTitleBar() {
-		return new TitleBar();
+	public void updateDarkMode(Parent root) {
+		if (isDarkMode()) {
+			root.getStyleClass().remove("lightMode");
+			root.getStyleClass().add("darkMode");
+		} else {
+			root.getStyleClass().remove("darkMode");
+			root.getStyleClass().add("lightMode");
+		}
 	}
-	
-	protected ImageView createTitleImage() {
-		var titleImage = new ImageView(new Image(getTitleBarImage().toExternalForm()));
-		titleImage.setFitHeight(150);
-		titleImage.setFitWidth(200);
-		titleImage.setPreserveRatio(true);
-		return titleImage;
+
+	protected JajaFXAppWindow createAppWindow(final Stage stage) {
+		return new JajaFXAppWindow(stage, createContent(stage), this);
 	}
+
+	protected abstract Node createContent(Stage stage);
 
 	protected DarkMode getDarkMode() {
 		return DarkMode.valueOf(getContainer().getAppPreferences().get("darkMode", DarkMode.AUTO.name()));
-	}
-
-	protected URL getTitleBarImage() {
-		return JajaFXApp.class.getResource("jadaptive-logo.png");
 	}
 	
 	protected void listenForDarkModeChanges() {
@@ -188,112 +149,15 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		//
 	}
 
-	protected void onConfigureStage(Stage stage) {
-		primaryStage.setWidth(760);
-		primaryStage.setHeight(680);
+	protected void onConfigurePrimaryStage(Stage stage) {
 		primaryStage.centerOnScreen();
-	}
-	
-	protected void onScene(Scene scene) {
 	}
 
 	protected void onStarted() {
 	}
 
 	protected void updateDarkMode() {
-		updateDarkMode(jMetro, scene.getRoot());
+		windows.forEach(JajaFXAppWindow::updateDarkMode);
 	}
 
-	protected void updateDarkMode(JMetro jMetro, Parent root) {
-		maybeQueue(() -> {
-			if(isDarkMode()) {
-				jMetro.setStyle(Style.DARK);
-			}
-			else {
-				jMetro.setStyle(Style.LIGHT);
-			}
-			applyStylesToRoot(root);
-		});
-	}
-
-	private void checkFrameTitle() {
-		if(titleBar != null) {
-			if(showFrameTitle && titleLabel == null) {
-				if(titleImage != null) {
-					titleBar.getTitleStack().getChildren().remove(titleImage);
-				}
-				titleLabel = new Label();
-				titleLabel.getStyleClass().add("title-label");
-				titleLabel.textProperty().bind(getPrimaryStage().titleProperty());
-				titleBar.getTitleStack().getChildren().add(titleLabel);
-			}
-			else if(!showFrameTitle && titleImage == null) {
-				if(titleLabel != null) {
-					titleBar.getTitleStack().getChildren().remove(titleLabel);
-				}
-				titleImage = createTitleImage();
-				titleBar.getTitleStack().getChildren().add(titleImage);
-			}
-		}
-	}
-
-	private Scene createScene(final Stage primaryStage) {
-
-		var ui = new BorderPane();
-		if (!isDecorated()) {
-			ui.setTop(titleBar = createTitleBar());
-			checkFrameTitle();
-		}
-		content = createContent();
-		addCommonStylesheets(content instanceof Parent ? ((Parent)content).getStylesheets() : content.getParent().getStylesheets());
-		ui.setCenter(content);
-		primaryStage.focusedProperty().addListener((c,o,n) -> {
-			setStageFocusStyles(ui, n);
-		});
-		setStageFocusStyles(ui, primaryStage.isFocused());
-
-		if (isDecorated()) {
-			scene = new Scene(ui);
-		} else {
-			var primaryScene = new BorderlessScene(primaryStage, borderlessStageStyle(), ui, 1, 1);
-
-			primaryScene.setMoveControl(ui.getTop());
-			primaryScene.setDoubleClickMaximizeEnabled(false);
-			primaryScene.setSnapEnabled(false);
-			primaryScene.removeDefaultCSS();
-			primaryScene.setResizable(true);
-
-			//primaryScene.getRoot().setStyle("-fx-background-color: background_color;");
-			primaryScene.getRoot().getStyleClass().add("borderless-root");
-
-			scene = primaryScene;
-		}
-		jMetro = new JMetro(isDarkMode() ? Style.DARK : Style.LIGHT);
-		updateDarkMode();
-		jMetro.setScene(scene);
-		var stylesheets = scene.getStylesheets();
-		addCommonStylesheets(stylesheets);
-		
-		try {
-			if(Boolean.getBoolean("jaja.debugScene"))
-				ScenicView.show(scene);
-		}
-		catch(Throwable e) {
-			e.printStackTrace();
-		}
-
-		onScene(scene);
-		return scene;
-	}
-
-	protected void setStageFocusStyles(BorderPane ui, Boolean n) {
-		if(n) {
-			ui.getStyleClass().add("stage-focused");
-			ui.getStyleClass().remove("stage-unfocused");
-		}
-		else {
-			ui.getStyleClass().remove("stage-focused");
-			ui.getStyleClass().add("stage-unfocused");
-		}
-	}
 }

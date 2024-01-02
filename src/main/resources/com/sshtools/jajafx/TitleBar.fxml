@@ -13,22 +13,23 @@
    <children>
       <StackPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" styleClass="title-bar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <BorderPane styleClass="padded">
-               <left>
-                  <HBox fx:id="leftAccessories" alignment="CENTER_LEFT" BorderPane.alignment="CENTER" />
-               </left>
-               <right>
-                  <HBox fx:id="rightAccessories" alignment="CENTER_RIGHT" BorderPane.alignment="CENTER" />
-               </right>
-            </BorderPane>
       		<StackPane fx:id="titleStack" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" styleClass="title-stack,padded">
             </StackPane>
             <BorderPane>
+               <left>
+                  <HBox fx:id="accessories" alignment="CENTER" BorderPane.alignment="CENTER" styleClass="spaced">
+                     <styleClass>
+                        <String fx:value="spaced" />
+                        <String fx:value="padded" />
+                     </styleClass>
+                  </HBox>
+               </left>
                <right>
-                  <HBox fx:id="rightWindowIcons" alignment="CENTER" prefWidth="80.0" BorderPane.alignment="CENTER">
+                  <HBox fx:id="windowIcons" alignment="CENTER" BorderPane.alignment="CENTER" styleClass="spaced">
                      <children>
-                        <FontIcon iconLiteral="fas-window-minimize" iconSize="18" onMouseClicked="#minimize" styleClass=""/>
-                        <FontIcon iconLiteral="fas-window-close" iconSize="18" onMouseClicked="#close" />
+                        <FontIcon fx:id="minimize" iconLiteral="fas-window-minimize" iconSize="22" onMouseClicked="#minimize" />
+                        <FontIcon fx:id="maximize" iconLiteral="fas-window-maximize" iconSize="22" onMouseClicked="#minimize" />
+                        <FontIcon fx:id="close" iconLiteral="fas-window-close" iconSize="22" onMouseClicked="#close" />
                      </children>
                      <styleClass>
                         <String fx:value="spaced" />
@@ -36,18 +37,6 @@
                      </styleClass>
                   </HBox>
                </right>
-               <left>
-                  <HBox fx:id="leftWindowIcons" alignment="CENTER" prefWidth="80.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <FontIcon iconLiteral="fas-window-close" iconSize="22" onMouseClicked="#close" />
-                        <FontIcon iconLiteral="fas-window-minimize" iconSize="22" onMouseClicked="#minimize" />
-                     </children>
-                     <styleClass>
-                        <String fx:value="spaced" />
-                        <String fx:value="padded" />
-                     </styleClass>
-                  </HBox>
-               </left>
             </BorderPane>
          </children>
       </StackPane>

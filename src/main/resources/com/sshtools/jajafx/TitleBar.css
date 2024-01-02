@@ -1,3 +1,8 @@
+
+.spaced {
+	-fx-spacing: 16px;
+}
+
 .stage-unfocused TitleBar Label, .stage-unfocused TitleBar .ikonli-font-icon {
 	-fx-opacity: 25%;
 }
