@@ -28,10 +28,12 @@ public class JajaFXAppWindow {
 
 	protected JajaFXApp<?> app;
 	protected final Scene scene;
+	protected final Node content;
 
 	public JajaFXAppWindow(Stage stage, Node content, JajaFXApp<?> app) {
 		this.stage = stage;
 		this.app = app;
+		this.content = content;
 		
 		stage.initStyle(borderlessStageStyle());
 
@@ -90,6 +92,10 @@ public class JajaFXAppWindow {
 
 	public void onClose(WindowEvent evt) {
 		app.getWindows().remove(this);
+	}
+	
+	public Node content() {
+		return content;
 	}
 
 	public Scene scene() {

@@ -19,7 +19,7 @@ import javafx.scene.control.Label;
 
 public class UpdatePage<A extends JajaFXApp<?>> extends AbstractTile<A> {
 
-	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(UpdatePage.class.getName());
+	public final static ResourceBundle RESOURCES = ResourceBundle.getBundle(UpdatePage.class.getName());
 
 	@FXML
 	Label available;
@@ -32,7 +32,7 @@ public class UpdatePage<A extends JajaFXApp<?>> extends AbstractTile<A> {
 
 	private AppUpdateService updateService;
 	private AtomicInteger seconds = new AtomicInteger();
-
+	private Runnable onRemindMeTomorrow;
 	private ScheduledFuture<?> task;
 
 	@Override
@@ -71,6 +71,11 @@ public class UpdatePage<A extends JajaFXApp<?>> extends AbstractTile<A> {
 		updateRemaining();
 	}
 
+
+	public void onRemindMeTomorrow(Runnable onRemindMeTomorrow) {
+		this.onRemindMeTomorrow = onRemindMeTomorrow;
+	}
+
 	@Override
 	public void hidden() {
 		task.cancel(false);
@@ -90,7 +95,12 @@ public class UpdatePage<A extends JajaFXApp<?>> extends AbstractTile<A> {
 	@FXML
 	private void remindMeTomorrow(ActionEvent evt) {
 		updateService.deferUpdate();
-		getTiles().remove(this);
+		task.cancel(false);
+		var tiles = getTiles();
+		if(tiles != null)
+			tiles.remove(this);
+		if(onRemindMeTomorrow != null) 
+			onRemindMeTomorrow.run();
 	}
 
 	private void updateRemaining() {
