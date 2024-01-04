@@ -3,6 +3,8 @@ package com.sshtools.jajafx;
 import java.net.URL;
 import java.util.List;
 
+import org.scenicview.ScenicView;
+
 import com.install4j.api.UiUtil;
 
 import javafx.application.Application;
@@ -10,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -101,6 +102,13 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		updateService.rescheduleCheck();
 		
 		onStarted();
+		
+		try {
+			if(Boolean.getBoolean("jaja.debugScene"))
+				ScenicView.show(primaryStage.getScene());
+		}
+		catch(Throwable e) {
+		}
 	}
 
 	@SuppressWarnings("unchecked")

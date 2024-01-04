@@ -61,7 +61,6 @@ public class JajaFXAppWindow {
 			primaryScene.removeDefaultCSS();
 			primaryScene.setResizable(true);
 
-			// primaryScene.getRoot().setStyle("-fx-background-color: background_color;");
 			primaryScene.getRoot().getStyleClass().add("borderless-root");
 
 			scene = primaryScene;
