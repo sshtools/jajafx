@@ -125,7 +125,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		return windows;
 	}
 
-	public void updateDarkMode(Parent root) {
+	public void updateRootStyles(Parent root) {
 		if (isDarkMode()) {
 			root.getStyleClass().remove("lightMode");
 			root.getStyleClass().add("darkMode");

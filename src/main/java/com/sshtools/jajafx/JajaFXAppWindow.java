@@ -86,7 +86,7 @@ public class JajaFXAppWindow {
 		} else {
 			jMetro.setStyle(Style.LIGHT);
 		}
-		app.updateDarkMode(scene.getRoot());
+		app.updateRootStyles(scene.getRoot());
 	}
 
 	public void onClose(WindowEvent evt) {
