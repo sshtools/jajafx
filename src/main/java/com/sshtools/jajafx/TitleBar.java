@@ -3,6 +3,7 @@ package com.sshtools.jajafx;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -49,8 +50,8 @@ public class TitleBar extends AnchorPane {
 		ss.add(TitleBar.class.getResource("TitleBar.css").toExternalForm());
 		ss.add(TitleBar.class.getResource("Common.css").toExternalForm());
 		
-		if(System.getProperty("os.name","").toLowerCase().contains("mac os")) {
-			var al = new ArrayList<>(windowIcons.getChildren());
+		if(System.getProperty("os.name","").toLowerCase().contains("mac os") || Boolean.getBoolean("jajafx.fakeMacTitleBar")) {
+			var al = new ArrayList<>(Arrays.asList(windowIcons.getChildren().get(2), windowIcons.getChildren().get(0), windowIcons.getChildren().get(1)));
 			windowIcons.getChildren().setAll(accessories.getChildren());
 			accessories.getChildren().setAll(al);
 			currentAccessories = windowIcons;
