@@ -11,6 +11,10 @@
 	-fx-font-weight: bold;
 }
 
+#windowIcons {
+	-fx-spacing: 14px;
+}
+
 .title-bar {
 	-fx-background-color: derive(background_color, -10%);
 }

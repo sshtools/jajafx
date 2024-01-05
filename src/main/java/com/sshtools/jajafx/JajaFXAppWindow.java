@@ -35,7 +35,7 @@ public class JajaFXAppWindow {
 		this.app = app;
 		this.content = content;
 		
-		stage.initStyle(borderlessStageStyle());
+		stage.initStyle(app.isDecorated() ? StageStyle.DECORATED :  borderlessStageStyle());
 
 		var ui = new BorderPane();
 		if (!app.isDecorated()) {
