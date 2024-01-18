@@ -5,6 +5,7 @@
 	<version>0.1.11-SNAPSHOT</version>
 	<name>JAdaptive Java FX App Framework</name>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
 		<gluonfx.maven.plugin.version>1.0.16</gluonfx.maven.plugin.version>
 		<maven.compiler.target>17</maven.compiler.target>
