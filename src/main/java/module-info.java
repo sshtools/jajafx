@@ -20,5 +20,4 @@ open module com.sshtools.jajafx {
 	requires jul.to.slf4j;
 	exports com.sshtools.jajafx;
 
-//    requires org.scenicview.scenicview;
 }
