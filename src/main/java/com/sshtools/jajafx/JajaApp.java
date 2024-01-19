@@ -190,6 +190,11 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 			public ScheduledExecutorService getScheduler() {
 				return scheduler;
 			}
+
+			@Override
+			public String getVersion() {
+				return spec.version()[0];
+			}
 		};
 	}
 	

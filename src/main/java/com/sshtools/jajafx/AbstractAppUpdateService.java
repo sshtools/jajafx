@@ -25,8 +25,8 @@ public abstract class AbstractAppUpdateService extends AbstractUpdateService imp
 	protected JajaApp<? extends JajaFXApp<?>> context;
 
 	protected AbstractAppUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
-		super(context.getUpdateContext(), context.getCommandSpec().version()[0]);
-		this.context = context;
+		super(context.getUpdateContext());
+		this.context = context; 
 		needsUpdating.bind(Bindings.isNotNull(availableVersion));
 	}
 
