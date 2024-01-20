@@ -2,6 +2,7 @@ package com.sshtools.jajafx;
 
 import static com.sshtools.jajafx.FXUtil.maybeQueue;
 import static com.sshtools.jajafx.FXUtil.spin;
+import static javafx.application.Platform.runLater;
 
 import java.text.MessageFormat;
 import java.util.Calendar;
@@ -51,9 +52,11 @@ public class AboutPage<A extends JajaFXApp<?>> extends AbstractTile<A> {
 		var updating = updateService.updatingProperty();
 
 		updating.addListener((c, o, n) -> {
-			spin(spinner, n);
-			if (n)
-				result.setVisible(false);
+			runLater(() -> {
+				spin(spinner, n);
+				if (n)
+					result.setVisible(false);
+			});
 		});
 		checkForUpdates.disableProperty().bind(updating);
 		spinner.visibleProperty().bind(updating);
