@@ -167,19 +167,49 @@ Button:default .ikonli-font-icon {
 }
 
 .btn-accent, .pill-accent, .circle-button-accent {
-	-fx-background-color: accent_color;
+	-fx-background-color:  derive(accent_color, -10%);
+	-fx-text-fill: #ccc;
+	-fx-underline: false !important;
+}
+
+.btn-accent:hover, .pill-accent:hover {
+	-fx-background-color:  accent_color;
 	-fx-text-fill: white;
+	-fx-underline: false !important;
 }
 
 .pill-success {
-	-fx-background-color:  #28a745;
-	-fx-text-fill: white;
+	-fx-background-color:  derive(#28a745, -10%);
+	-fx-text-fill: #ccc;
+	-fx-underline: false !important;
 }
 
+.pill-success:hover {
+	-fx-background-color:  #28a745;
+	-fx-text-fill: white;
+	-fx-underline: false !important;
+}
+
+.pill-success .ikonli-font-icon, .pill-accent .ikonli-font-icon {
+	-fx-icon-color: #ccc;	
+}
+
+.pill-success:hover .ikonli-font-icon, .pill-accent:hover .ikonli-font-icon {
+	-fx-icon-color: white;
+}
+
+/*
 .darkMode .pill-accent .ikonli-font-icon, .lightMode .pill-accent .ikonli-font-icon,
 .darkMode .pill-success.ikonli-font-icon, .lightMode .pill-success .ikonli-font-icon {
-	-fx-icon-color: white;	
+	-fx-icon-color: #ccc;	
 }  
+
+.darkMode .pill-accent:hover .ikonli-font-icon, .lightMode .pill-accent:hover .ikonli-font-icon,
+.darkMode .pill-success.ikonli-font-icon:hover, .lightMode .pill-success:hover .ikonli-font-icon {
+	-fx-icon-color: white;	
+}
+
+*/
 
 .btn-success {
 	-fx-background-color: #28a745;
