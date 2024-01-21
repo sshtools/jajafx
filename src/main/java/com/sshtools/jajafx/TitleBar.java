@@ -2,14 +2,11 @@ package com.sshtools.jajafx;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.kordamp.ikonli.javafx.FontIcon;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -20,25 +17,30 @@ import javafx.stage.WindowEvent;
 public class TitleBar extends AnchorPane {
 	
 	@FXML
-	private HBox windowIcons;
+	protected HBox windowIcons;
+	
 	@FXML
-	private HBox accessories;
+	protected HBox accessories;
+	
 	@FXML
 	private ImageView lodgo;
 	@FXML
 	private StackPane titleStack;
 	@FXML
-	private FontIcon maximize;
+	private Node maximize;
 	@FXML
-	private FontIcon minimize;
+	private Node minimize;
 	@FXML
-	private FontIcon close;
+	private Node close;
 
-	private HBox currentAccessories;
-	
+	protected HBox currentAccessories;
 	
 	public TitleBar() {
-		var loader = new FXMLLoader(getClass().getResource("TitleBar.fxml"));
+		this("TitleBar.fxml");
+	}
+	
+	protected TitleBar(String resource) {
+		var loader = new FXMLLoader(getClass().getResource(resource));
 		loader.setController(this);
 		loader.setRoot(this);
 		try {
@@ -50,21 +52,13 @@ public class TitleBar extends AnchorPane {
 		ss.add(TitleBar.class.getResource("TitleBar.css").toExternalForm());
 		ss.add(TitleBar.class.getResource("Common.css").toExternalForm());
 		
-		if(System.getProperty("os.name","").toLowerCase().contains("mac os") || Boolean.getBoolean("jajafx.fakeMacTitleBar")) {
-			var al = new ArrayList<>(Arrays.asList(windowIcons.getChildren().get(2), windowIcons.getChildren().get(0), windowIcons.getChildren().get(1)));
-			windowIcons.getChildren().setAll(accessories.getChildren());
-			accessories.getChildren().setAll(al);
-			currentAccessories = windowIcons;
-		}
-		else {
-			currentAccessories = accessories;
-		}
+		currentAccessories = accessories;
 		
 		minimize.managedProperty().bind(minimize.visibleProperty());
 		maximize.managedProperty().bind(maximize.visibleProperty());
 		close.managedProperty().bind(close.visibleProperty());
 		
-		maximize.setVisible(false);
+//		maximize.setVisible(false);
 	}
 	
 	public final BooleanProperty minimizeVisibleProperty() {
@@ -89,21 +83,29 @@ public class TitleBar extends AnchorPane {
 
 	@FXML
 	private void minimize() {
-		((Stage)getScene().getWindow()).setIconified(true);
+		getStage().setIconified(true);
 	}
 
 	@FXML
 	private void maximize() {
-		var wnd = (Stage)getScene().getWindow();
-		if(wnd.isMaximized())
+		var wnd = getStage();
+		if(wnd.isMaximized()) {
 			wnd.setMaximized(false);
-		else
+			maximize.getStyleClass().remove("restorable");
+		}
+		else {
+			maximize.getStyleClass().add("restorable");
 			wnd.setMaximized(true);
+		}
 	}
 	
 	@FXML
 	private void close() {
-		var wnd = (Stage)getScene().getWindow();
+		var wnd = getStage();
 		wnd.fireEvent(new WindowEvent(wnd, WindowEvent.WINDOW_CLOSE_REQUEST)); 
+	}
+
+	protected Stage getStage() {
+		return (Stage)getScene().getWindow();
 	}
 }

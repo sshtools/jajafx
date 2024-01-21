@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<fx:root type="AnchorPane"
+	xmlns="http://javafx.com/javafx/20.0.1"
+	xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<StackPane maxHeight="-Infinity"
+			maxWidth="1.7976931348623157E308" styleClass="title-bar" prefHeight="48"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<children>
+	      		<StackPane fx:id="titleStack" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" styleClass="title-stack,padded">
+	            </StackPane>
+				<BorderPane>
+					<left>
+						<HBox fx:id="accessories" alignment="CENTER"
+							styleClass="spaced" BorderPane.alignment="CENTER">
+							<styleClass>
+								<String fx:value="spaced" />
+							</styleClass>
+						</HBox>							
+					</left>
+					<right>
+						<HBox fx:id="windowIcons" alignment="CENTER"
+							styleClass="spaced" BorderPane.alignment="CENTER">
+							<children>
+								<ImageView fx:id="minimize" fitHeight="30"
+									fitWidth="44" onMouseClicked="#minimize"
+									onMousePressed="#minimizeMousePressed"
+									onMouseReleased="#minimizeMouseReleased" pickOnBounds="true"
+									preserveRatio="true">
+									<image>
+										<Image url="@linux/dark/minimize_focused_normal.png" />
+									</image>
+								</ImageView>
+								<ImageView fx:id="maximize" fitHeight="30"
+									fitWidth="44" onMouseClicked="#maximize"
+									onMousePressed="#maximizeMousePressed"
+									onMouseReleased="#maximizeMouseReleased" pickOnBounds="true"
+									preserveRatio="true">
+									<image>
+										<Image url="@linux/dark/maximize_focused_normal.png" />
+									</image>
+								</ImageView>
+								<ImageView fx:id="close" fitHeight="30"
+									fitWidth="44" onMouseClicked="#close"
+									onMousePressed="#closeMousePressed"
+									onMouseReleased="#closeMouseReleased" pickOnBounds="true"
+									preserveRatio="true">
+									<image>
+										<Image url="@linux/dark/close_focused_normal.png" />
+									</image>
+								</ImageView>
+							</children>
+							<styleClass>
+								<String fx:value="spaced" />
+							</styleClass>
+						</HBox>
+					</right>
+				</BorderPane>
+			</children>
+		</StackPane>
+	</children>
+</fx:root>

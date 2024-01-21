@@ -273,3 +273,11 @@ DialogPane.darkMode .text-input:focused, DialogPane.darkMode .text-input:focused
 	-fx-text-fill: #111 ;
 	-fx-background-color: accent_color, background_focused_color;
 }
+
+.borderless-root Tiles {	
+	-fx-background-radius: 0 0 8px 8px;
+} 
+
+.borderless-root .title-bar {	
+	-fx-background-radius: 8px 8px 0 0;
+}

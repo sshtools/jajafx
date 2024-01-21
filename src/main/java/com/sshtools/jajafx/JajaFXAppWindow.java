@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
@@ -64,6 +65,7 @@ public class JajaFXAppWindow {
 			primaryScene.getRoot().getStyleClass().add("borderless-root");
 
 			scene = primaryScene;
+			scene.setFill(Color.TRANSPARENT);
 		}
 		jMetro = new JMetro(app.isDarkMode() ? Style.DARK : Style.LIGHT);
 		jMetro.setScene(scene);
@@ -110,11 +112,22 @@ public class JajaFXAppWindow {
 	}
 
 	public StageStyle borderlessStageStyle() {
-		return StageStyle.UNDECORATED;
+		return StageStyle.TRANSPARENT;
 	}
 
 	protected TitleBar createTitleBar() {
-		return new TitleBar();
+		if(System.getProperty("jajafx.fakeTitleBarOs",System.getProperty("os.name","")).toLowerCase().contains("mac os")) {
+			return new MacOSTitleBar();
+		}
+		else if(System.getProperty("jajafx.fakeTitleBarOs",System.getProperty("os.name","")).toLowerCase().contains("linux")) {
+			return new LinuxTitleBar();
+		}
+		else if(System.getProperty("jajafx.fakeTitleBarOs",System.getProperty("os.name","")).toLowerCase().contains("windows")) {
+			return new WindowsTitleBar();
+		}
+		else {
+			return new TitleBar();
+		}
 	}
 
 	protected ImageView createTitleImage() {
