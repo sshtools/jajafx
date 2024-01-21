@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>jajafx</artifactId>
 	<groupId>com.sshtools</groupId>
-	<version>0.9.2</version>
+	<version>0.9.3</version>
 	<name>JAdaptive Java FX App Framework</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -84,7 +84,7 @@
 		<dependency>
 			<groupId>com.sshtools</groupId>
 			<artifactId>jaul</artifactId>
-			<version>0.9.8-SNAPSHOT</version>
+			<version>0.9.9</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sshtools</groupId>

@@ -12,7 +12,7 @@ import javafx.util.Duration;
 
 public class AnimPane extends StackPane {
 
-	private Duration duration = Duration.millis(500);
+	private Duration duration = Duration.millis(125);
 	private Interpolator interpolator = Interpolator.EASE_BOTH;
 	private Animation waiting;
 

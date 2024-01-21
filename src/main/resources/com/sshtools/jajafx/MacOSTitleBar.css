@@ -2,6 +2,10 @@
 	-fx-spacing: 6px !important;
 }
 
+.title-label {
+	-fx-font-weight: bold;
+}
+
 .stage-unfocused MacOSTitleBar Label, .stage-unfocused MacOSTitleBar .ikonli-font-icon {
 	-fx-opacity: 25%;
 }

@@ -69,7 +69,7 @@ public class AboutPage<A extends JajaFXApp<?>> extends AbstractTile<A> {
 		getContext().getContainer().updateCheck((res) -> {
 			maybeQueue(() -> {
 				if (res) {
-					getTiles().popup(UpdatePage.class);
+					getTiles().popup(UpdatePage.class, PageTransition.FROM_RIGHT);
 				} else {
 					result.setVisible(true);
 					result.setText(RESOURCES.getString("noUpdates"));

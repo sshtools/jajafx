@@ -58,7 +58,7 @@ public class TitleBar extends AnchorPane {
 		maximize.managedProperty().bind(maximize.visibleProperty());
 		close.managedProperty().bind(close.visibleProperty());
 		
-//		maximize.setVisible(false);
+		maximize.setVisible(false);
 	}
 	
 	public final BooleanProperty minimizeVisibleProperty() {
