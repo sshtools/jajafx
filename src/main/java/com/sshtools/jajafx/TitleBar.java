@@ -2,10 +2,12 @@ package com.sshtools.jajafx;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.Arrays;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -50,7 +52,7 @@ public class TitleBar extends AnchorPane {
 		}
 		var ss = getStylesheets();
 		ss.add(TitleBar.class.getResource("TitleBar.css").toExternalForm());
-		ss.add(TitleBar.class.getResource("Common.css").toExternalForm());
+//		ss.add(TitleBar.class.getResource("Common.css").toExternalForm());
 		
 		currentAccessories = accessories;
 		
@@ -59,6 +61,23 @@ public class TitleBar extends AnchorPane {
 		close.managedProperty().bind(close.visibleProperty());
 		
 		maximize.setVisible(false);
+	}
+	
+	public void addAccessories(Node... accessories) {
+		var ac = currentAccessories.getChildren();
+		Arrays.asList(accessories).forEach(a -> { 
+			ac.add(Platforms.style().accessory(a)); 
+		});
+		for(int i = 0 ; i < ac.size(); i++) {
+			var a = ac.get(i);
+			if(i == 0) {
+				a.getStyleClass().add("first-element");
+			}
+			else {
+				a.getStyleClass().remove("first-element");
+			}
+		}
+		
 	}
 	
 	public final BooleanProperty minimizeVisibleProperty() {

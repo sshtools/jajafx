@@ -2,6 +2,28 @@
 	-fx-spacing: 6px !important;
 }
 
+ .darkMode .title-bar {
+	-fx-background-color: derive(background_color, +10%);
+}
+
+.lightMode .title-bar {
+	-fx-background-color: derive(background_color, -10%);
+}
+
+.darkMode .accessory-wrapper:hover {
+	-fx-background-radius: 8px;
+	-fx-background-color: derive(background_color, +20%);
+}
+
+.lightMode .accessory-wrapper:hover {
+	-fx-background-radius: 8px;
+	-fx-background-color: derive(background_color, -20%);
+}
+
+#accessories .ikonli-font-icon {
+	-fx-icon-size: 16px;
+}
+
 .title-label {
 	-fx-font-weight: bold;
 }

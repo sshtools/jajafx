@@ -46,10 +46,6 @@ public class JajaFXAppWindow {
 		app.addCommonStylesheets(
 				content instanceof Parent ? ((Parent) content).getStylesheets() : content.getParent().getStylesheets());
 		ui.setCenter(content);
-		stage.focusedProperty().addListener((c, o, n) -> {
-			setStageFocusStyles(ui, n);
-		});
-		setStageFocusStyles(ui, stage.isFocused());
 
 		if (app.isDecorated()) {
 			scene = new Scene(ui);
@@ -67,6 +63,11 @@ public class JajaFXAppWindow {
 			scene = primaryScene;
 			scene.setFill(Color.TRANSPARENT);
 		}
+		stage.focusedProperty().addListener((c, o, n) -> {
+			setStageFocusStyles(scene.getRoot(), n);
+		});
+		setStageFocusStyles(scene.getRoot(), stage.isFocused());
+		setStagePlatformStyles(scene.getRoot());
 		jMetro = new JMetro(app.isDarkMode() ? Style.DARK : Style.LIGHT);
 		jMetro.setScene(scene);
 		var stylesheets = scene.getStylesheets();
@@ -116,18 +117,7 @@ public class JajaFXAppWindow {
 	}
 
 	protected TitleBar createTitleBar() {
-		if(System.getProperty("jajafx.fakeTitleBarOs",System.getProperty("os.name","")).toLowerCase().contains("mac os")) {
-			return new MacOSTitleBar();
-		}
-		else if(System.getProperty("jajafx.fakeTitleBarOs",System.getProperty("os.name","")).toLowerCase().contains("linux")) {
-			return new LinuxTitleBar();
-		}
-		else if(System.getProperty("jajafx.fakeTitleBarOs",System.getProperty("os.name","")).toLowerCase().contains("windows")) {
-			return new WindowsTitleBar();
-		}
-		else {
-			return new TitleBar();
-		}
+		return Platforms.style().titleBar();
 	}
 
 	protected ImageView createTitleImage() {
@@ -142,13 +132,18 @@ public class JajaFXAppWindow {
 		return JajaFXApp.class.getResource("jadaptive-logo.png");
 	}
 
-	protected void setStageFocusStyles(BorderPane ui, Boolean n) {
+	protected void setStagePlatformStyles(Node ui) {
+		Platforms.style().configureStageRootStyles(ui);
+	}
+	
+	protected void setStageFocusStyles(Node ui, Boolean n) {
+		var sc = ui.getStyleClass();
 		if (n) {
-			ui.getStyleClass().add("stage-focused");
-			ui.getStyleClass().remove("stage-unfocused");
+			sc.add("stage-focused");
+			sc.remove("stage-unfocused");
 		} else {
-			ui.getStyleClass().remove("stage-focused");
-			ui.getStyleClass().add("stage-unfocused");
+			sc.remove("stage-focused");
+			sc.add("stage-unfocused");
 		}
 	}
 

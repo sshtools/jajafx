@@ -44,6 +44,7 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 
 	public void addCommonStylesheets(ObservableList<String> stylesheets) {
 		FXUtil.addIfNotAdded(stylesheets, JajaFXApp.class.getResource("Common.css").toExternalForm());
+		FXUtil.addIfNotAdded(stylesheets, Platforms.style().css().toExternalForm());
 		var appResource = getClass().getResource("App.css");
 		if(appResource != null) {
 			FXUtil.addIfNotAdded(stylesheets, appResource.toExternalForm());

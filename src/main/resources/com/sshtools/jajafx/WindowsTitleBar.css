@@ -7,11 +7,32 @@
 }
 
 .title-label {
-	-fx-font-weight: inherit;
+	-fx-font-weight: bold;
+	-fx-font-size: 0.9em;
 }
 
 #titleStack {
 	-fx-padding: 10px 0 10px 20px;
+}
+
+#accessories {
+	-fx-padding: 0;
+}
+
+.accessory-wrapper {
+	-fx-padding: 0 6px;
+}
+
+.darkMode .accessory-wrapper:hover {
+	-fx-background-color: #333333 !important;
+}
+
+.lightMode .accessory-wrapper:hover {
+	-fx-background-color: #cccccc !important;
+}
+
+.first-element.accessory-wrapper:hover {	
+	-fx-background-radius: 8px 0 0 0 !important;
 }
 
 #closeParent:hover {

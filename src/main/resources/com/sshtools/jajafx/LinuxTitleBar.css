@@ -1,226 +1,240 @@
-.spaced {
-	-fx-spacing: 6px !important;
-}
-
-.stage-unfocused LinuxTitleBar Label, .stage-unfocused LinuxTitleBar .ikonli-font-icon {
+.stage-unfocused LinuxTitleBar Label, .stage-unfocused LinuxTitleBar .ikonli-font-icon, .stage-unfocused LinuxTitleBar #windowIcons  {
 	-fx-opacity: 25%;
 }
 
 .title-bar {
 	-fx-background-color: background_color;
-	-fx-border-width: 0 0 1px 0;
-	-fx-border-color: derive(background_color, +10%);
 }
 
-.darkMode .title-bar {
-	-fx-border-color: derive(background_color, +10%);
-}
-
-.lightMode .title-bar {
-	-fx-border-color: derive(background_color, -10%);
+.title-label {
+	-fx-font-weight: bold;
 }
 
 #windowIcons {
-	-fx-padding: 0 12px 0 12px;
+	-fx-spacing: 8px;
+	-fx-padding: 0px 10px 0px 0px;
+}
+
+#accessories {
+	-fx-padding: 6px 0px 6px 6px;
 }
 
 #titleStack {
 	-fx-padding: 10px 0 10px 20px;
 }
 
+#accessories .accessory-wrapper {
+	-fx-padding: 0px 10px;
+}
+
+#accessories .ikonli-font-icon {
+	-fx-icon-size: 14px;
+	-fx-icon-colod: text_color;
+}
+
 /* Focused */
 
-.lightMode .stage-focused #close {
+.darkMode .accessory-wrapper:hover {
+	-fx-background-radius: 8px;
+	-fx-background-color: derive(background_color, +10%);
+}
+
+.lightMode .accessory-wrapper:hover {
+	-fx-background-radius: 8px;
+	-fx-background-color: derive(background_color, -10%);
+}
+
+.lightMode.stage-focused #close {
 	-fx-image: url(linux/light/close_focused_normal.png);
 }
 
- .darkMode .stage-focused #close {
+ .darkMode.stage-unfocused #close {
 	-fx-image: url(linux/dark/close_focused_normal.png);
 }
 
-.lightMode .stage-focused #close:hover {
+.lightMode.stage-focused #close:hover {
 	-fx-image: url(linux/light/close_focused_prelight.png);
 }
 
- .darkMode .stage-focused #close:hover {
+ .darkMode.stage-unfocused #close:hover {
 	-fx-image: url(linux/dark/close_focused_prelight.png);
 }
 
-.lightMode .stage-focused #close.pressed {
+.lightMode.stage-focused #close.pressed {
 	-fx-image: url(linux/light/close_focused_pressed.png);
 }
 
- .darkMode .stage-focused #close.pressed {
+ .darkMode.stage-unfocused #close.pressed {
 	-fx-image: url(linux/dark/close_focused_pressed.png);
 }
 
-.lightMode .stage-focused #minimize {
+.lightMode.stage-focused #minimize {
 	-fx-image: url(linux/light/minimize_focused_normal.png);
 }
 
- .darkMode .stage-focused #minimize {
+ .darkMode.stage-unfocused #minimize {
 	-fx-image: url(linux/dark/minimize_focused_normal.png);
 }
 
-.lightMode .stage-focused #minimize:hover {
+.lightMode.stage-focused #minimize:hover {
 	-fx-image: url(linux/light/minimize_focused_prelight.png);
 }
 
- .darkMode .stage-focused #minimize:hover {
+ .darkMode.stage-unfocused #minimize:hover {
 	-fx-image: url(linux/dark/minimize_focused_prelight.png);
 }
 
-.lightMode .stage-focused #minimize.pressed {
+.lightMode.stage-focused #minimize.pressed {
 	-fx-image: url(linux/light/minimize_focused_pressed.png);
 }
 
- .darkMode .stage-focused #minimize.pressed {
+ .darkMode.stage-unfocused #minimize.pressed {
 	-fx-image: url(linux/dark/minimize_focused_pressed.png);
 }
 
-.lightMode .stage-focused #maximize {
+.lightMode.stage-focused #maximize {
 	-fx-image: url(linux/light/maximize_focused_normal.png);
 }
 
- .darkMode .stage-focused #maximize {
+ .darkMode.stage-unfocused #maximize {
 	-fx-image: url(linux/dark/maximize_focused_normal.png);
 }
 
-.lightMode .stage-focused #maximize:hover {
+.lightMode.stage-focused #maximize:hover {
 	-fx-image: url(linux/light/maximize_focused_prelight.png);
 }
 
- .darkMode .stage-focused #maximize:hover {
+ .darkMode.stage-unfocused #maximize:hover {
 	-fx-image: url(linux/dark/maximize_focused_prelight.png);
 }
 
-.lightMode .stage-focused #maximize.pressed {
+.lightMode.stage-focused #maximize.pressed {
 	-fx-image: url(linux/light/maximize_focused_pressed.png);
 }
 
- .darkMode .stage-focused #maximize.pressed {
+ .darkMode.stage-unfocused #maximize.pressed {
 	-fx-image: url(linux/dark/maximize_focused_pressed.png);
 }
 
-.lightMode .stage-focused #maximize.restorable {
+.lightMode.stage-focused #maximize.restorable {
 	-fx-image: url(linux/light/unmaximize_focused_normal.png);
 }
 
- .darkMode .stage-focused #maximize.restorable {
+ .darkMode.stage-unfocused #maximize.restorable {
 	-fx-image: url(linux/dark/unmaximize_focused_normal.png);
 }
 
-.lightMode .stage-focused #maximize.restorable:hover {
+.lightMode.stage-focused #maximize.restorable:hover {
 	-fx-image: url(linux/light/unmaximize_focused_prelight.png);
 }
 
- .darkMode .stage-focused #maximize.restorable:hover {
+ .darkMode.stage-unfocused #maximize.restorable:hover {
 	-fx-image: url(linux/dark/unmaximize_focused_prelight.png);
 }
 
-.lightMode .stage-focused #maximize.restorable.pressed {
+.lightMode.stage-focused #maximize.restorable.pressed {
 	-fx-image: url(linux/light/unmaximize_focused_pressed.png);
 }
 
- .darkMode .stage-focused #maximize.restorable.pressed {
+ .darkMode.stage-unfocused #maximize.restorable.pressed {
 	-fx-image: url(linux/dark/unmaximize_focused_pressed.png);
 }
 
 /* Unfocused */
 
-.lightMode .stage-unfocused #close {
+.lightMode.stage-unfocused #close {
 	-fx-image: url(linux/light/close_unfocused.png);
 }
 
-.darkMode .stage-unfocused #close {
+.darkMode.stage-focused #close {
 	-fx-image: url(linux/dark/close_unfocused.png);
 }
 
-.lightMode .stage-unfocused #close:hover {
+.lightMode.stage-unfocused #close:hover {
 	-fx-image: url(linux/light/close_unfocused_prelight.png);
 }
 
-.darkMode .stage-unfocused #close:hover {
+.darkMode.stage-focused #close:hover {
 	-fx-image: url(linux/dark/close_unfocused_prelight.png);
 }
 
-.lightMode .stage-unfocused #close.pressed {
+.lightMode.stage-unfocused #close.pressed {
 	-fx-image: url(linux/light/close_unfocused_pressed.png);
 }
 
-.darkMode .stage-unfocused #close.pressed {
+.darkMode.stage-focused #close.pressed {
 	-fx-image: url(linux/dark/close_unfocused_pressed.png);
 }
 
-.lightMode .stage-unfocused #minimize {
+.lightMode.stage-unfocused #minimize {
 	-fx-image: url(linux/light/minimize_unfocused.png);
 }
 
-.darkMode .stage-unfocused #minimize {
+.darkMode.stage-focused #minimize {
 	-fx-image: url(linux/dark/minimize_unfocused.png);
 }
 
-.lightMode .stage-unfocused #minimize:hover {
+.lightMode.stage-unfocused #minimize:hover {
 	-fx-image: url(linux/light/minimize_unfocused_prelight.png);
 }
 
-.darkMode .stage-unfocused #minimize:hover {
+.darkMode.stage-focused #minimize:hover {
 	-fx-image: url(linux/dark/minimize_unfocused_prelight.png);
 }
 
-.lightMode .stage-unfocused #minimize.pressed {
+.lightMode.stage-unfocused #minimize.pressed {
 	-fx-image: url(linux/light/minimize_unfocused_pressed.png);
 }
 
-.darkMode .stage-unfocused #minimize.pressed {
+.darkMode.stage-focused #minimize.pressed {
 	-fx-image: url(linux/dark/minimize_unfocused_pressed.png);
 }
 
-.lightMode .stage-unfocused #maximize {
+.lightMode.stage-unfocused #maximize {
 	-fx-image: url(linux/light/maximize_unfocused.png);
 }
 
-.darkMode .stage-unfocused #maximize {
+.darkMode.stage-focused #maximize {
 	-fx-image: url(linux/dark/maximize_unfocused.png);
 }
 
-.lightMode .stage-unfocused #maximize:hover {
+.lightMode.stage-unfocused #maximize:hover {
 	-fx-image: url(linux/light/maximize_unfocused_prelight.png);
 }
 
-.darkMode .stage-unfocused #maximize:hover {
+.darkMode.stage-focused #maximize:hover {
 	-fx-image: url(linux/dark/maximize_unfocused_prelight.png);
 }
 
-.lightMode .stage-unfocused #maximize.pressed {
+.lightMode.stage-unfocused #maximize.pressed {
 	-fx-image: url(linux/light/maximize_unfocused_pressed.png);
 }
 
-.darkMode .stage-unfocused #maximize.pressed {
+.darkMode.stage-focused #maximize.pressed {
 	-fx-image: url(linux/dark/maximize_unfocused_pressed.png);
 }
 
-.lightMode .stage-unfocused #maximize.restorable {
+.lightMode.stage-unfocused #maximize.restorable {
 	-fx-image: url(linux/light/unmaximize_unfocused.png);
 }
 
-.darkMode .stage-unfocused #maximize.restorable {
+.darkMode.stage-focused #maximize.restorable {
 	-fx-image: url(linux/dark/unmaximize_unfocused.png);
 }
 
-.lightMode .stage-unfocused #maximize.restorable:hover {
+.lightMode.stage-unfocused #maximize.restorable:hover {
 	-fx-image: url(linux/light/unmaximize_unfocused_prelight.png);
 }
 
-.darkMode .stage-unfocused #maximize.restorable:hover {
+.darkMode.stage-focused #maximize.restorable:hover {
 	-fx-image: url(linux/dark/unmaximize_unfocused_prelight.png);
 }
 
-.lightMode .stage-unfocused #maximize.restorable.pressed {
+.lightMode.stage-unfocused #maximize.restorable.pressed {
 	-fx-image: url(linux/light/unmaximize_unfocused_pressed.png);
 }
 
-.darkMode .stage-unfocused #maximize.restorable.pressed {
+.darkMode.stage-focused #maximize.restorable.pressed {
 	-fx-image: url(linux/dark/unmaximize_unfocused_pressed.png);
 }
 
