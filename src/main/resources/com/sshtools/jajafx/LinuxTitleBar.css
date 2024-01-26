@@ -16,6 +16,7 @@
 }
 
 #accessories {
+	-fx-spacing: 4px;
 	-fx-padding: 6px 0px 6px 6px;
 }
 

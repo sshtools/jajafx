@@ -66,7 +66,9 @@ public class TitleBar extends AnchorPane {
 	public void addAccessories(Node... accessories) {
 		var ac = currentAccessories.getChildren();
 		Arrays.asList(accessories).forEach(a -> { 
-			ac.add(Platforms.style().accessory(a)); 
+			var ax = Platforms.style().accessory(a);
+			ac.add(ax); 
+			ax.setOnMouseClicked(a.getOnMouseClicked());
 		});
 		for(int i = 0 ; i < ac.size(); i++) {
 			var a = ac.get(i);

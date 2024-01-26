@@ -96,6 +96,15 @@ public class Platforms {
 		public URL css() {
 			return Platforms.class.getResource("Linux.css");
 		}
+
+		@Override
+		public Node accessory(Node accessory) {
+			var g = new HBox(accessory);
+			g.getStyleClass().add("accessory-wrapper");
+			g.setAlignment(Pos.CENTER);
+			g.setPrefWidth(38);
+			return g;
+		}
 	}
 
 	private final static class WindowsPlatformStyle extends AbstractPlatformStyle {
