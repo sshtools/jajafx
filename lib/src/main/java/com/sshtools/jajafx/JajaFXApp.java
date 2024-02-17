@@ -43,7 +43,11 @@ public abstract class JajaFXApp<A> extends Application {
 		this.appPreferences = appPreferences;
 	}
 
-	public void addCommonStylesheets(ObservableList<String> stylesheets) {
+	public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void addCommonStylesheets(ObservableList<String> stylesheets) {
 		FXUtil.addIfNotAdded(stylesheets, JajaFXApp.class.getResource("Common.css").toExternalForm());
 		FXUtil.addIfNotAdded(stylesheets, Platforms.style().css().toExternalForm());
 		var appResource = getClass().getResource("App.css");
@@ -70,8 +74,8 @@ public abstract class JajaFXApp<A> extends Application {
 			return false;
 	}
 
-	public final Boolean isDecorated() {
-		return JajaApp.getInstance().standardWindowDecorations.orElse(defaultStandardWindowDecorations);
+	public final boolean isDecorated() {
+		return JajaApp.getInstance() == null ? false : JajaApp.getInstance().standardWindowDecorations.orElse(defaultStandardWindowDecorations);
 	}
 
 	public final boolean isDefaultStandardWindowDecorations() {
@@ -140,7 +144,7 @@ public abstract class JajaFXApp<A> extends Application {
 	protected abstract Node createContent(Stage stage);
 
 	protected DarkMode getDarkMode() {
-		return DarkMode.valueOf(appPreferences.get("darkMode", DarkMode.AUTO.name()));
+		return DarkMode.valueOf(appPreferences.get("darkMode", DarkMode.AUTO.name()).toUpperCase());
 	}
 	
 	protected void listenForDarkModeChanges() {
