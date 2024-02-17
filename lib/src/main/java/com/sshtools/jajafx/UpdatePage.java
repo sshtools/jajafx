@@ -17,7 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class UpdatePage<A extends JajaFXApp<?>> extends AbstractTile<A> {
+public class UpdatePage<A extends JajaFXApp<? extends JajaApp<A>>> extends AbstractTile<A> {
 
 	public final static ResourceBundle RESOURCES = ResourceBundle.getBundle(UpdatePage.class.getName());
 

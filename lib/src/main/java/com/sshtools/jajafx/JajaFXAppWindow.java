@@ -83,7 +83,16 @@ public class JajaFXAppWindow {
 		stage.setOnHidden(this::onClose);
 	}
 
-	public void updateDarkMode() {
+	public ImageView getTitleImage() {
+        return titleImage;
+    }
+
+    public void setTitleImage(ImageView titleImage) {
+        this.titleImage = titleImage;
+        checkFrameTitle();
+    }
+
+    public void updateDarkMode() {
 		if (app.isDarkMode()) {
 			jMetro.setStyle(Style.DARK);
 		} else {

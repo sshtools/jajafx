@@ -2,6 +2,7 @@ package com.sshtools.jajafx;
 
 import java.net.URL;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 import org.scenicview.ScenicView;
 
@@ -15,7 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> extends Application {
+public abstract class JajaFXApp<A> extends Application {
 
 	public enum DarkMode {
 		AUTO, ALWAYS, NEVER
@@ -33,13 +34,13 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 	private boolean defaultStandardWindowDecorations;
 	private boolean showFrameTitle = true;
 	private final ObservableList<JajaFXAppWindow> windows = FXCollections.observableArrayList();
+	private final Preferences appPreferences;
 	
-	protected JajaFXApp(URL icon, String title, A container) {
+	protected JajaFXApp(URL icon, String title, A container, Preferences appPreferences) {
 		this.icon = icon;
 		this.container = container;
 		this.title = title;
-		
-		container.init(this);
+		this.appPreferences = appPreferences;
 	}
 
 	public void addCommonStylesheets(ObservableList<String> stylesheets) {
@@ -98,10 +99,6 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 		newAppWindow(primaryStage);
 		primaryStage.show();
 
-		var updateService = getContainer().getUpdateService();
-		updateService.needsUpdatingProperty().addListener((c, o, n) -> needUpdate());
-		updateService.rescheduleCheck();
-		
 		onStarted();
 		
 		try {
@@ -143,18 +140,18 @@ public abstract class JajaFXApp<A extends JajaApp<? extends JajaFXApp<A>>> exten
 	protected abstract Node createContent(Stage stage);
 
 	protected DarkMode getDarkMode() {
-		return DarkMode.valueOf(getContainer().getAppPreferences().get("darkMode", DarkMode.AUTO.name()));
+		return DarkMode.valueOf(appPreferences.get("darkMode", DarkMode.AUTO.name()));
 	}
 	
 	protected void listenForDarkModeChanges() {
-		getContainer().getAppPreferences().addPreferenceChangeListener(pce -> {
+	    appPreferences.addPreferenceChangeListener(pce -> {
 			if (pce.getKey().equals("darkMode")) {
 				updateDarkMode();
 			}
 		});
 	}
 
-	protected void needUpdate() {
+	public void needUpdate() {
 		//
 	}
 

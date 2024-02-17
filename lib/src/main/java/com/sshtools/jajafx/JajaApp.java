@@ -114,7 +114,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	}
 
 	@SuppressWarnings("unchecked")
-	void init(JajaFXApp<?> fxApp) {
+	public void init(JajaFXApp<?> fxApp) {
 		this.fxApp = (FXA) fxApp;
 	}
 
@@ -207,8 +207,11 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	}
 
 	public final AppUpdateService getUpdateService() {
-		if (updateService == null)
+		if (updateService == null) {
 			updateService = createUpdateService();
+	        updateService.needsUpdatingProperty().addListener((c, o, n) -> getFXApp().needUpdate());
+	        updateService.rescheduleCheck();
+		}
 		return updateService;
 	}
 
