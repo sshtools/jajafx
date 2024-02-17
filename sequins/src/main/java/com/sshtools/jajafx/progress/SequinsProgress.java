@@ -1,4 +1,4 @@
-package com.sshtools.jajafx;
+package com.sshtools.jajafx.progress;
 
 import static com.sshtools.jajafx.FXUtil.load;
 import static com.sshtools.jajafx.FXUtil.maybeQueue;

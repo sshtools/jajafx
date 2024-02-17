@@ -1,6 +1,9 @@
-package com.sshtools.jajafx;
+package com.sshtools.jajafx.progress;
 
 import java.util.ResourceBundle;
+
+import com.sshtools.jajafx.AbstractTile;
+import com.sshtools.jajafx.JajaFXApp;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

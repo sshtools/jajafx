@@ -1,10 +1,12 @@
-package com.sshtools.jajafx;
+package com.sshtools.jajafx.progress;
 
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.sshtools.jajafx.JajaFXApp;
+import com.sshtools.jajafx.Tiles;
 import com.sshtools.sequins.Prompter;
 
 import javafx.application.Platform;

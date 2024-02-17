@@ -4,7 +4,6 @@ open module com.sshtools.jajafx {
 	requires java.net.http;
 	requires org.jfxtras.styles.jmetro;
 	requires javafx.base;
-	requires transitive com.sshtools.sequins;
 	requires transitive com.sshtools.jaul;
 	requires transitive javafx.controls;
 	requires transitive javafx.graphics;
