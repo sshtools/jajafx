@@ -2,7 +2,6 @@ package com.sshtools.jajafx;
 
 import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
 
-import java.net.URL;
 import java.util.function.Consumer;
 
 import javafx.beans.value.ChangeListener;
@@ -12,7 +11,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -28,8 +26,8 @@ public class JajaFXAppWindow implements ListChangeListener<Screen> {
 	private JMetro jMetro;
 	private TitleBar titleBar;
 	private final Stage stage;
-	private boolean showFrameTitle = true;
 	private Label titleLabel;
+	private Node titleNode;
 	private ImageView titleImage;
 
 	protected JajaFXApp<?> app;
@@ -205,18 +203,6 @@ public class JajaFXAppWindow implements ListChangeListener<Screen> {
 		return Platforms.style().titleBar();
 	}
 
-	protected ImageView createTitleImage() {
-		var titleImage = new ImageView(new Image(getTitleBarImage().toExternalForm()));
-		titleImage.setFitHeight(150);
-		titleImage.setFitWidth(200);
-		titleImage.setPreserveRatio(true);
-		return titleImage;
-	}
-
-	protected URL getTitleBarImage() {
-		return JajaFXApp.class.getResource("jadaptive-logo.png");
-	}
-
 	protected void setStagePlatformStyles(Node ui) {
 		Platforms.style().configureStageRootStyles(ui);
 	}
@@ -234,21 +220,20 @@ public class JajaFXAppWindow implements ListChangeListener<Screen> {
 
 	final void checkFrameTitle() {
 		if (titleBar != null) {
-			if (showFrameTitle && titleLabel == null) {
-				if (titleImage != null) {
-					titleBar.getTitleStack().getChildren().remove(titleImage);
-				}
-				titleLabel = new Label();
-				titleLabel.getStyleClass().add("title-label");
-				titleLabel.textProperty().bind(stage.titleProperty());
-				titleBar.getTitleStack().getChildren().add(titleLabel);
-			} else if (!showFrameTitle && titleImage == null) {
-				if (titleLabel != null) {
-					titleBar.getTitleStack().getChildren().remove(titleLabel);
-				}
-				titleImage = createTitleImage();
-				titleBar.getTitleStack().getChildren().add(titleImage);
-			}
+		    if(titleNode != null) {
+                titleBar.getTitleStack().getChildren().remove(titleNode);
+		    }
+		    if(titleImage == null) {
+		        if(titleLabel == null) {
+	                titleLabel = new Label();
+	                titleLabel.getStyleClass().add("title-label");
+	                titleLabel.textProperty().bind(stage.titleProperty());
+		        }
+                titleBar.getTitleStack().getChildren().add(titleNode = titleLabel);
+		    }
+		    else {
+                titleBar.getTitleStack().getChildren().add(titleNode = titleImage);
+		    }
 		}
 	}
 

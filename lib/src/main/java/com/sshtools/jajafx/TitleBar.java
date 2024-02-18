@@ -7,7 +7,6 @@ import java.util.Arrays;
 import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -25,7 +24,7 @@ public class TitleBar extends AnchorPane {
 	protected HBox accessories;
 	
 	@FXML
-	private ImageView lodgo;
+	private ImageView logo;
 	@FXML
 	private StackPane titleStack;
 	@FXML
