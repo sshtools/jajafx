@@ -1,9 +1,13 @@
 package com.sshtools.jajafx;
 
-import java.net.URL;
-
 import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
 
+import java.net.URL;
+import java.util.function.Consumer;
+
+import javafx.beans.value.ChangeListener;
+import javafx.collections.ListChangeListener;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,13 +16,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 
-public class JajaFXAppWindow {
+public class JajaFXAppWindow implements ListChangeListener<Screen> {
 
 	private JMetro jMetro;
 	private TitleBar titleBar;
@@ -30,8 +35,14 @@ public class JajaFXAppWindow {
 	protected JajaFXApp<?> app;
 	protected final Scene scene;
 	protected final Node content;
+    private boolean keepInBounds;
 
-	public JajaFXAppWindow(Stage stage, Node content, JajaFXApp<?> app) {
+
+    public JajaFXAppWindow(Stage stage, Node content, JajaFXApp<?> app) {
+        this(stage, content, app, 0, 0);
+    }
+
+	public JajaFXAppWindow(Stage stage, Node content, JajaFXApp<?> app, double width, double height) {
 		this.stage = stage;
 		this.app = app;
 		this.content = content;
@@ -72,15 +83,48 @@ public class JajaFXAppWindow {
 		jMetro.setScene(scene);
 		var stylesheets = scene.getStylesheets();
 		app.addCommonStylesheets(stylesheets);
-
-		stage.setWidth(760);
-		stage.setHeight(680);
+		if(width == 0 || height == 0) {
+    		stage.setWidth(760);
+    		stage.setHeight(680);
+		}
+		else {
+	        stage.setWidth(width);
+	        stage.setHeight(height);
+		}
 		stage.setScene(scene);
 
 		app.getWindows().add(this); 
 		updateDarkMode();
 		
 		stage.setOnHidden(this::onClose);
+	}
+	
+	public void configurePersistentGeometry(Rectangle2D limits, Rectangle2D configuredBounds, Consumer<Rectangle2D> onUpdate) {
+
+	    if(configuredBounds == null) {
+	        stage.centerOnScreen();
+	    }
+	    else {
+	        stage.setX(configuredBounds.getMinX());
+            stage.setY(configuredBounds.getMinY());
+            stage.setWidth(configuredBounds.getWidth());
+            stage.setHeight(configuredBounds.getHeight());
+	    }
+
+        if(limits != null) {
+            stage.setMaxWidth(limits.getMaxX());
+            stage.setMinWidth(limits.getMinX());
+            stage.setMaxHeight(limits.getMaxY());
+            stage.setMinHeight(limits.getMinY());
+        }
+	    
+	    if(onUpdate != null) {
+            ChangeListener<? super Number> l = (c,o,n) -> onUpdate.accept(new Rectangle2D(stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight()));;
+            stage.xProperty().addListener(l );
+            stage.yProperty().addListener(l);
+            stage.widthProperty().addListener(l);
+            stage.heightProperty().addListener(l);
+	    }
 	}
 
 	public ImageView getTitleImage() {
@@ -124,6 +168,38 @@ public class JajaFXAppWindow {
 	public StageStyle borderlessStageStyle() {
 		return StageStyle.TRANSPARENT;
 	}
+	
+	public void setKeepInBounds(boolean keepInBounds) {
+	    if(this.keepInBounds != keepInBounds) {
+	        this.keepInBounds = keepInBounds;
+	        if(keepInBounds) {
+	            keepInBounds();
+	            Screen.getScreens().addListener(this);
+	        }
+	        else {
+                Screen.getScreens().removeListener(this);
+	        }
+	    }
+	}
+
+    protected void keepInBounds() {
+
+        var screens = Screen.getScreensForRectangle(stage.getX(), stage.getY(), stage.getWidth(),
+                stage.getHeight());
+        var screen = screens.isEmpty() ? Screen.getPrimary() : screens.get(0);
+        var bounds = screen.getVisualBounds();
+
+        if (stage.getX() < bounds.getMinX()) {
+            stage.setX(bounds.getMinX());
+        } else if (stage.getX() + stage.getWidth() > bounds.getMaxX()) {
+            stage.setX(bounds.getMaxX() - stage.getWidth());
+        }
+        if (stage.getY() < bounds.getMinY()) {
+            stage.setY(bounds.getMinY());
+        } else if (stage.getY() + stage.getHeight() > bounds.getMaxY()) {
+            stage.setY(bounds.getMaxY() - stage.getHeight());
+        }
+    }
 
 	protected TitleBar createTitleBar() {
 		return Platforms.style().titleBar();
@@ -175,4 +251,9 @@ public class JajaFXAppWindow {
 			}
 		}
 	}
+
+    @Override
+    public void onChanged(Change<? extends Screen> c) {
+        keepInBounds();
+    }
 }

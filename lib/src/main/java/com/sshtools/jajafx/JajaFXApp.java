@@ -119,7 +119,7 @@ public abstract class JajaFXApp<A> extends Application {
 		
 		var appWindow = createAppWindow(primaryStage);
 		primaryStage.getIcons().add(new Image(icon.toExternalForm()));
-		onConfigurePrimaryStage(primaryStage);
+		onConfigurePrimaryStage(appWindow, primaryStage);
 		return (W)appWindow;
 	}
 
@@ -159,7 +159,7 @@ public abstract class JajaFXApp<A> extends Application {
 		//
 	}
 
-	protected void onConfigurePrimaryStage(Stage stage) {
+	protected void onConfigurePrimaryStage(JajaFXAppWindow wnd, Stage stage) {
 		primaryStage.centerOnScreen();
 	}
 
