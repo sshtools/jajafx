@@ -21,7 +21,7 @@ import javafx.stage.WindowEvent;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 
-public class JajaFXAppWindow implements ListChangeListener<Screen> {
+public class JajaFXAppWindow<A extends JajaFXApp<?>> implements ListChangeListener<Screen> {
 
 	private JMetro jMetro;
 	private TitleBar titleBar;
@@ -30,17 +30,17 @@ public class JajaFXAppWindow implements ListChangeListener<Screen> {
 	private Node titleNode;
 	private ImageView titleImage;
 
-	protected JajaFXApp<?> app;
+	protected A app;
 	protected final Scene scene;
 	protected final Node content;
     private boolean keepInBounds;
 
 
-    public JajaFXAppWindow(Stage stage, Node content, JajaFXApp<?> app) {
+    public JajaFXAppWindow(Stage stage, Node content, A app) {
         this(stage, content, app, 0, 0);
     }
 
-	public JajaFXAppWindow(Stage stage, Node content, JajaFXApp<?> app, double width, double height) {
+	public JajaFXAppWindow(Stage stage, Node content, A app, double width, double height) {
 		this.stage = stage;
 		this.app = app;
 		this.content = content;
