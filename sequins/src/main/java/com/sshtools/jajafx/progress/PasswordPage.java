@@ -14,7 +14,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 
-public class PasswordPage<A extends JajaFXApp<?>> extends AbstractTile<A> {
+public class PasswordPage<A extends JajaFXApp<?, ?>> extends AbstractTile<A> {
 
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(PasswordPage.class.getName());
 

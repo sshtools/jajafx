@@ -18,7 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class YesNoPage<A extends JajaFXApp<?>> extends AbstractTile<A> {
+public class YesNoPage<A extends JajaFXApp<?, ?>> extends AbstractTile<A> {
 
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(YesNoPage.class.getName());
 

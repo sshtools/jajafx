@@ -11,7 +11,7 @@ import com.sshtools.sequins.Prompter;
 
 import javafx.application.Platform;
 
-public class AppPrompter<C extends JajaFXApp<?>> implements Prompter {
+public class AppPrompter<C extends JajaFXApp<?, ?>> implements Prompter {
 	
 	private final Tiles<C> wiz;
 	private final ResourceBundle resources;

@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class PromptPage<A extends JajaFXApp<?>> extends AbstractTile<A> {
+public class PromptPage<A extends JajaFXApp<?, ?>> extends AbstractTile<A> {
 
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(PromptPage.class.getName());
 
