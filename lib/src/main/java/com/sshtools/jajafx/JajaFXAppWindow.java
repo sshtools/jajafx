@@ -21,7 +21,7 @@ import javafx.stage.WindowEvent;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 
-public class JajaFXAppWindow<A extends JajaFXApp<?>> implements ListChangeListener<Screen> {
+public class JajaFXAppWindow<A extends JajaFXApp<?, ?>> implements ListChangeListener<Screen> {
 
 	private JMetro jMetro;
 	private TitleBar titleBar;

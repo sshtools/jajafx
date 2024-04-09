@@ -16,7 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public abstract class JajaFXApp<A> extends Application {
+public abstract class JajaFXApp<A, W extends JajaFXAppWindow<?>> extends Application {
 
 	public enum DarkMode {
 		AUTO, ALWAYS, NEVER
@@ -33,7 +33,7 @@ public abstract class JajaFXApp<A> extends Application {
 	private Stage primaryStage;
 	private boolean defaultStandardWindowDecorations;
 	private boolean showFrameTitle = true;
-	private final ObservableList<JajaFXAppWindow> windows = FXCollections.observableArrayList();
+	private final ObservableList<JajaFXAppWindow<?>> windows = FXCollections.observableArrayList();
 	private final Preferences appPreferences;
 	
 	protected JajaFXApp(URL icon, String title, A container, Preferences appPreferences) {
@@ -114,7 +114,7 @@ public abstract class JajaFXApp<A> extends Application {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <W extends JajaFXAppWindow> W newAppWindow(final Stage primaryStage) {
+	public <W extends JajaFXAppWindow<?>> W newAppWindow(final Stage primaryStage) {
 		primaryStage.setTitle(title);
 		
 		var appWindow = createAppWindow(primaryStage);
@@ -123,8 +123,9 @@ public abstract class JajaFXApp<A> extends Application {
 		return (W)appWindow;
 	}
 
-	public final List<JajaFXAppWindow> getWindows() {
-		return windows;
+	@SuppressWarnings("unchecked")
+	public final  <W extends JajaFXAppWindow<?>> List<W> getWindows() {
+		return (List<W>)windows;
 	}
 
 	public void updateRootStyles(Parent root) {
@@ -137,8 +138,8 @@ public abstract class JajaFXApp<A> extends Application {
 		}
 	}
 
-	protected JajaFXAppWindow createAppWindow(final Stage stage) {
-		return new JajaFXAppWindow(stage, createContent(stage), this);
+	protected JajaFXAppWindow<?> createAppWindow(final Stage stage) {
+		return new JajaFXAppWindow<>(stage, createContent(stage), this);
 	}
 
 	protected abstract Node createContent(Stage stage);
@@ -159,7 +160,7 @@ public abstract class JajaFXApp<A> extends Application {
 		//
 	}
 
-	protected void onConfigurePrimaryStage(JajaFXAppWindow wnd, Stage stage) {
+	protected void onConfigurePrimaryStage(JajaFXAppWindow<?> wnd, Stage stage) {
 		primaryStage.centerOnScreen();
 	}
 

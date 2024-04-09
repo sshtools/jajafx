@@ -27,12 +27,12 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Spec;
 
 @Command
-public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Integer> {
+public abstract class JajaApp<FXA extends JajaFXApp<?, WND>, WND extends JajaFXAppWindow<FXA>> implements Callable<Integer> {
 
-	public static abstract class JajaAppBuilder<BA extends JajaApp<BFXA>, BB extends JajaAppBuilder<BA, BB, BFXA>, BFXA extends JajaFXApp<?>> {
+	public static abstract class JajaAppBuilder<BA extends JajaApp<BFXA, ?>, BB extends JajaAppBuilder<BA, BB, BFXA>, BFXA extends JajaFXApp<?, ?>> {
 
 		private Optional<Phase> defaultPhase = Optional.empty();
-		private Optional<Class<? extends JajaFXApp<?>>> appClazz = Optional.empty();
+		private Optional<Class<? extends JajaFXApp<?, ?>>> appClazz = Optional.empty();
 		private Optional<Integer> inceptionYear;
 		private Optional<ResourceBundle> appResources = Optional.empty();
 
@@ -43,7 +43,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		}
 
 		@SuppressWarnings("unchecked")
-		public BB withApp(Class<? extends JajaFXApp<?>> appClazz) {
+		public BB withApp(Class<? extends JajaFXApp<?, ?>> appClazz) {
 			this.appClazz = Optional.of(appClazz);
 			return (BB) this;
 		}
@@ -90,7 +90,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	@Spec
 	CommandSpec spec;
 
-	private final Class<? extends JajaFXApp<?>> appClazz;
+	private final Class<? extends JajaFXApp<?, ?>> appClazz;
 	private final Optional<Phase> defaultPhase;
 	private final Optional<Integer> inceptionYear;
 	private final ResourceBundle appResources;
@@ -101,7 +101,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	private Optional<Listener> onOpenRequest = Optional.empty();
 	private FXA fxApp;
 
-	private static JajaApp<?> instance;
+	private static JajaApp<?, ?> instance;
 
 	protected JajaApp(JajaAppBuilder<?, ?, ?> builder) {
 		instance = this;
@@ -114,7 +114,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 	}
 
 	@SuppressWarnings("unchecked")
-	public void init(JajaFXApp<?> fxApp) {
+	public void init(JajaFXApp<?, ?> fxApp) {
 		this.fxApp = (FXA) fxApp;
 	}
 
@@ -134,7 +134,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?>> implements Callable<Inte
 		return AppRegistry.getBestAppPreferences(app, this);
 	}
 
-	public static JajaApp<?> getInstance() {
+	public static JajaApp<?, ?> getInstance() {
 		return instance;
 	}
 

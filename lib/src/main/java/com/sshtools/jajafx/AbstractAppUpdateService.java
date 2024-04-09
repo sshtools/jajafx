@@ -22,9 +22,9 @@ public abstract class AbstractAppUpdateService extends AbstractUpdateService imp
 	private StringProperty availableVersion = new SimpleStringProperty();;
 	private BooleanProperty needsUpdating = new SimpleBooleanProperty();
 
-	protected JajaApp<? extends JajaFXApp<?>> context;
+	protected JajaApp<? extends JajaFXApp<?, ?>, ?> context;
 
-	protected AbstractAppUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
+	protected AbstractAppUpdateService(JajaApp<? extends JajaFXApp<?, ?>, ?> context) {
 		super(context.getUpdateContext());
 		this.context = context; 
 		needsUpdating.bind(Bindings.isNotNull(availableVersion));

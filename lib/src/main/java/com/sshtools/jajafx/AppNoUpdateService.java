@@ -14,7 +14,7 @@ public class AppNoUpdateService extends NoUpdateService implements AppUpdateServ
 	private ReadOnlyBooleanProperty checkOnly = new SimpleBooleanProperty();
 	private ReadOnlyStringProperty availableVersionProperty = new SimpleStringProperty();
 
-	public AppNoUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
+	public AppNoUpdateService(JajaApp<? extends JajaFXApp<?, ?>, ?> context) {
 		super(context.getUpdateContext());
 	}
 

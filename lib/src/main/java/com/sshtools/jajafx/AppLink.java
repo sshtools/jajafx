@@ -15,7 +15,7 @@ import javafx.scene.input.ClipboardContent;
 
 public class AppLink extends Hyperlink {
 	final static ResourceBundle RESOURCES = ResourceBundle.getBundle(AppLink.class.getName());
-	private final JajaFXApp<?> app;
+	private final JajaFXApp<?, ?> app;
 	private final StringProperty url = new SimpleStringProperty();
 	private boolean urlSet;
 	private boolean adjusting;
@@ -45,11 +45,11 @@ public class AppLink extends Hyperlink {
 		this(null);
 	}
 
-	public AppLink(JajaFXApp<?> app) {
+	public AppLink(JajaFXApp<?, ?> app) {
 		this(app, null);
 	}
 
-	public AppLink(JajaFXApp<?> app, String text, String url, Node graphic) {
+	public AppLink(JajaFXApp<?, ?> app, String text, String url, Node graphic) {
 		super(text, graphic);
 		this.app = app;
 		init();
@@ -57,15 +57,15 @@ public class AppLink extends Hyperlink {
 			setUrl(url);
 	}
 
-	public AppLink(JajaFXApp<?> app, String text, Node graphic) {
+	public AppLink(JajaFXApp<?, ?> app, String text, Node graphic) {
 		this(app, text, text, graphic);
 	}
 
-	public AppLink(JajaFXApp<?> app, String text) {
+	public AppLink(JajaFXApp<?, ?> app, String text) {
 		this(app, text, text);
 	}
 
-	public AppLink(JajaFXApp<?> app, String text, String url) {
+	public AppLink(JajaFXApp<?, ?> app, String text, String url) {
 		super(text);
 		this.app = app;
 		init();
@@ -109,7 +109,7 @@ public class AppLink extends Hyperlink {
 		return url;
 	}
 
-	private JajaFXApp<?> getApp() {
+	private JajaFXApp<?, ?> getApp() {
 		return app == null ? JajaApp.getInstance().getFXApp() : app;
 	}
 

@@ -14,7 +14,7 @@ public class AppInstall4JUpdateService extends AbstractAppUpdateService {
 
 	private final App app;
 
-	public AppInstall4JUpdateService(JajaApp<? extends JajaFXApp<?>> context, App app) {
+	public AppInstall4JUpdateService(JajaApp<? extends JajaFXApp<?, ?>, ?> context, App app) {
 		super(context);
 		this.app = app;
 	}

@@ -6,7 +6,7 @@ import com.sshtools.jaul.DummyUpdater.DummyUpdaterBuilder;
 
 public class AppDummyUpdateService extends AbstractAppUpdateService {
 
-	public AppDummyUpdateService(JajaApp<? extends JajaFXApp<?>> context) {
+	public AppDummyUpdateService(JajaApp<? extends JajaFXApp<?, ?>, ?> context) {
 		super(context);
 	}
 
