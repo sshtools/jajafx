@@ -77,6 +77,7 @@ public class AppPrompter<C extends JajaFXApp<?, ?>> implements Prompter {
 		try {
 			sem.acquire();
 			Platform.runLater(() -> {
+				@SuppressWarnings("unchecked")
 				var promptPage = (PromptPage<C>)wiz.popup(PromptPage.class);
 				var txt = MessageFormat.format(fmt, args);
 				promptPage.text().setText(txt);
@@ -138,6 +139,7 @@ public class AppPrompter<C extends JajaFXApp<?, ?>> implements Prompter {
 		try {
 			sem.acquire();
 			Platform.runLater(() -> {
+				@SuppressWarnings("unchecked")
 				var yesNoPage = (YesNoPage<C>)wiz.popup(YesNoPage.class);
 				yesNoPage.preferYes();
 				

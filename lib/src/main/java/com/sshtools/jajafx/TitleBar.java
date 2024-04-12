@@ -3,6 +3,8 @@ package com.sshtools.jajafx;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
@@ -35,6 +37,7 @@ public class TitleBar extends AnchorPane {
 	private Node close;
 
 	protected HBox currentAccessories;
+	protected Map<Node, Node> accMap = new HashMap<>();
 	
 	public TitleBar() {
 		this("TitleBar.fxml");
@@ -67,12 +70,15 @@ public class TitleBar extends AnchorPane {
 		Arrays.asList(accessories).forEach(a -> { 
 			var oc = a.getOnMouseClicked();
 			a.setOnMouseClicked(evt -> {
-				oc.handle(evt);
+				if(oc != null) {
+					oc.handle(evt);
+				}
 				evt.consume();
 			});
 			var ax = Platforms.style().accessory(a);
 			ac.add(ax); 
 			ax.setOnMouseClicked(oc);
+			accMap.put(a, ax);
 		});
 		for(int i = 0 ; i < ac.size(); i++) {
 			var a = ac.get(i);
@@ -84,6 +90,12 @@ public class TitleBar extends AnchorPane {
 			}
 		}
 		
+	}
+	
+	public void removeAccessories(Node... accessories) {
+		for(var a : accessories) {
+			this.accessories.getChildren().remove(accMap.remove(a));
+		}
 	}
 	
 	public final BooleanProperty minimizeVisibleProperty() {
