@@ -1,14 +1,15 @@
 package com.sshtools.jajafx;
 
-import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
-
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.function.Consumer;
+
+import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
 
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -18,22 +19,21 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import jfxtras.styles.jmetro.JMetro;
-import jfxtras.styles.jmetro.Style;
 
 public class JajaFXAppWindow<A extends JajaFXApp<?, ?>> implements ListChangeListener<Screen> {
 
-	private JMetro jMetro;
 	private TitleBar titleBar;
 	private final Stage stage;
 	private Label titleLabel;
 	private Node titleNode;
 	private ImageView titleImage;
+	private AppStyle appStyle;
 
 	protected A app;
 	protected final Scene scene;
 	protected final Node content;
     private boolean keepInBounds;
+	private Set<String> defaultStylesheets;
 
 
     public JajaFXAppWindow(Stage stage, Node content, A app) {
@@ -52,8 +52,11 @@ public class JajaFXAppWindow<A extends JajaFXApp<?, ?>> implements ListChangeLis
 			ui.setTop(titleBar = createTitleBar());
 			checkFrameTitle();
 		}
-		app.addCommonStylesheets(
-				content instanceof Parent ? ((Parent) content).getStylesheets() : content.getParent().getStylesheets());
+		
+		// TODO check .. this doesnt seem necessary, its done slightly later on too
+//		app.addCommonStylesheets(
+//				content instanceof Parent ? ((Parent) content).getStylesheets() : content.getParent().getStylesheets());
+		
 		ui.setCenter(content);
 
 		if (app.isDecorated()) {
@@ -77,9 +80,10 @@ public class JajaFXAppWindow<A extends JajaFXApp<?, ?>> implements ListChangeLis
 		});
 		setStageFocusStyles(scene.getRoot(), stage.isFocused());
 		setStagePlatformStyles(scene.getRoot());
-		jMetro = new JMetro(app.isDarkMode() ? Style.DARK : Style.LIGHT);
-		jMetro.setScene(scene);
+		
+		appStyle = new AppStyle(scene, app.isDarkMode());
 		var stylesheets = scene.getStylesheets();
+		defaultStylesheets = new LinkedHashSet<>(stylesheets);
 		app.addCommonStylesheets(stylesheets);
 		if(width == 0 || height == 0) {
     		stage.setWidth(760);
@@ -95,6 +99,12 @@ public class JajaFXAppWindow<A extends JajaFXApp<?, ?>> implements ListChangeLis
 		updateDarkMode();
 		
 		stage.setOnHidden(this::onClose);
+	}
+
+	public void reloadCss() {
+		scene.getStylesheets().clear();
+		scene.getStylesheets().addAll(defaultStylesheets);
+		app.addCommonStylesheets(scene.getStylesheets());
 	}
 	
 	public void configurePersistentGeometry(Rectangle2D limits, Rectangle2D configuredBounds, Consumer<Rectangle2D> onUpdate) {
@@ -135,11 +145,7 @@ public class JajaFXAppWindow<A extends JajaFXApp<?, ?>> implements ListChangeLis
     }
 
     public void updateDarkMode() {
-		if (app.isDarkMode()) {
-			jMetro.setStyle(Style.DARK);
-		} else {
-			jMetro.setStyle(Style.LIGHT);
-		}
+    	appStyle.updateDarkMode(app.isDarkMode());
 		app.updateRootStyles(scene.getRoot());
 	}
 

@@ -3,6 +3,7 @@ open module com.sshtools.jajafx {
 	requires transitive java.prefs;
 	requires java.net.http;
 	requires org.jfxtras.styles.jmetro;
+//	requires transitive com.pixelduke.transit;
 	requires javafx.base;
 	requires transitive com.sshtools.jaul;
 	requires transitive javafx.controls;

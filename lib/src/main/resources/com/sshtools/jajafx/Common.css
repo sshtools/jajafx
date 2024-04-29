@@ -1,4 +1,5 @@
 
+
 .darkMode .ikonli-font-icon {
 	-fx-icon-color: #eee;
 }
@@ -299,6 +300,20 @@ Button:default .ikonli-font-icon {
 }
 
 /* Work around for text fields inside dialog panes in dark mode  */
+.darkMode .text-input:focused > Pane {
+    -fx-background-color: transparent !important;
+}
+
+.darkMode.stage-unfocused FakeFocusTextField.text-input .text {
+	-fx-stroke: #ddd; 
+	/* TODO not great ... 
+	 * spinners and combo boxes in dark mode when window is unfocused are black.
+	 * Nothing else seems to work here. -fx-text-fill on the text-input should, but
+	 * doesn't. -fx-fill doesn't work here ... just stroke!?! It only appears to be
+	 * these FakeFocusTextField that have a problem 
+	 */
+}
+
 DialogPane.darkMode .text-input:focused, DialogPane.darkMode .text-input:focused > * {
 	-fx-text-fill: #111 ;
 	-fx-background-color: accent_color, background_focused_color;
