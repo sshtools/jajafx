@@ -36,11 +36,15 @@ public abstract class JajaFXApp<A, W extends JajaFXAppWindow<?>> extends Applica
 	private final ObservableList<JajaFXAppWindow<?>> windows = FXCollections.observableArrayList();
 	private final Preferences appPreferences;
 	
+	@SuppressWarnings("unchecked")
 	protected JajaFXApp(URL icon, String title, A container, Preferences appPreferences) {
 		this.icon = icon;
 		this.container = container;
 		this.title = title;
 		this.appPreferences = appPreferences;
+		if(container instanceof JajaApp jja) {
+			jja.init(this);
+		}
 	}
 
 	public Stage getPrimaryStage() {
