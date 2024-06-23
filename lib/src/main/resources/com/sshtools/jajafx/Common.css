@@ -39,6 +39,16 @@ Button:default .ikonli-font-icon {
 	-fx-spacing: 16px;
 }
 
+.flow-spaced {
+	-fx-vgap: 8px;
+	-fx-hgap: 8px;
+}
+
+.flow-large-spaced {
+	-fx-vgap: 8px;
+	-fx-hgap: 8px;
+}
+
 .hyperlink {
 	-fx-text-fill: accent_color;
 	-fx-text-decoration: underline;
