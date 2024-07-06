@@ -11,7 +11,7 @@
 		<gluonfx.maven.plugin.version>1.0.16</gluonfx.maven.plugin.version>
 		<maven.compiler.target>17</maven.compiler.target> 
 		<maven.compiler.source>17</maven.compiler.source>
-        <javafx.version>22</javafx.version>
+        <javafx.version>21.0.4-ea+1</javafx.version>
 		<build.projectProperties>${basedir}/jadaptive.build.properties</build.projectProperties>
 		<build.userProperties>${user.home}/.jadaptive.build.properties</build.userProperties>
 	</properties>

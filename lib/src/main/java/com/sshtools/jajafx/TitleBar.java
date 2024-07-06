@@ -78,6 +78,8 @@ public class TitleBar extends AnchorPane {
 			var ax = Platforms.style().accessory(a);
 			ac.add(ax); 
 			ax.setOnMouseClicked(oc);
+			ax.visibleProperty().bind(a.visibleProperty());
+            ax.managedProperty().bind(a.managedProperty());
 			accMap.put(a, ax);
 		});
 		for(int i = 0 ; i < ac.size(); i++) {
