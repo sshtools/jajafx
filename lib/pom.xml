@@ -22,7 +22,7 @@
     <parent>
 	    <groupId>com.sshtools</groupId>
 	    <artifactId>jajafx</artifactId>
-	    <version>0.9.5-SNAPSHOT</version>
+	    <version>0.9.5</version>
 	    <relativePath>../</relativePath>
     </parent>
     <artifactId>jajafx-lib</artifactId>
@@ -65,14 +65,14 @@
 		<dependency>
 			<groupId>com.install4j</groupId>
 			<artifactId>install4j-runtime</artifactId>
-			<version>10.0.7</version>
+			<version>10.0.8</version>
 			<!-- MUST be provided, the runtime is added by I4J itself -->
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sshtools</groupId>
 			<artifactId>jaul</artifactId>
-			<version>0.9.11-SNAPSHOT</version>
+			<version>0.9.11</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
