@@ -201,6 +201,30 @@ Button:default .ikonli-font-icon {
 	-fx-underline: false !important;
 }
 
+.pill-danger {
+	-fx-background-color:  derive(#dc3545, -10%);
+	-fx-text-fill: #ccc;
+	-fx-underline: false !important;
+}
+
+.pill-danger:hover {
+	-fx-background-color:  #dc3545;
+	-fx-text-fill: white;
+	-fx-underline: false !important;
+}
+
+.pill-warning {
+	-fx-background-color:  derive(#ffc107, -10%);
+	-fx-text-fill: #333;
+	-fx-underline: false !important;
+}
+
+.pill-warning:hover {
+	-fx-background-color:  #ffc107;
+	-fx-text-fill: #000;
+	-fx-underline: false !important;
+}
+
 .pill-success .ikonli-font-icon, .pill-accent .ikonli-font-icon {
 	-fx-icon-color: #ccc;	
 }
@@ -237,7 +261,7 @@ Button:default .ikonli-font-icon {
 	-fx-text-fill: white;
 }
 
-.pill-accent, .pill-success {
+.pill-accent, .pill-success, .pill-danger, .pill-warning {
 	-fx-padding: 8px;
     -fx-border-radius: 20 20 20 20; 
     -fx-background-radius: 20 20 20 20; 
