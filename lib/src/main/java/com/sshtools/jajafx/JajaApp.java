@@ -81,9 +81,11 @@ public abstract class JajaApp<FXA extends JajaFXApp<?, WND>, WND extends JajaFXA
 	@Option(names = { "-W", "--standard-window-decorations" }, negatable = true, description = "Either prevent or force the use standard window decorations.")
 	Optional<Boolean> standardWindowDecorations;
 
+	@Deprecated
 	@Option(names = { "--jaul-register" }, hidden = true, description = "Register this application with the JADAPTIVE update system and exit. Usually only called on installation.")
 	boolean jaulRegister;
 
+	@Deprecated
 	@Option(names = { "--jaul-deregister" }, hidden = true, description = "De-register this application from the JADAPTIVE update system and exit. Usually only called on uninstallation.")
 	boolean jaulDeregister;
 
