@@ -12,6 +12,7 @@
 		<maven.compiler.target>17</maven.compiler.target> 
 		<maven.compiler.source>17</maven.compiler.source>
         <javafx.version>21.0.4</javafx.version>
+        <javafx.linuxAarch64.version>23</javafx.linuxAarch64.version>
 		<build.projectProperties>${basedir}/jadaptive.build.properties</build.projectProperties>
 		<build.userProperties>${user.home}/.jadaptive.build.properties</build.userProperties>
 	</properties>
@@ -326,6 +327,19 @@
 			</activation>
 			<properties>
 				<javafx.os.family>linux</javafx.os.family>
+			</properties>
+		</profile>
+		<!--Grrrr -->
+		<profile>
+			<id>linux-jfx-aarch64</id>
+			<activation>
+				<os>
+					<arch>aarch64</arch>
+					<family>linux</family>
+				</os>
+			</activation>
+			<properties>
+				<javafx.version>${javafx.linuxAarch64.version}</javafx.version>
 			</properties>
 		</profile>
 		<profile>
