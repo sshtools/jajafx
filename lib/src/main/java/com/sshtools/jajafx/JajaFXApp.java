@@ -143,10 +143,14 @@ public abstract class JajaFXApp<A, W extends JajaFXAppWindow<?>> extends Applica
 	}
 
 	protected JajaFXAppWindow<?> createAppWindow(final Stage stage) {
-		return new JajaFXAppWindow<>(stage, createContent(stage), this);
+		var wnd = new JajaFXAppWindow<JajaFXApp<A, ?>>(stage, this);
+		@SuppressWarnings("unchecked")
+        var cnt = createContent(stage, (W)wnd);
+		wnd.setContent(cnt);
+		return wnd;
 	}
 
-	protected abstract Node createContent(Stage stage);
+	protected abstract Node createContent(Stage stage, W window);
 
 	protected DarkMode getDarkMode() {
 		return DarkMode.valueOf(appPreferences.get("darkMode", DarkMode.AUTO.name()).toUpperCase());

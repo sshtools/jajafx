@@ -31,23 +31,21 @@ public class JajaFXAppWindow<A extends JajaFXApp<?, ?>> implements ListChangeLis
 
 	protected A app;
 	protected final Scene scene;
-	protected final Node content;
     private boolean keepInBounds;
 	private Set<String> defaultStylesheets;
+	private final BorderPane ui;
 
-
-    public JajaFXAppWindow(Stage stage, Node content, A app) {
-        this(stage, content, app, 0, 0);
+    public JajaFXAppWindow(Stage stage, A app) {
+        this(stage, app, 0, 0);
     }
 
-	public JajaFXAppWindow(Stage stage, Node content, A app, double width, double height) {
+	public JajaFXAppWindow(Stage stage, A app, double width, double height) {
 		this.stage = stage;
 		this.app = app;
-		this.content = content;
 		
 		stage.initStyle(app.isDecorated() ? StageStyle.DECORATED :  borderlessStageStyle());
 
-		var ui = new BorderPane();
+		ui = new BorderPane();
 		if (!app.isDecorated()) {
 			ui.setTop(titleBar = createTitleBar());
 			checkFrameTitle();
@@ -57,7 +55,6 @@ public class JajaFXAppWindow<A extends JajaFXApp<?, ?>> implements ListChangeLis
 //		app.addCommonStylesheets(
 //				content instanceof Parent ? ((Parent) content).getStylesheets() : content.getParent().getStylesheets());
 		
-		ui.setCenter(content);
 
 		if (app.isDecorated()) {
 			scene = new Scene(ui);
@@ -96,9 +93,13 @@ public class JajaFXAppWindow<A extends JajaFXApp<?, ?>> implements ListChangeLis
 		stage.setScene(scene);
 
 		app.getWindows().add(this); 
-		updateDarkMode();
 		
 		stage.setOnHidden(this::onClose);
+	}
+	
+	public void setContent(Node content) {
+		ui.setCenter(content);
+		updateDarkMode();
 	}
 
 	public void reloadCss() {
@@ -154,7 +155,7 @@ public class JajaFXAppWindow<A extends JajaFXApp<?, ?>> implements ListChangeLis
 	}
 	
 	public Node content() {
-		return content;
+		return ui.getCenter();
 	}
 
 	public Scene scene() {
