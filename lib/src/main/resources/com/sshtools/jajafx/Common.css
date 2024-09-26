@@ -45,8 +45,8 @@ Button:default .ikonli-font-icon {
 }
 
 .flow-large-spaced {
-	-fx-vgap: 8px;
-	-fx-hgap: 8px;
+	-fx-vgap: 16px;
+	-fx-hgap: 16px;
 }
 
 .hyperlink {
