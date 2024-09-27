@@ -52,14 +52,16 @@ public class Tiles<C> extends BorderPane {
 	private List<PageWrapper<? extends Tile<C>>> controllers = new ArrayList<>();
 	private IntegerProperty index = new SimpleIntegerProperty(-1);
 	private final C context;
+	private JajaFXAppWindow<? extends JajaFXApp<?, ?>> window;
 
 	public Tiles() {
 		// For scenebuilder
-		this(null);
+		this(null, null);
 	}
 
-	public Tiles(C context) {
+	public Tiles(C context, JajaFXAppWindow<? extends JajaFXApp<?,?>> window) {
 		this.context = context;
+		this.window = window;
 		
 		ClippedStack clippedStack = new ClippedStack(stack);
 
@@ -74,6 +76,10 @@ public class Tiles<C> extends BorderPane {
 		
 		setCenter(anchor);
 		FXUtil.addIfNotAdded(getStylesheets(), Tiles.class.getResource("Tiles.css").toExternalForm());
+	}
+
+	public JajaFXAppWindow<? extends JajaFXApp<?, ?>> getWindow() {
+		return window;
 	}
 
 	public final int getIndex() {
