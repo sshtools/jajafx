@@ -71,6 +71,7 @@ public class YesNoPage<A extends JajaFXApp<?, ?>> extends AbstractTile<A> {
 	public void preferNo() {
 		prefer(false);
 	}
+	
 	public void prefer(boolean preferYes) {
 		yes.setDefaultButton(preferYes);
 		no.setDefaultButton(!preferYes);

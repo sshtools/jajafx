@@ -137,6 +137,10 @@ Button:default .ikonli-font-icon {
 	-fx-font-size: 1.5em;
 }
 
+.small {	
+	-fx-font-size: 0.75em;
+}
+
 .darkMode .icon-accent, .lightMode .icon-accent, .icon-accent {
 	-fx-icon-color: accent_color;
 }
