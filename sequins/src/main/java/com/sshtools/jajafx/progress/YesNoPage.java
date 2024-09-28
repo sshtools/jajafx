@@ -40,6 +40,13 @@ public class YesNoPage<A extends JajaFXApp<?, ?>> extends AbstractTile<A> {
 		preferYes();
 	}
 	
+	public void noScrolling() {
+		var p = scrollPane.getParent();
+		var l = scrollPane.getContent();
+		var pi = p.getChildrenUnmodifiable().indexOf(scrollPane);
+		((VBox)p).getChildren().set(pi, l);
+	}
+	
 	public void vgrowMessage(Priority priority) {
 		VBox.setVgrow(scrollPane, priority);
 	}
