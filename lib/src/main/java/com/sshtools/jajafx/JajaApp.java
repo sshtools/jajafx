@@ -136,6 +136,10 @@ public abstract class JajaApp<FXA extends JajaFXApp<?, WND>, WND extends JajaFXA
 		return AppRegistry.getBestAppPreferences(app, this);
 	}
 
+	public final Preferences getUserPreferences() {
+		return AppRegistry.getBestUserPreferences(app, this);
+	}
+
 	public static JajaApp<?, ?> getInstance() {
 		return instance;
 	}
