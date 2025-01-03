@@ -22,7 +22,7 @@
     <parent>
 	    <groupId>com.sshtools</groupId>
 	    <artifactId>jajafx</artifactId>
-		<version>0.9.6-SNAPSHOT</version>
+		<version>0.9.6</version>
 	    <relativePath>../</relativePath>
     </parent>
     <artifactId>jajafx-sequins</artifactId>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>com.sshtools</groupId>
 			<artifactId>sequins</artifactId>
-			<version>0.2.0</version>
+			<version>0.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.install4j</groupId>
