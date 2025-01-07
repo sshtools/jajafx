@@ -216,12 +216,12 @@ public class Tiles<C> extends BorderPane {
 		}
 	}
 
-	private <P extends Tile<C>> P openScene(Class<P> controller) throws IOException {
+	public <P extends Tile<C>> P openScene(Class<P> controller) throws IOException {
 		return openScene(controller, null);
 	}
 
 	@SuppressWarnings("unchecked")
-	private <P extends Tile<C>> P openScene(Class<P> controller, String fxmlSuffix) throws IOException {
+	public <P extends Tile<C>> P openScene(Class<P> controller, String fxmlSuffix) throws IOException {
 		var resourceName = controller.getSimpleName() + (fxmlSuffix == null ? "" : fxmlSuffix) + ".fxml";
 		var resource = controller.getResource(resourceName);
 		if (resource == null)
@@ -247,7 +247,7 @@ public class Tiles<C> extends BorderPane {
 		return (P) controllerInst;
 	}
 
-	private void addStylesheets(Class<?> controller, Parent root) {
+	public void addStylesheets(Class<?> controller, Parent root) {
 		var ss = root.getStylesheets();
 		for(var s : getStylesheets())
 			FXUtil.addIfNotAdded(ss, s);
