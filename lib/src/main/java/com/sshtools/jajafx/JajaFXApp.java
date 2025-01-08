@@ -16,7 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public abstract class JajaFXApp<A, W extends JajaFXAppWindow<?>> extends Application {
+public abstract class JajaFXApp<A, W extends JajaFXAppWindow<? extends JajaFXApp<A, W>>> extends Application {
 
 	public enum DarkMode {
 		AUTO, ALWAYS, NEVER
@@ -143,7 +143,7 @@ public abstract class JajaFXApp<A, W extends JajaFXAppWindow<?>> extends Applica
 	}
 
 	protected JajaFXAppWindow<?> createAppWindow(final Stage stage) {
-		var wnd = new JajaFXAppWindow<JajaFXApp<A, ?>>(stage, this);
+		var wnd = new JajaFXAppWindow<JajaFXApp<A, W>>(stage, this);
 		@SuppressWarnings("unchecked")
         var cnt = createContent(stage, (W)wnd);
 		wnd.setContent(cnt);

@@ -107,6 +107,22 @@ public class Tiles<C> extends BorderPane {
 			next(null);
 		}
 	}
+	
+	public int size() {
+		return controllers.size();
+	}
+	
+	public int indexOf(Tile<C> tile) {
+		return getTiles().indexOf(tile);
+	}
+
+	public List<Tile<C>> getTiles() {
+		return controllers.stream().map(pw -> pw.instance).toList();
+	}
+	
+	public boolean isEmpty() {
+		return stack.isEmpty();
+	}
 
 	public <P extends Tile<C>> P popup(Class<P> clazz) {
 		return popup(clazz, PageTransition.FROM_BOTTOM);
@@ -138,6 +154,20 @@ public class Tiles<C> extends BorderPane {
 
 	public void prev() {
 		prev(null);
+	}
+
+	public Tile<C> pop() {
+		var p = getCurrentPage();
+		if(p != null) {
+			remove(p);
+			return p;
+		}
+		return null;
+	}
+	
+	public void reset() {
+		while(getCurrentPage() != null)
+			pop();
 	}
 
 	public void remove(Tile<C> page) {

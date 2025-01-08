@@ -22,7 +22,7 @@
     <parent>
 	    <groupId>com.sshtools</groupId>
 	    <artifactId>jajafx</artifactId>
-		<version>0.9.7</version>
+		<version>0.9.8</version>
 	    <relativePath>../</relativePath>
     </parent>
     <artifactId>jajafx-sequins</artifactId>
