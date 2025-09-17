@@ -78,7 +78,11 @@ public class JajaFXAppWindow<A extends JajaFXApp<?, ?>> implements ListChangeLis
 		setStageFocusStyles(scene.getRoot(), stage.isFocused());
 		setStagePlatformStyles(scene.getRoot());
 		
-		appStyle = new AppStyle(scene, app.isDarkMode());
+		appStyle = app.getAppStyleFactory().get();
+		if(appStyle.supportsDarkMode())
+			appStyle.darkMode(app.isDarkMode());
+		appStyle.init(scene);
+		
 		var stylesheets = scene.getStylesheets();
 		defaultStylesheets = new LinkedHashSet<>(stylesheets);
 		app.addCommonStylesheets(stylesheets);
@@ -146,7 +150,8 @@ public class JajaFXAppWindow<A extends JajaFXApp<?, ?>> implements ListChangeLis
     }
 
     public void updateDarkMode() {
-    	appStyle.updateDarkMode(app.isDarkMode());
+    	if(appStyle.supportsDarkMode())
+    		appStyle.darkMode(app.isDarkMode());
 		app.updateRootStyles(scene.getRoot());
 	}
 

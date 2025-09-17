@@ -1,0 +1,366 @@
+
+
+.darkMode .ikonli-font-icon {
+	-fx-icon-color: #eee;
+}
+
+.lightMode .ikonli-font-icon {
+	-fx-icon-color: text_color;
+}
+
+.borderless-root {
+    -fx-background-color: background_color;
+}
+
+Button .ikonli-font-icon {
+	-fx-icon-color: grey;
+}
+
+Button:default .ikonli-font-icon {
+	-fx-icon-color: white;
+}
+
+.tree-cell {
+    -fx-font-weight: normal ;
+}
+.tree-cell:group, .strong {
+    -fx-font-weight: bold ;
+}
+
+.muted {
+	-fx-opacity: 0.5;
+}
+
+.spaced {
+	-fx-spacing: 8px;
+}
+
+.large-spaced {
+	-fx-spacing: 16px;
+}
+
+.flow-spaced {
+	-fx-vgap: 8px;
+	-fx-hgap: 8px;
+}
+
+.flow-large-spaced {
+	-fx-vgap: 16px;
+	-fx-hgap: 16px;
+}
+
+.hyperlink {
+	-fx-text-fill: accent_color;
+	-fx-text-decoration: underline;
+}
+
+.small-spaced {
+	-fx-spacing: 2px;
+}
+
+.small-padded {
+	-fx-padding: 4px;
+}
+
+.emphasis {
+	-fx-font-style: italic;
+}
+
+.selectable-label, .selectable-label:hover, .selectable-label:focused, .selectable-label:focused:hover {
+    -fx-background-color: transparent;
+    -fx-text-fill: text_color;
+	-fx-padding: 0px;
+}
+
+.padded {
+	-fx-padding: 8px;
+}
+
+.vpadded {
+	-fx-padding: 8px 0 8px 0;
+}
+
+.hpadded {
+	-fx-padding: 0 8px 0 8px;
+}
+
+.bpad {
+	-fx-padding: 0 0 8px 0;
+}
+
+.tpad {
+	-fx-padding: 8px 0 0 0;
+}
+
+.lpad {
+	-fx-padding: 0 0 0 8px;
+}
+
+.rpad {
+	-fx-padding: 0 8px 0 0;
+}
+
+.large-bpad {
+	-fx-padding: 0 0 16px 0;
+}
+
+.large-tpad {
+	-fx-padding: 16px 0 0 0;
+}
+
+.large-lpad {
+	-fx-padding: 0 0 0 16px;
+}
+
+.large-rpad {
+	-fx-padding: 0 8px 0 0;
+}
+
+.indented {
+	-fx-padding: 0 0 0 24px;
+}
+
+.h1, .h2, .h3 {
+    -fx-text-fill: accent_color;
+}
+
+.h1 {
+	-fx-font-size: 3em;
+    -fx-font-weight: bold ;
+}
+
+.h2 {
+	-fx-font-size: 2.5em;
+}
+
+.h3 {
+	-fx-font-size: 1.5em;
+}
+
+.small {	
+	-fx-font-size: 0.75em;
+}
+
+.darkMode .icon-accent, .lightMode .icon-accent, .icon-accent {
+	-fx-icon-color: accent_color;
+}
+
+.darkMode .icon-success, .lightMode .icon-success, .icon-success {
+	-fx-icon-color: #28a745;
+}
+
+.darkMode .icon-warning, .lightMode .icon-warning, .icon-warning{
+	-fx-icon-color: #ffc107;
+}
+
+.darkMode .icon-danger, .lightMode .icon-danger, .icon-danger{
+	-fx-icon-color: #dc3545;
+}
+
+.darkMode .icon-info, .lightMode .icon-info, .icon-info {
+	-fx-icon-color: #007bff;
+}
+
+.text-accent {
+	-fx-text-fill: accent_color;
+}
+
+.text-success {
+	-fx-text-fill: #28a745;
+}
+
+.text-warning {
+	-fx-text-fill: #ffc107;
+}
+
+.text-danger {
+	-fx-text-fill: #dc3545;
+}
+
+.text-info {
+	-fx-text-fill: #007bff;
+}
+
+.btn-accent, .pill-accent, .circle-button-accent {
+	-fx-background-color:  derive(accent_color, -10%);
+	-fx-text-fill: #ccc;
+	-fx-underline: false !important;
+}
+
+.btn-accent:hover, .pill-accent:hover {
+	-fx-background-color:  accent_color;
+	-fx-text-fill: white;
+	-fx-underline: false !important;
+}
+
+.pill-success {
+	-fx-background-color:  derive(#28a745, -10%);
+	-fx-text-fill: #ccc;
+	-fx-underline: false !important;
+}
+
+.pill-success:hover {
+	-fx-background-color:  #28a745;
+	-fx-text-fill: white;
+	-fx-underline: false !important;
+}
+
+.pill-danger {
+	-fx-background-color:  derive(#dc3545, -10%);
+	-fx-text-fill: #ccc;
+	-fx-underline: false !important;
+}
+
+.pill-danger:hover {
+	-fx-background-color:  #dc3545;
+	-fx-text-fill: white;
+	-fx-underline: false !important;
+}
+
+.pill-warning {
+	-fx-background-color:  derive(#ffc107, -10%);
+	-fx-text-fill: #333;
+	-fx-underline: false !important;
+}
+
+.pill-warning:hover {
+	-fx-background-color:  #ffc107;
+	-fx-text-fill: #000;
+	-fx-underline: false !important;
+}
+
+.pill-success .ikonli-font-icon, .pill-accent .ikonli-font-icon {
+	-fx-icon-color: #ccc;	
+}
+
+.pill-success:hover .ikonli-font-icon, .pill-accent:hover .ikonli-font-icon {
+	-fx-icon-color: white;
+}
+
+/*
+.darkMode .pill-accent .ikonli-font-icon, .lightMode .pill-accent .ikonli-font-icon,
+.darkMode .pill-success.ikonli-font-icon, .lightMode .pill-success .ikonli-font-icon {
+	-fx-icon-color: #ccc;	
+}  
+
+.darkMode .pill-accent:hover .ikonli-font-icon, .lightMode .pill-accent:hover .ikonli-font-icon,
+.darkMode .pill-success.ikonli-font-icon:hover, .lightMode .pill-success:hover .ikonli-font-icon {
+	-fx-icon-color: white;	
+}
+
+*/
+
+.btn-success {
+	-fx-background-color: #28a745;
+	-fx-text-fill: white;
+}
+
+.btn-warning {
+	-fx-background-color: #ffc107;
+	-fx-text-fill: black;
+}
+
+.btn-danger {
+	-fx-background-color: #dc3545;
+	-fx-text-fill: white;
+}
+
+.pill-accent, .pill-success, .pill-danger, .pill-warning {
+	-fx-padding: 8px;
+    -fx-border-radius: 20 20 20 20; 
+    -fx-background-radius: 20 20 20 20; 
+/* top-left, top-right, bottom-right, and bottom-left corners, in that order. */
+	
+}
+
+.circle-button-accent {
+	-fx-padding: 8px;
+    -fx-border-radius: 32; 
+    -fx-background-radius: 32; 
+}
+
+.circle-button-accent .ikonli-font-icon {
+	-fx-icon-color: #eee;
+	-fx-icon-size: 48px;
+}
+
+.circle-button-accent:hover .ikonli-font-icon { 
+	-fx-icon-color: white;
+}
+
+.text-strong {
+	-fx-font-weight: bold;
+}
+
+.btn-info {
+	-fx-background-color: #007bff;
+	-fx-text-fill: white;
+}
+
+.large-icon {
+	-fx-icon-size: 48px;
+}
+
+.medium-icon {
+	-fx-icon-size: 32px;
+}
+
+.small-icon {
+	-fx-icon-size: 24px;
+}
+
+.notification-success .notification-bar > .pane {
+	-fx-background-color: #28a745 !important;
+	-fx-text-fill: white !important;
+}
+
+.notification-info  .notification-bar > .pane {
+	-fx-background-color: #007bff !important;
+	-fx-text-fill: white !important;
+}
+
+.notification-danger  .notification-bar > .pane {
+	-fx-background-color: #dc3545 !important;
+	-fx-text-fill: white !important;
+}
+
+.notification-warning  .notification-bar > .pane {
+	-fx-background-color: #ffc107 !important;
+	-fx-text-fill: black !important;
+}
+
+.notification-warning  .notification-bar > .pane > Label {
+	-fx-text-fill: black !important;
+}
+
+.notification-warning  .notification-bar > .pane .ikonli-font-icon {
+	-fx-icon-color: black;
+}
+
+/* Work around for text fields inside dialog panes in dark mode  */
+.darkMode .text-input:focused > Pane {
+    -fx-background-color: transparent !important;
+}
+
+.darkMode.stage-unfocused FakeFocusTextField.text-input .text {
+	-fx-stroke: #ddd; 
+	/* TODO not great ... 
+	 * spinners and combo boxes in dark mode when window is unfocused are black.
+	 * Nothing else seems to work here. -fx-text-fill on the text-input should, but
+	 * doesn't. -fx-fill doesn't work here ... just stroke!?! It only appears to be
+	 * these FakeFocusTextField that have a problem 
+	 */
+}
+
+DialogPane.darkMode .text-input:focused, DialogPane.darkMode .text-input:focused > * {
+	-fx-text-fill: #111 ;
+	-fx-background-color: accent_color, background_focused_color;
+}
+
+.borderless-root Tiles {	
+	-fx-background-radius: 0 0 8px 8px;
+} 
+
+.borderless-root .title-bar {	
+	-fx-background-radius: 8px 8px 0 0;
+}

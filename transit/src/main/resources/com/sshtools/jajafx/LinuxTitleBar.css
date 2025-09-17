@@ -1,0 +1,241 @@
+.stage-unfocused LinuxTitleBar Label, .stage-unfocused LinuxTitleBar .ikonli-font-icon, .stage-unfocused LinuxTitleBar #windowIcons  {
+	-fx-opacity: 25%;
+}
+
+.title-bar {
+	-fx-background-color: background_color;
+}
+
+.title-label {
+	-fx-font-weight: bold;
+}
+
+#windowIcons {
+	-fx-spacing: 8px;
+	-fx-padding: 0px 10px 0px 0px;
+}
+
+#accessories {
+	-fx-spacing: 4px;
+	-fx-padding: 6px 0px 6px 6px;
+}
+
+#titleStack {
+	-fx-padding: 10px 0 10px 20px;
+}
+
+#accessories .accessory-wrapper {
+	-fx-padding: 0px 10px;
+}
+
+#accessories .ikonli-font-icon {
+	-fx-icon-size: 14px;
+	-fx-icon-colod: text_color;
+}
+
+/* Focused */
+
+.darkMode .accessory-wrapper:hover {
+	-fx-background-radius: 8px;
+	-fx-background-color: derive(background_color, +10%);
+}
+
+.lightMode .accessory-wrapper:hover {
+	-fx-background-radius: 8px;
+	-fx-background-color: derive(background_color, -10%);
+}
+
+.lightMode.stage-focused #close {
+	-fx-image: url(linux/light/close_focused_normal.png);
+}
+
+ .darkMode.stage-unfocused #close {
+	-fx-image: url(linux/dark/close_focused_normal.png);
+}
+
+.lightMode.stage-focused #close:hover {
+	-fx-image: url(linux/light/close_focused_prelight.png);
+}
+
+ .darkMode.stage-unfocused #close:hover {
+	-fx-image: url(linux/dark/close_focused_prelight.png);
+}
+
+.lightMode.stage-focused #close.pressed {
+	-fx-image: url(linux/light/close_focused_pressed.png);
+}
+
+ .darkMode.stage-unfocused #close.pressed {
+	-fx-image: url(linux/dark/close_focused_pressed.png);
+}
+
+.lightMode.stage-focused #minimize {
+	-fx-image: url(linux/light/minimize_focused_normal.png);
+}
+
+ .darkMode.stage-unfocused #minimize {
+	-fx-image: url(linux/dark/minimize_focused_normal.png);
+}
+
+.lightMode.stage-focused #minimize:hover {
+	-fx-image: url(linux/light/minimize_focused_prelight.png);
+}
+
+ .darkMode.stage-unfocused #minimize:hover {
+	-fx-image: url(linux/dark/minimize_focused_prelight.png);
+}
+
+.lightMode.stage-focused #minimize.pressed {
+	-fx-image: url(linux/light/minimize_focused_pressed.png);
+}
+
+ .darkMode.stage-unfocused #minimize.pressed {
+	-fx-image: url(linux/dark/minimize_focused_pressed.png);
+}
+
+.lightMode.stage-focused #maximize {
+	-fx-image: url(linux/light/maximize_focused_normal.png);
+}
+
+ .darkMode.stage-unfocused #maximize {
+	-fx-image: url(linux/dark/maximize_focused_normal.png);
+}
+
+.lightMode.stage-focused #maximize:hover {
+	-fx-image: url(linux/light/maximize_focused_prelight.png);
+}
+
+ .darkMode.stage-unfocused #maximize:hover {
+	-fx-image: url(linux/dark/maximize_focused_prelight.png);
+}
+
+.lightMode.stage-focused #maximize.pressed {
+	-fx-image: url(linux/light/maximize_focused_pressed.png);
+}
+
+ .darkMode.stage-unfocused #maximize.pressed {
+	-fx-image: url(linux/dark/maximize_focused_pressed.png);
+}
+
+.lightMode.stage-focused #maximize.restorable {
+	-fx-image: url(linux/light/unmaximize_focused_normal.png);
+}
+
+ .darkMode.stage-unfocused #maximize.restorable {
+	-fx-image: url(linux/dark/unmaximize_focused_normal.png);
+}
+
+.lightMode.stage-focused #maximize.restorable:hover {
+	-fx-image: url(linux/light/unmaximize_focused_prelight.png);
+}
+
+ .darkMode.stage-unfocused #maximize.restorable:hover {
+	-fx-image: url(linux/dark/unmaximize_focused_prelight.png);
+}
+
+.lightMode.stage-focused #maximize.restorable.pressed {
+	-fx-image: url(linux/light/unmaximize_focused_pressed.png);
+}
+
+ .darkMode.stage-unfocused #maximize.restorable.pressed {
+	-fx-image: url(linux/dark/unmaximize_focused_pressed.png);
+}
+
+/* Unfocused */
+
+.lightMode.stage-unfocused #close {
+	-fx-image: url(linux/light/close_unfocused.png);
+}
+
+.darkMode.stage-focused #close {
+	-fx-image: url(linux/dark/close_unfocused.png);
+}
+
+.lightMode.stage-unfocused #close:hover {
+	-fx-image: url(linux/light/close_unfocused_prelight.png);
+}
+
+.darkMode.stage-focused #close:hover {
+	-fx-image: url(linux/dark/close_unfocused_prelight.png);
+}
+
+.lightMode.stage-unfocused #close.pressed {
+	-fx-image: url(linux/light/close_unfocused_pressed.png);
+}
+
+.darkMode.stage-focused #close.pressed {
+	-fx-image: url(linux/dark/close_unfocused_pressed.png);
+}
+
+.lightMode.stage-unfocused #minimize {
+	-fx-image: url(linux/light/minimize_unfocused.png);
+}
+
+.darkMode.stage-focused #minimize {
+	-fx-image: url(linux/dark/minimize_unfocused.png);
+}
+
+.lightMode.stage-unfocused #minimize:hover {
+	-fx-image: url(linux/light/minimize_unfocused_prelight.png);
+}
+
+.darkMode.stage-focused #minimize:hover {
+	-fx-image: url(linux/dark/minimize_unfocused_prelight.png);
+}
+
+.lightMode.stage-unfocused #minimize.pressed {
+	-fx-image: url(linux/light/minimize_unfocused_pressed.png);
+}
+
+.darkMode.stage-focused #minimize.pressed {
+	-fx-image: url(linux/dark/minimize_unfocused_pressed.png);
+}
+
+.lightMode.stage-unfocused #maximize {
+	-fx-image: url(linux/light/maximize_unfocused.png);
+}
+
+.darkMode.stage-focused #maximize {
+	-fx-image: url(linux/dark/maximize_unfocused.png);
+}
+
+.lightMode.stage-unfocused #maximize:hover {
+	-fx-image: url(linux/light/maximize_unfocused_prelight.png);
+}
+
+.darkMode.stage-focused #maximize:hover {
+	-fx-image: url(linux/dark/maximize_unfocused_prelight.png);
+}
+
+.lightMode.stage-unfocused #maximize.pressed {
+	-fx-image: url(linux/light/maximize_unfocused_pressed.png);
+}
+
+.darkMode.stage-focused #maximize.pressed {
+	-fx-image: url(linux/dark/maximize_unfocused_pressed.png);
+}
+
+.lightMode.stage-unfocused #maximize.restorable {
+	-fx-image: url(linux/light/unmaximize_unfocused.png);
+}
+
+.darkMode.stage-focused #maximize.restorable {
+	-fx-image: url(linux/dark/unmaximize_unfocused.png);
+}
+
+.lightMode.stage-unfocused #maximize.restorable:hover {
+	-fx-image: url(linux/light/unmaximize_unfocused_prelight.png);
+}
+
+.darkMode.stage-focused #maximize.restorable:hover {
+	-fx-image: url(linux/dark/unmaximize_unfocused_prelight.png);
+}
+
+.lightMode.stage-unfocused #maximize.restorable.pressed {
+	-fx-image: url(linux/light/unmaximize_unfocused_pressed.png);
+}
+
+.darkMode.stage-focused #maximize.restorable.pressed {
+	-fx-image: url(linux/dark/unmaximize_unfocused_pressed.png);
+}
+

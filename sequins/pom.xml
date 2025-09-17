@@ -22,7 +22,7 @@
     <parent>
 	    <groupId>com.sshtools</groupId>
 	    <artifactId>jajafx</artifactId>
-		<version>0.9.8</version>
+		<version>0.9.9</version>
 	    <relativePath>../</relativePath>
     </parent>
     <artifactId>jajafx-sequins</artifactId>
@@ -35,6 +35,16 @@
 
 
 	<dependencies>
+        <dependency>
+            <groupId>com.pixelduke</groupId>
+            <artifactId>transit</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jfxtras</groupId>
+            <artifactId>jmetro</artifactId>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>jajafx-lib</artifactId>

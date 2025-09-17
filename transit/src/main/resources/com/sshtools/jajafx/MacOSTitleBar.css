@@ -1,0 +1,89 @@
+.spaced {
+	-fx-spacing: 6px !important;
+}
+
+ .darkMode .title-bar {
+	-fx-background-color: derive(background_color, +10%);
+}
+
+.lightMode .title-bar {
+	-fx-background-color: derive(background_color, -10%);
+}
+
+.darkMode .accessory-wrapper:hover {
+	-fx-background-radius: 8px;
+	-fx-background-color: derive(background_color, +20%);
+}
+
+.lightMode .accessory-wrapper:hover {
+	-fx-background-radius: 8px;
+	-fx-background-color: derive(background_color, -20%);
+}
+
+#accessories .ikonli-font-icon {
+	-fx-icon-size: 16px;
+}
+
+.title-label {
+	-fx-font-weight: bold;
+}
+
+.stage-unfocused MacOSTitleBar Label, .stage-unfocused MacOSTitleBar .ikonli-font-icon {
+	-fx-opacity: 25%;
+}
+
+.stage-unfocused #close, .stage-unfocused #minimize, .stage-unfocused #maximize {	
+	-fx-image: url(macos/unfocused.png);
+	-fx-opacity: 50%;
+} 
+
+.stage-focused #close {
+	-fx-image: url(macos/close.png);
+}
+
+.hovering #close  {
+	-fx-opacity: 100%;
+	-fx-image: url(macos/close-hover.png);
+}
+
+#close.pressed {
+	-fx-opacity: 100%;
+	-fx-image: url(macos/close-active.png);
+}
+
+.stage-focused #minimize {
+	-fx-image: url(macos/minimize.png);
+}
+
+.hovering #minimize {
+	-fx-opacity: 100%;
+	-fx-image: url(macos/minimize-hover.png);
+}
+
+#minimize.pressed {
+	-fx-opacity: 100%;
+	-fx-image: url(macos/minimize-active.png);
+}
+
+.stage-focused #maximize {
+	-fx-image: url(macos/maximize.png);
+}
+
+.hovering #maximize.restorable {
+	-fx-image: url(macos/unmaximize-hover.png);
+}
+
+.hovering #maximize {
+	-fx-opacity: 100%;
+	-fx-image: url(macos/maximize-hover.png);
+}
+
+#maximize.pressed {
+	-fx-opacity: 100%;
+	-fx-image: url(macos/maximize-active.png);
+}
+
+#maximize.pressed.restorable {
+	-fx-opacity: 100%;
+	-fx-image: url(macos/unmaximize-active.png);
+}

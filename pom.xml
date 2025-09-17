@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>jajafx</artifactId>
 	<groupId>com.sshtools</groupId>
-	<version>0.9.8</version>
+	<version>0.9.9</version>
 	<name>JAdaptive Java FX App Framework</name>
     <packaging>pom</packaging>
 	<properties>
@@ -50,6 +50,9 @@
     <modules>
         <module>lib</module>
         <module>sequins</module>
+        <module>updateable</module>
+        <module>jmetro</module>
+        <module>transit</module>
     </modules>
 	<scm>
 		<url>https://github.com/sshtools/jajafx</url>
@@ -72,6 +75,48 @@
 				<artifactId>javafx-fxml</artifactId>
 				<version>${javafx.version}</version>
 			</dependency>
+			
+			
+            <dependency>
+                <groupId>com.pixelduke</groupId>
+                <artifactId>transit</artifactId>
+                <version>2.0.0</version>
+                
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>javafx-graphics</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>javafx-controls</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>javafx-base</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.jfxtras</groupId>
+                <artifactId>jmetro</artifactId>
+                <version>11.6.16</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>javafx-graphics</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>javafx-controls</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>javafx-base</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        
 		</dependencies>
 	</dependencyManagement>
 	<build>

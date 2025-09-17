@@ -2,11 +2,10 @@ package com.sshtools.jajafx;
 
 import java.net.URL;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.prefs.Preferences;
 
 import org.scenicview.ScenicView;
-
-import com.install4j.api.UiUtil;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -35,6 +34,7 @@ public abstract class JajaFXApp<A, W extends JajaFXAppWindow<? extends JajaFXApp
 	private boolean showFrameTitle = true;
 	private final ObservableList<JajaFXAppWindow<?>> windows = FXCollections.observableArrayList();
 	private final Preferences appPreferences;
+	private Supplier<AppStyle> appStyleFactory = AppStyle::getDefault;
 	
 	@SuppressWarnings("unchecked")
 	protected JajaFXApp(URL icon, String title, A container, Preferences appPreferences) {
@@ -45,6 +45,14 @@ public abstract class JajaFXApp<A, W extends JajaFXAppWindow<? extends JajaFXApp
 		if(container instanceof JajaApp jja) {
 			jja.init(this);
 		}
+	}
+	
+	public Supplier<AppStyle> getAppStyleFactory() {
+		return appStyleFactory;
+	}
+
+	public void setAppStyleFactory(Supplier<AppStyle> appStyleFactory) {
+		this.appStyleFactory = appStyleFactory;
 	}
 
 	public Stage getPrimaryStage() {
@@ -68,10 +76,11 @@ public abstract class JajaFXApp<A, W extends JajaFXAppWindow<? extends JajaFXApp
 		return icon;
 	}
 
-	public final boolean isDarkMode() {
+	public boolean isDarkMode() {
 		var mode = getDarkMode();
 		if (mode.equals(DarkMode.AUTO))
-			return UiUtil.isDarkDesktop();
+			/* TODO some crossplatform way of  checking this without Install4J library */
+			return false;
 		else if (mode.equals(DarkMode.ALWAYS))
 			return true;
 		else
@@ -102,6 +111,7 @@ public abstract class JajaFXApp<A, W extends JajaFXAppWindow<? extends JajaFXApp
 	@Override
 	public void start(final Stage primaryStage) {
 		this.primaryStage = primaryStage;
+		
 		listenForDarkModeChanges();
 
 		newAppWindow(primaryStage);

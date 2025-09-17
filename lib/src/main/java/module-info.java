@@ -1,15 +1,15 @@
+import com.sshtools.jajafx.AppStyle;
+import com.sshtools.jajafx.CaspianAppStyle;
+import com.sshtools.jajafx.ModernaAppStyle;
+
 open module com.sshtools.jajafx {
 	requires transitive info.picocli;
 	requires transitive java.prefs;
 	requires java.net.http;
-	requires org.jfxtras.styles.jmetro;
-//	requires transitive com.pixelduke.transit;
 	requires javafx.base;
-	requires transitive com.sshtools.jaul;
 	requires transitive javafx.controls;
 	requires transitive javafx.graphics;
 	requires transitive javafx.fxml;
-	requires transitive com.install4j.runtime;
 	requires org.kordamp.ikonli.javafx;
 	requires org.kordamp.ikonli.fontawesome5;
 	requires org.controlsfx.controls;
@@ -20,4 +20,6 @@ open module com.sshtools.jajafx {
 	requires jul.to.slf4j;
 	exports com.sshtools.jajafx;
 
+	uses AppStyle;
+	provides AppStyle with ModernaAppStyle, CaspianAppStyle;
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sshtools.jajafx.updateable.UpdatePage">
+   <children>
+      <VBox styleClass="spaced" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label styleClass="h2" text="%title" />
+            <Label fx:id="available" layoutX="10.0" layoutY="10.0" text="9.9.9 is available">
+               <graphic>
+                  <FontIcon iconLiteral="fas-cloud-download-alt" iconSize="48" styleClass="icon-success" />
+               </graphic></Label>
+            <HBox alignment="CENTER_LEFT" styleClass="spaced">
+               <children>
+                  <Button fx:id="update" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#update" prefWidth="150.0" styleClass="btn-accent" text="Update 10">
+                     <graphic>
+                        <FontIcon fx:id="spinner" iconLiteral="fas-spinner" />
+                     </graphic></Button>
+                  <Hyperlink onAction="#remindMeTomorrow" text="%remindMeTomorrow" />
+               </children>
+            </HBox>
+            <Label fx:id="result" styleClass="tpad" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
