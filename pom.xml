@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>jajafx</artifactId>
 	<groupId>com.sshtools</groupId>
-	<version>0.9.9</version>
+	<version>0.9.10-SNAPSHOT</version>
 	<name>JAdaptive Java FX App Framework</name>
     <packaging>pom</packaging>
 	<properties>
@@ -37,16 +37,6 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh-sshtools</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh-sshtools</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
     <modules>
         <module>lib</module>
         <module>sequins</module>
@@ -275,17 +265,6 @@
 						</execution>
 					</executions>
 				</plugin>
-				<plugin>
-					<groupId>org.sonatype.plugins</groupId>
-					<artifactId>nexus-staging-maven-plugin</artifactId>
-					<version>1.6.13</version>
-					<extensions>true</extensions>
-					<configuration>
-						<serverId>ossrh-sshtools</serverId>
-						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-						<autoReleaseAfterClose>true</autoReleaseAfterClose>
-					</configuration>
-				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -345,10 +324,10 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-					</plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                    </plugin>
 				</plugins>
 			</build>
 		</profile>

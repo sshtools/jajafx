@@ -54,8 +54,6 @@ public abstract class JajaApp<FXA extends JajaFXApp<?, WND>, WND extends JajaFXA
         SLF4JBridgeHandler.install();
 	}
 
-	static Logger LOG = LoggerFactory.getLogger(JajaApp.class);
-
 	@Option(names = { "-W", "--standard-window-decorations" }, negatable = true, description = "Either prevent or force the use standard window decorations.")
 	Optional<Boolean> standardWindowDecorations;
 
@@ -73,6 +71,7 @@ public abstract class JajaApp<FXA extends JajaFXApp<?, WND>, WND extends JajaFXA
 	private static JajaApp<?, ?> instance;
 
 	protected JajaApp(JajaAppBuilder<?, ?, ?> builder) {
+		
 		instance = this;
 		this.appResources = builder.appResources
 				.orElseThrow(() -> new IllegalStateException("App resources must be provided."));
