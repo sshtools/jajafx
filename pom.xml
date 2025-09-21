@@ -265,6 +265,16 @@
 						</execution>
 					</executions>
 				</plugin>
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>0.8.0</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <autoPublish>true</autoPublish>
+                        <publishingServerId>central-sshtools</publishingServerId>
+                    </configuration>
+                </plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
