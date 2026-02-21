@@ -90,7 +90,7 @@ public abstract class UpdateableJajaApp<FXA extends UpdateableJajaFXApp<?, WND>,
 
 			@Override
 			public long getUpdatesDeferredUntil() {
-				return getAppPreferences().getLong(AppRegistry.KEY_DEFER, 0);
+				return getAppPreferences().getLong(AppRegistry.KEY_DEFER, 1);
 			}
 
 			@Override
