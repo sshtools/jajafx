@@ -95,4 +95,9 @@ public class DelegatingAppUpdateService implements AppUpdateService {
 	public ReadOnlyBooleanProperty checkOnlyProperty() {
 		return delegate.checkOnlyProperty();
 	}
+
+	@Override
+	public void timedCheck() {
+		delegate.timedCheck();
+	}
 }

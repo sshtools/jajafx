@@ -1,5 +1,8 @@
 package com.sshtools.jajafx.updateable;
 
+import java.util.concurrent.ScheduledFuture;
+import java.util.function.Function;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +27,8 @@ public abstract class AbstractAppUpdateService extends AbstractUpdateService imp
 
 	protected UpdateableJajaApp<? extends UpdateableJajaFXApp<?, ?>, ?> context;
 
-	protected AbstractAppUpdateService(UpdateableJajaApp<? extends UpdateableJajaFXApp<?, ?>, ?> context) {
-		super(context.getUpdateContext());
+	protected AbstractAppUpdateService(UpdateableJajaApp<? extends UpdateableJajaFXApp<?, ?>, ?> context, Function<Long, ScheduledFuture<?>> checkScheduler) {
+		super(context.getUpdateContext(), checkScheduler);
 		this.context = context; 
 		needsUpdating.bind(Bindings.isNotNull(availableVersion));
 	}

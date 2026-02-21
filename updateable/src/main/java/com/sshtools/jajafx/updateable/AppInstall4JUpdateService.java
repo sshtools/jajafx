@@ -1,6 +1,8 @@
 package com.sshtools.jajafx.updateable;
 
 import java.io.IOException;
+import java.util.concurrent.ScheduledFuture;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +17,11 @@ public class AppInstall4JUpdateService extends AbstractAppUpdateService {
 	private final App app;
 
 	public AppInstall4JUpdateService(UpdateableJajaApp<? extends UpdateableJajaFXApp<?, ?>, ?> context, App app) {
-		super(context);
+		this(context, app, null);
+	}
+
+	public AppInstall4JUpdateService(UpdateableJajaApp<? extends UpdateableJajaFXApp<?, ?>, ?> context, App app, Function<Long, ScheduledFuture<?>> checkScheduler) {
+		super(context, checkScheduler);
 		this.app = app;
 	}
 
